@@ -2,7 +2,6 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -61,7 +60,7 @@ public class JFrameMain extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UIManager.setLookAndFeel(new SyntheticaBlueMoonLookAndFeel());
+					//UIManager.setLookAndFeel(new SyntheticaBlueMoonLookAndFeel());
 					JFrameMain frame = new JFrameMain();
 					frame.setVisible(true);
 				} catch (Exception e) {

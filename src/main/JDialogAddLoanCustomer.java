@@ -29,7 +29,7 @@ public class JDialogAddLoanCustomer extends JDialog {
 	 * Create the dialog.
 	 */
 	public JDialogAddLoanCustomer() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 400, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
