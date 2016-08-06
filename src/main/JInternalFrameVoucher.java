@@ -11,9 +11,7 @@ import javax.swing.JSplitPane;
 
 public class JInternalFrameVoucher extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
-	private JSplitPane splitPane;
-	private JTable JTableVoucherHeader;
-	private JTable JTableVoucherDetail;
+	private JTable JTableVoucher;
 
 	/**
 	 * Create the frame.
@@ -31,15 +29,8 @@ public class JInternalFrameVoucher extends JInternalFrame {
 		});
 		setBounds(100, 100, 450, 300);
 		
-		splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.5);
-		getContentPane().add(splitPane, BorderLayout.CENTER);
-		
-		JTableVoucherHeader = new JTable();
-		splitPane.setLeftComponent(JTableVoucherHeader);
-		
-		JTableVoucherDetail = new JTable();
-		splitPane.setRightComponent(JTableVoucherDetail);
+		JTableVoucher = new JTable();
+		getContentPane().add(JTableVoucher, BorderLayout.CENTER);
 	}
 
 }
