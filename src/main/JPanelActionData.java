@@ -3,7 +3,13 @@ package main;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+
+import model.ProcessAction;
+
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JPanelActionData extends JPanel {
 	/**
@@ -20,9 +26,17 @@ public class JPanelActionData extends JPanel {
 	 * Create the panel.
 	 */
 	public JPanelActionData() {
+		
+		ProcessAction processAction = new ProcessAction();
+		
 		setBorder(new LineBorder(new Color(0, 153, 255)));
 		
 		JButtonAdd = new JButton("Add");
+		JButtonAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				processAction.addAction(getNameJInternalFrame());
+			}
+		});
 		add(JButtonAdd);
 		
 		JButtonUpdate = new JButton("Update");
@@ -39,6 +53,11 @@ public class JPanelActionData extends JPanel {
 		JButtonRefresh = new JButton("Refresh");
 		add(JButtonRefresh);
 
+	}
+	
+	
+	private String getNameJInternalFrame() {
+		return this.getParent().getParent().getParent().getParent().getName();
 	}
 
 }

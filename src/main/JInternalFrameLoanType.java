@@ -19,6 +19,7 @@ public class JInternalFrameLoanType extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public JInternalFrameLoanType() {
+		setName("LoanType");
 		setTitle("LoanType");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
