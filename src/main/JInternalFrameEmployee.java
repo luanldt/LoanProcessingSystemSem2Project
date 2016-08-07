@@ -16,6 +16,7 @@ public class JInternalFrameEmployee extends JInternalFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable JTableEmployee;
+	
 
 	/**
 	 * Launch the application.
@@ -51,6 +52,8 @@ public class JInternalFrameEmployee extends JInternalFrame{
 
 		JTableEmployee = new JTable();
 		getContentPane().add(JTableEmployee, BorderLayout.CENTER);
+		
+		setName("LuanDepTrai");
 
 	}
 
