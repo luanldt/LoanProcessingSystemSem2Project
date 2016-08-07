@@ -47,7 +47,7 @@ public class JPanelActionData extends JPanel {
 		JButtonDelete.setEnabled(false);
 		add(JButtonDelete);
 		
-		JButtonSearch = new JButton("Search");
+		JButtonSearch = new JButton("Filter");
 		add(JButtonSearch);
 		
 		JButtonRefresh = new JButton("Refresh");

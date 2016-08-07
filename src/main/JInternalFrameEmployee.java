@@ -52,9 +52,8 @@ public class JInternalFrameEmployee extends JInternalFrame{
 
 		JTableEmployee = new JTable();
 		getContentPane().add(JTableEmployee, BorderLayout.CENTER);
-		
-		setName("LuanDepTrai");
 
+		this.setName("Employee");
 	}
 
 	
