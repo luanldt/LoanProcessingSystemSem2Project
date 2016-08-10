@@ -150,7 +150,7 @@ public class JFrameMain extends JFrame {
 				if(e.getChild() instanceof JPanelLoanType) {
 					jPanelLoanType = null;
 				}
-				//Nó sẽ thực hiện việc hủy bỏ jpanel mình tạo ra khi nhấn close//
+				//Nó sẽ thực hiện việc hủy bỏ jpanel mình tạo ra khi nhấn close
 			}
 		});
 		splitPane.setRightComponent(JTabbedPaneMain);

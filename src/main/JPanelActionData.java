@@ -12,6 +12,13 @@ import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Class nay da viet day du roi<br>
+ * <h1>Neu khong hieu clss xin dung sua chua code neu co sua chua thi hay viet them<br>
+ * ton trong nguoi da viet<br><i>Tanh kiu</i></h1>
+ * @author LUANDEPTRAI
+ *
+ */
 public class JPanelActionData extends JPanel {
 	/**
 	 * 
