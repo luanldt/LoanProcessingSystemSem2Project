@@ -1,41 +1,40 @@
 package main;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTree;
-import javax.swing.UIManager;
-import java.awt.Font;
-import javax.swing.tree.DefaultTreeModel;
-
-import model.MakeIcon;
-import model.MenuTreeCellRenderer;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.JDesktopPane;
-import javax.swing.JButton;
-import javax.swing.border.LineBorder;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Insets;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import java.awt.SystemColor;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Toolkit;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTree;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel;
 import javax.swing.SwingConstants;
-import java.awt.Component;
-import javax.swing.JMenu;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+import model.JTabbedPaneCloseButton;
+import model.MakeIcon;
+import model.MenuTreeCellRenderer;
 
 public class JFrameMain extends JFrame {
 
@@ -45,13 +44,17 @@ public class JFrameMain extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel ContentPane;
 	private JTree JTreeMenu;
-	private JDesktopPane JDesktopPaneMain;
+	private JTabbedPaneCloseButton JTabbedPaneMain;
 	private JPanel JPanelTop;
 	private JButton JButtonLogout;
 	private JLabel JLabelHello;
 	private JMenuBar menuBar;
 	private JLabel JLabelName;
 	private JMenu mnAbout;
+	private JSplitPane splitPane;
+	private JPanel panel;
+	// Noi de cac class jpanel add nao
+	JPanelLoanType jPanelLoanType;
 
 	/**
 	 * Launch the application.
@@ -60,7 +63,7 @@ public class JFrameMain extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//UIManager.setLookAndFeel(new SyntheticaBlueMoonLookAndFeel());
+					UIManager.setLookAndFeel(new SyntheticaBlueMoonLookAndFeel());
 					JFrameMain frame = new JFrameMain();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -85,41 +88,13 @@ public class JFrameMain extends JFrame {
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		ContentPane = new JPanel();
 		ContentPane.setName("ContentPane");
 		ContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(ContentPane);
-
-		JTreeMenu = new JTree();
-		JTreeMenu.setBackground(SystemColor.menu);
-		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
-		JTreeMenu.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent e) {
-				if (JTreeMenu.isSelectionEmpty()) {
-					return;
-				} else {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTreeMenu.getSelectionPath().getLastPathComponent();
-					callTable(node);
-				}
-			}
-		});
-		JTreeMenu.setCellRenderer(new MenuTreeCellRenderer());
-		JTreeMenu.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Menu") {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-		}));
-		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
-
-		JDesktopPaneMain = new JDesktopPane();
-		JDesktopPaneMain.setBorder(new LineBorder(new Color(30, 144, 255)));
-		JDesktopPaneMain.setBackground(UIManager.getColor("InternalFrame.background"));
 
 		JPanelTop = new JPanel();
 		JPanelTop.setName("JPanelTop");
@@ -136,63 +111,74 @@ public class JFrameMain extends JFrame {
 		JLabelHello.setForeground(new Color(139, 69, 19));
 		JLabelHello.setFont(new Font("Algerian", Font.BOLD, 20));
 		JLabelHello.setName("JLabelHello");
-		
+
 		JLabelName = new JLabel("Hello Luận");
 		JLabelName.setForeground(Color.BLUE);
 		JLabelName.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop.setHorizontalGroup(
-			gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_JPanelTop.createSequentialGroup()
-					.addComponent(JLabelHello, GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
-					.addGap(175)
-					.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(JButtonLogout)
-					.addContainerGap())
-		);
-		gl_JPanelTop.setVerticalGroup(
-			gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+						.addComponent(JLabelHello, GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE).addGap(175)
+						.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(JButtonLogout).addContainerGap()));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_JPanelTop.createSequentialGroup()
-					.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(2)
-							.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(1)
-							.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] {JButtonLogout, JLabelName});
+						.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+								.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(2).addComponent(JLabelName,
+										GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JButtonLogout,
+										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] { JButtonLogout, JLabelName });
 		JPanelTop.setLayout(gl_JPanelTop);
+
+		splitPane = new JSplitPane();
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setResizeWeight(0.2);
+
+		JTabbedPaneMain = new JTabbedPaneCloseButton();
+		splitPane.setRightComponent(JTabbedPaneMain);
+		JTabbedPaneMain.setBorder(new LineBorder(new Color(30, 144, 255)));
+		JTabbedPaneMain.setBackground(UIManager.getColor("InternalFrame.background"));
 		GroupLayout gl_ContentPane = new GroupLayout(ContentPane);
-		gl_ContentPane.setHorizontalGroup(
-			gl_ContentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_ContentPane.createSequentialGroup()
-					.addGap(12)
-					.addGroup(gl_ContentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_ContentPane.createSequentialGroup()
-							.addComponent(JTreeMenu, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
-							.addGap(20)
-							.addComponent(JDesktopPaneMain, GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE))
-						.addComponent(JPanelTop, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE))
-					.addGap(13))
-		);
-		gl_ContentPane.setVerticalGroup(
-			gl_ContentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_ContentPane.createSequentialGroup()
-					.addGap(12)
-					.addComponent(JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_ContentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(JDesktopPaneMain, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
-						.addComponent(JTreeMenu, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE))
-					.addGap(25))
-		);
+		gl_ContentPane.setHorizontalGroup(gl_ContentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_ContentPane.createSequentialGroup().addGap(17).addComponent(JPanelTop, GroupLayout.PREFERRED_SIZE,
+						1245, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_ContentPane.createSequentialGroup().addGap(17).addComponent(splitPane, GroupLayout.PREFERRED_SIZE,
+						1245, GroupLayout.PREFERRED_SIZE)));
+		gl_ContentPane.setVerticalGroup(gl_ContentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_ContentPane.createSequentialGroup().addGap(17)
+						.addComponent(JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE).addGap(6)
+						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE)));
+
+		panel = new JPanel();
+		splitPane.setLeftComponent(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		JTreeMenu = new JTree();
+		panel.add(JTreeMenu);
+		JTreeMenu.setBackground(SystemColor.menu);
+		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
+		JTreeMenu.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if (JTreeMenu.isSelectionEmpty()) {
+					return;
+				} else {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTreeMenu.getSelectionPath().getLastPathComponent();
+					callTable(node);
+				}
+			}
+		});
+		JTreeMenu.setCellRenderer(new MenuTreeCellRenderer());
+		JTreeMenu.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Menu") {
+			private static final long serialVersionUID = 1L;
+		}));
+		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
 		ContentPane.setLayout(gl_ContentPane);
 
 		loadMenu();
+
 	}
 
 	public void loadMenu() {
@@ -229,40 +215,22 @@ public class JFrameMain extends JFrame {
 	public void callTable(DefaultMutableTreeNode node) {
 		switch (node.getUserObject().toString()) {
 		case "Loan Type":
-			removeAllJInternalFrame();
-			JInternalFrameLoanType jInternalFrameLoanType = new JInternalFrameLoanType();
-			jInternalFrameLoanType.setVisible(true);
-			JDesktopPaneMain.add(jInternalFrameLoanType);
-			jInternalFrameLoanType.add(new JPanelActionData(), BorderLayout.SOUTH);
+			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
+			if (jPanelLoanType == null) {
+				jPanelLoanType = new JPanelLoanType();
+				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelLoanType);
+				jPanelLoanType.add(new JPanelActionData(), BorderLayout.SOUTH);
+				JTabbedPaneMain.setSelectedComponent(jPanelLoanType);
+			} else {
+				JTabbedPaneMain.setSelectedComponent(jPanelLoanType);
+			}
 			break;
-		case "Loan Customer":
-			removeAllJInternalFrame();
-			JInternalFrameLoanCustomer jInternalFrameLoanCustomer = new JInternalFrameLoanCustomer();
-			jInternalFrameLoanCustomer.setVisible(true);
-			JDesktopPaneMain.add(jInternalFrameLoanCustomer);
-			jInternalFrameLoanCustomer.add(new JPanelActionData(), BorderLayout.SOUTH);
-			break;
-		case "Loan Contract":
-			removeAllJInternalFrame();
-			JInternalFrameLoanContract jInternalFrameLoanContract = new JInternalFrameLoanContract();
-			jInternalFrameLoanContract.setVisible(true);
-			JDesktopPaneMain.add(jInternalFrameLoanContract);
-			jInternalFrameLoanContract.add(new JPanelActionData(), BorderLayout.SOUTH);
-			break;
-		case "Voucher":
-			removeAllJInternalFrame();
-			JInternalFrameVoucher jInternalFrameVoucher = new JInternalFrameVoucher();
-			jInternalFrameVoucher.setVisible(true);
-			JDesktopPaneMain.add(jInternalFrameVoucher);
-			jInternalFrameVoucher.add(new JPanelActionData(), BorderLayout.SOUTH);
-			break;
-		}
-	}
-
-	// Tắt tất cả các jframe hiện hành trên jdesktop pane
-	private void removeAllJInternalFrame() {
-		for (JInternalFrame jInternalFrame : this.JDesktopPaneMain.getAllFrames()) {
-			jInternalFrame.dispose();
+		// END CODE CHUẨN VÀ ĐẦY ĐỦ//
+		////////////////////////////////////////////////////////////////////
+		// KHI MUỐN THÊM 1 JPANEL VÀO THÌ CHỈ CẦN VIẾT GIỐNG NHƯ ĐOẠN
+		// CODE CHUẨN KIA NHƯNG THAY LÀ TÊN CỦA JPANEL ĐÓ LÀ XONG
+		////////////////////////////////////////////////////////////////////
+		
 		}
 	}
 }
