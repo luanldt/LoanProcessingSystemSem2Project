@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -35,6 +36,10 @@ import javax.swing.tree.DefaultTreeModel;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -138,6 +143,16 @@ public class JFrameMain extends JFrame {
 		splitPane.setResizeWeight(0.2);
 
 		JTabbedPaneMain = new JTabbedPaneCloseButton();
+		JTabbedPaneMain.addContainerListener(new ContainerAdapter() {
+			@Override
+			public void componentRemoved(ContainerEvent e) {
+				//Mỗi lần thêm 1 bảng thì thêm 1 if vào chỗ này để kiểm tra//
+				if(e.getChild() instanceof JPanelLoanType) {
+					jPanelLoanType = null;
+				}
+				//Nó sẽ thực hiện việc hủy bỏ jpanel mình tạo ra khi nhấn close//
+			}
+		});
 		splitPane.setRightComponent(JTabbedPaneMain);
 		JTabbedPaneMain.setBorder(new LineBorder(new Color(30, 144, 255)));
 		JTabbedPaneMain.setBackground(UIManager.getColor("InternalFrame.background"));
@@ -206,6 +221,8 @@ public class JFrameMain extends JFrame {
 		DefaultTreeModel defaultTreeModel = new DefaultTreeModel(root);
 
 		JTreeMenu.setModel(defaultTreeModel);
+		
+	
 	}
 
 	/*
@@ -230,7 +247,9 @@ public class JFrameMain extends JFrame {
 		// KHI MUỐN THÊM 1 JPANEL VÀO THÌ CHỈ CẦN VIẾT GIỐNG NHƯ ĐOẠN
 		// CODE CHUẨN KIA NHƯNG THAY LÀ TÊN CỦA JPANEL ĐÓ LÀ XONG
 		////////////////////////////////////////////////////////////////////
-		
+
 		}
 	}
+	
+	
 }
