@@ -188,15 +188,25 @@ public class JFrameMain extends JFrame {
 		/* Danh mục */
 		DefaultMutableTreeNode list = new DefaultMutableTreeNode("List");
 		DefaultMutableTreeNode categoryLoanType = new DefaultMutableTreeNode("Loan Type");
-		DefaultMutableTreeNode categoryLoanCustomer = new DefaultMutableTreeNode("Loan Customer");
-		DefaultMutableTreeNode categoryLoanContract = new DefaultMutableTreeNode("Loan Contract");
+		DefaultMutableTreeNode categoryCustomer = new DefaultMutableTreeNode("Loan Customer");
+		DefaultMutableTreeNode categoryDepartment = new DefaultMutableTreeNode("Department");		
+		DefaultMutableTreeNode categoryStaff = new DefaultMutableTreeNode("Staff");		
+		
+		
 		list.add(categoryLoanType);
-		list.add(categoryLoanCustomer);
-		list.add(categoryLoanContract);
+		list.add(categoryCustomer);
+		list.add(categoryDepartment);
+		list.add(categoryStaff);
 
 		/* Chứng từ */
 		DefaultMutableTreeNode voucher = new DefaultMutableTreeNode("Voucher");
-
+		DefaultMutableTreeNode voucherContract = new DefaultMutableTreeNode("Contract");
+		DefaultMutableTreeNode voucherPayment = new DefaultMutableTreeNode("Payments");
+		
+		voucher.add(voucherContract);
+		voucher.add(voucherPayment);
+		
+		
 		/* Báo cáo */
 		DefaultMutableTreeNode report = new DefaultMutableTreeNode("Report");
 

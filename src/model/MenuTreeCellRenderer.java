@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JTree;
@@ -29,9 +30,11 @@ public class MenuTreeCellRenderer implements TreeCellRenderer {
 		if (o != null) {
 			// Trường hợp tại đây phải + thêm menu là vì trong thư mục icon đặt thêm
 			// chữ menu để phân biệt
+			label.setFont(new Font(label.getFont().getFontName(), label.getFont().getStyle(), 14));
 			label.setIcon(MakeIcon.getIcon("menu" + o.toString().replaceAll("\\s+", ""), MakeIcon.ICON_16));
 			label.setText(o.toString());
 		} else {
+			label.setFont(new Font(label.getFont().getFontName(), label.getFont().getStyle(), 18));
 			label.setIcon(null);
 			label.setText("" + value);
 		}
