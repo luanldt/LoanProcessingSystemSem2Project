@@ -1,15 +1,12 @@
 package entities;
-// Generated Aug 7, 2016 11:38:34 PM by Hibernate Tools 5.1.0.Beta1
+// Generated Aug 11, 2016 10:25:57 AM by Hibernate Tools 5.1.0.Alpha1
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,40 +18,45 @@ import javax.persistence.Table;
 @Table(name = "LoanTypes", catalog = "vzsoft_chicken_team")
 public class LoanTypes implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int loanTypeId;
 	private String loanTypeName;
 	private BigDecimal interestRate;
 	private BigDecimal loanBase;
 	private long loanRate;
+	private String createLog;
+	private boolean isArchive;
+	private Set<Contracts> contractses = new HashSet<Contracts>(0);
 	private Set<Department> departments = new HashSet<Department>(0);
 
 	public LoanTypes() {
 	}
 
-	public LoanTypes(int loanTypeId, String loanTypeName, BigDecimal interestRate, BigDecimal loanBase, long loanRate) {
+	public LoanTypes(int loanTypeId, String loanTypeName, BigDecimal interestRate, BigDecimal loanBase, long loanRate,
+			String createLog, boolean isArchive) {
 		this.loanTypeId = loanTypeId;
 		this.loanTypeName = loanTypeName;
 		this.interestRate = interestRate;
 		this.loanBase = loanBase;
 		this.loanRate = loanRate;
+		this.createLog = createLog;
+		this.isArchive = isArchive;
 	}
 
 	public LoanTypes(int loanTypeId, String loanTypeName, BigDecimal interestRate, BigDecimal loanBase, long loanRate,
-			Set<Department> departments) {
+			String createLog, boolean isArchive, Set<Contracts> contractses, Set<Department> departments) {
 		this.loanTypeId = loanTypeId;
 		this.loanTypeName = loanTypeName;
 		this.interestRate = interestRate;
 		this.loanBase = loanBase;
 		this.loanRate = loanRate;
+		this.createLog = createLog;
+		this.isArchive = isArchive;
+		this.contractses = contractses;
 		this.departments = departments;
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+
 	@Column(name = "loanTypeId", unique = true, nullable = false)
 	public int getLoanTypeId() {
 		return this.loanTypeId;
@@ -98,6 +100,33 @@ public class LoanTypes implements java.io.Serializable {
 
 	public void setLoanRate(long loanRate) {
 		this.loanRate = loanRate;
+	}
+
+	@Column(name = "createLog", nullable = false, length = 30)
+	public String getCreateLog() {
+		return this.createLog;
+	}
+
+	public void setCreateLog(String createLog) {
+		this.createLog = createLog;
+	}
+
+	@Column(name = "isArchive", nullable = false)
+	public boolean isIsArchive() {
+		return this.isArchive;
+	}
+
+	public void setIsArchive(boolean isArchive) {
+		this.isArchive = isArchive;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "loanTypes")
+	public Set<Contracts> getContractses() {
+		return this.contractses;
+	}
+
+	public void setContractses(Set<Contracts> contractses) {
+		this.contractses = contractses;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "loanTypes")

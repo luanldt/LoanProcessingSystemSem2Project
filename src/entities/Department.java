@@ -1,5 +1,5 @@
 package entities;
-// Generated Aug 7, 2016 11:38:34 PM by Hibernate Tools 5.1.0.Beta1
+// Generated Aug 11, 2016 10:25:57 AM by Hibernate Tools 5.1.0.Alpha1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,28 +19,32 @@ import javax.persistence.Table;
 @Table(name = "Department", catalog = "vzsoft_chicken_team")
 public class Department implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int departmentId;
 	private LoanTypes loanTypes;
 	private String departmentName;
+	private String createLog;
+	private boolean isArchive;
 	private Set<Staffs> staffses = new HashSet<Staffs>(0);
 
 	public Department() {
 	}
 
-	public Department(int departmentId, LoanTypes loanTypes, String departmentName) {
+	public Department(int departmentId, LoanTypes loanTypes, String departmentName, String createLog,
+			boolean isArchive) {
 		this.departmentId = departmentId;
 		this.loanTypes = loanTypes;
 		this.departmentName = departmentName;
+		this.createLog = createLog;
+		this.isArchive = isArchive;
 	}
 
-	public Department(int departmentId, LoanTypes loanTypes, String departmentName, Set<Staffs> staffses) {
+	public Department(int departmentId, LoanTypes loanTypes, String departmentName, String createLog, boolean isArchive,
+			Set<Staffs> staffses) {
 		this.departmentId = departmentId;
 		this.loanTypes = loanTypes;
 		this.departmentName = departmentName;
+		this.createLog = createLog;
+		this.isArchive = isArchive;
 		this.staffses = staffses;
 	}
 
@@ -72,6 +76,24 @@ public class Department implements java.io.Serializable {
 
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
+	}
+
+	@Column(name = "createLog", nullable = false, length = 30)
+	public String getCreateLog() {
+		return this.createLog;
+	}
+
+	public void setCreateLog(String createLog) {
+		this.createLog = createLog;
+	}
+
+	@Column(name = "isArchive", nullable = false)
+	public boolean isIsArchive() {
+		return this.isArchive;
+	}
+
+	public void setIsArchive(boolean isArchive) {
+		this.isArchive = isArchive;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "department")

@@ -1,5 +1,5 @@
 package entities;
-// Generated Aug 7, 2016 11:38:34 PM by Hibernate Tools 5.1.0.Beta1
+// Generated Aug 11, 2016 10:25:57 AM by Hibernate Tools 5.1.0.Alpha1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,36 +19,41 @@ import javax.persistence.Table;
 @Table(name = "Staffs", catalog = "vzsoft_chicken_team")
 public class Staffs implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int staffId;
 	private Department department;
 	private String staffName;
 	private boolean isAdmin;
 	private int role;
+	private String createLog;
+	private boolean isArchive;
 	private Set<Payment> payments = new HashSet<Payment>(0);
+	private Set<Contracts> contractses = new HashSet<Contracts>(0);
 
 	public Staffs() {
 	}
 
-	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role) {
+	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role, String createLog,
+			boolean isArchive) {
 		this.staffId = staffId;
 		this.department = department;
 		this.staffName = staffName;
 		this.isAdmin = isAdmin;
 		this.role = role;
+		this.createLog = createLog;
+		this.isArchive = isArchive;
 	}
 
-	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role,
-			Set<Payment> payments) {
+	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role, String createLog,
+			boolean isArchive, Set<Payment> payments, Set<Contracts> contractses) {
 		this.staffId = staffId;
 		this.department = department;
 		this.staffName = staffName;
 		this.isAdmin = isAdmin;
 		this.role = role;
+		this.createLog = createLog;
+		this.isArchive = isArchive;
 		this.payments = payments;
+		this.contractses = contractses;
 	}
 
 	@Id
@@ -99,6 +104,24 @@ public class Staffs implements java.io.Serializable {
 		this.role = role;
 	}
 
+	@Column(name = "createLog", nullable = false, length = 30)
+	public String getCreateLog() {
+		return this.createLog;
+	}
+
+	public void setCreateLog(String createLog) {
+		this.createLog = createLog;
+	}
+
+	@Column(name = "isArchive", nullable = false)
+	public boolean isIsArchive() {
+		return this.isArchive;
+	}
+
+	public void setIsArchive(boolean isArchive) {
+		this.isArchive = isArchive;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "staffs")
 	public Set<Payment> getPayments() {
 		return this.payments;
@@ -106,6 +129,15 @@ public class Staffs implements java.io.Serializable {
 
 	public void setPayments(Set<Payment> payments) {
 		this.payments = payments;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "staffs")
+	public Set<Contracts> getContractses() {
+		return this.contractses;
+	}
+
+	public void setContractses(Set<Contracts> contractses) {
+		this.contractses = contractses;
 	}
 
 }
