@@ -1,5 +1,5 @@
 package entities;
-// Generated Aug 11, 2016 10:25:57 AM by Hibernate Tools 5.1.0.Alpha1
+// Generated Aug 7, 2016 11:38:34 PM by Hibernate Tools 5.1.0.Beta1
 
 import java.math.BigDecimal;
 import javax.persistence.Column;
@@ -17,9 +17,13 @@ import javax.persistence.Table;
 @Table(name = "Payment", catalog = "vzsoft_chicken_team")
 public class Payment implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int paymentId;
-	private Contracts contracts;
 	private Staffs staffs;
+	private int contractId;
 	private int paymentType;
 	private String paymentDate;
 	private int duePeriod;
@@ -27,18 +31,15 @@ public class Payment implements java.io.Serializable {
 	private long fineRate;
 	private BigDecimal fineAmount;
 	private boolean paid;
-	private boolean isArchive;
-	private String createLog;
 
 	public Payment() {
 	}
 
-	public Payment(int paymentId, Contracts contracts, Staffs staffs, int paymentType, String paymentDate,
-			int duePeriod, BigDecimal paymentAmount, long fineRate, BigDecimal fineAmount, boolean paid,
-			boolean isArchive, String createLog) {
+	public Payment(int paymentId, Staffs staffs, int contractId, int paymentType, String paymentDate, int duePeriod,
+			BigDecimal paymentAmount, long fineRate, BigDecimal fineAmount, boolean paid) {
 		this.paymentId = paymentId;
-		this.contracts = contracts;
 		this.staffs = staffs;
+		this.contractId = contractId;
 		this.paymentType = paymentType;
 		this.paymentDate = paymentDate;
 		this.duePeriod = duePeriod;
@@ -46,8 +47,6 @@ public class Payment implements java.io.Serializable {
 		this.fineRate = fineRate;
 		this.fineAmount = fineAmount;
 		this.paid = paid;
-		this.isArchive = isArchive;
-		this.createLog = createLog;
 	}
 
 	@Id
@@ -62,16 +61,6 @@ public class Payment implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "contractID", nullable = false)
-	public Contracts getContracts() {
-		return this.contracts;
-	}
-
-	public void setContracts(Contracts contracts) {
-		this.contracts = contracts;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "staffID", nullable = false)
 	public Staffs getStaffs() {
 		return this.staffs;
@@ -79,6 +68,15 @@ public class Payment implements java.io.Serializable {
 
 	public void setStaffs(Staffs staffs) {
 		this.staffs = staffs;
+	}
+
+	@Column(name = "contractID", nullable = false)
+	public int getContractId() {
+		return this.contractId;
+	}
+
+	public void setContractId(int contractId) {
+		this.contractId = contractId;
 	}
 
 	@Column(name = "PaymentType", nullable = false)
@@ -142,24 +140,6 @@ public class Payment implements java.io.Serializable {
 
 	public void setPaid(boolean paid) {
 		this.paid = paid;
-	}
-
-	@Column(name = "isArchive", nullable = false)
-	public boolean isIsArchive() {
-		return this.isArchive;
-	}
-
-	public void setIsArchive(boolean isArchive) {
-		this.isArchive = isArchive;
-	}
-
-	@Column(name = "createLog", nullable = false, length = 30)
-	public String getCreateLog() {
-		return this.createLog;
-	}
-
-	public void setCreateLog(String createLog) {
-		this.createLog = createLog;
 	}
 
 }

@@ -6,8 +6,6 @@
   <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="LoanTypes"/>
   <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="Payment"/>
   <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="Staffs"/>
-  <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="Users" />
-  <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="Customers" />
-  <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="LogInfor" />
-  <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="Contracts" />
+  <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="VoucherDetail"/>
+  <table-filter match-catalog="vzsoft_chicken_team" match-schema="dbo" match-name="VoucherHeader"/>
 </hibernate-reverse-engineering>
