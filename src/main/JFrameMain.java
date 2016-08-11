@@ -2,7 +2,6 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -11,7 +10,6 @@ import java.awt.SystemColor;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,8 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -30,12 +26,15 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
+import dao.StaffsDAO;
+import entities.Staffs;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -50,12 +49,13 @@ public class JFrameMain extends JFrame {
 	private JButton JButtonLogout;
 	private JLabel JLabelHello;
 	private JMenuBar menuBar;
-	private JLabel JLabelName;
 	private JMenu mnAbout;
-	private JSplitPane splitPane;
-	private JPanel panel;
-	private JPanel panel_1;
-	private JPanel panel_2;
+	private JSplitPane JSplitPane;
+	private JPanel JPanelTreeMenu;
+	private JPanel JPanelMain;
+	private JPanel JPanelBottom;
+
+	public String usernameLogin;
 	// Noi de cac class jpanel add nao
 	JPanelLoanType jPanelLoanType;
 	JPanelStaff jPanelStaff;
@@ -98,52 +98,47 @@ public class JFrameMain extends JFrame {
 		setContentPane(ContentPane);
 		this.ContentPane.setLayout(new BorderLayout(0, 0));
 
-		this.panel_1 = new JPanel();
-		this.panel_1.setName("panel_1");
-		this.ContentPane.add(this.panel_1);
+		this.JPanelMain = new JPanel();
+		this.JPanelMain.setName("JPanelMain");
+		this.ContentPane.add(this.JPanelMain);
 
 		JPanelTop = new JPanel();
 		JPanelTop.setName("JPanelTop");
 
 		JButtonLogout = new JButton("Logout");
+		JButtonLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_JButtonLogout_actionPerformed(e);
+			}
+		});
 		JButtonLogout.setIcon(MakeIcon.getIcon("logout", MakeIcon.ICON_24));
 		JButtonLogout.setMargin(new Insets(0, 0, 0, 0));
-		JButtonLogout.setForeground(new Color(0, 128, 0));
+		JButtonLogout.setForeground(new Color(255, 0, 0));
 		JButtonLogout.setFont(new Font("Algerian", Font.BOLD, 20));
 		JButtonLogout.setName("JButtonLogout");
 
 		JLabelHello = new JLabel("Hello, this is Loan Processing System");
-		JLabelHello.setIcon(new ImageIcon("E:\\JavaSR\\ProjectLoanProcessingSystemSem2\\icon\\hello.png"));
 		JLabelHello.setForeground(new Color(139, 69, 19));
 		JLabelHello.setFont(new Font("Algerian", Font.BOLD, 20));
 		JLabelHello.setName("JLabelHello");
-
-		JLabelName = new JLabel("Hello Luận");
-		JLabelName.setForeground(Color.BLUE);
-		JLabelName.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+				gl_JPanelTop.createSequentialGroup()
+						.addComponent(JLabelHello, GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE).addGap(18)
+						.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_JPanelTop.createSequentialGroup()
-						.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE).addGap(169)
-						.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.JButtonLogout)));
-		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(gl_JPanelTop
-				.createSequentialGroup()
-				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-						.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1)
-								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
-										.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 33,
-												GroupLayout.PREFERRED_SIZE))))
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] { this.JButtonLogout, this.JLabelName });
+						.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JButtonLogout,
+										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+								.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		JPanelTop.setLayout(gl_JPanelTop);
 
-		splitPane = new JSplitPane();
-		splitPane.setOneTouchExpandable(true);
-		splitPane.setResizeWeight(0.2);
+		JSplitPane = new JSplitPane();
+		JSplitPane.setName("JSplitPane");
+		JSplitPane.setOneTouchExpandable(true);
+		JSplitPane.setResizeWeight(0.2);
 
 		JTabbedPaneMain = new JTabbedPaneCloseButton();
 		JTabbedPaneMain.addContainerListener(new ContainerAdapter() {
@@ -161,23 +156,25 @@ public class JFrameMain extends JFrame {
 				if (e.getChild() instanceof JPanelStaff) {
 					jPanelStaff = null;
 				}
-				
-				if(e.getChild() instanceof JPanelDepartment){
+
+				if (e.getChild() instanceof JPanelDepartment) {
 					jPanelDepartment = null;
 				}
 
 			}
 		});
-		splitPane.setRightComponent(JTabbedPaneMain);
+		JSplitPane.setRightComponent(JTabbedPaneMain);
 		JTabbedPaneMain.setBorder(new LineBorder(new Color(30, 144, 255)));
-		JTabbedPaneMain.setBackground(UIManager.getColor("InternalFrame.background"));
+		JTabbedPaneMain.setBackground(SystemColor.menu);
 
-		panel = new JPanel();
-		splitPane.setLeftComponent(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanelTreeMenu = new JPanel();
+		JPanelTreeMenu.setBackground(SystemColor.menu);
+		JPanelTreeMenu.setName("JPanelTreeMenu");
+		JSplitPane.setLeftComponent(JPanelTreeMenu);
+		JPanelTreeMenu.setLayout(new BorderLayout(0, 0));
 
 		JTreeMenu = new JTree();
-		panel.add(JTreeMenu);
+		JPanelTreeMenu.add(JTreeMenu);
 		JTreeMenu.setBackground(SystemColor.menu);
 		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
 		JTreeMenu.addTreeSelectionListener(new TreeSelectionListener() {
@@ -196,23 +193,23 @@ public class JFrameMain extends JFrame {
 			private static final long serialVersionUID = 1L;
 		}));
 		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
-		GroupLayout gl_panel_1 = new GroupLayout(this.panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+		GroupLayout gl_JPanelMain = new GroupLayout(this.JPanelMain);
+		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
-				.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
-		gl_panel_1
-				.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup()
+				.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
+		gl_JPanelMain
+				.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelMain.createSequentialGroup()
 								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40,
 										GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
 								.addGap(19)));
-		this.panel_1.setLayout(gl_panel_1);
+		this.JPanelMain.setLayout(gl_JPanelMain);
 
-		this.panel_2 = new JPanel();
-		this.panel_2.setName("panel_2");
-		this.ContentPane.add(this.panel_2, BorderLayout.SOUTH);
+		this.JPanelBottom = new JPanel();
+		this.JPanelBottom.setName("JPanelBottom");
+		this.ContentPane.add(this.JPanelBottom, BorderLayout.SOUTH);
 
 		pack();
 
@@ -298,5 +295,18 @@ public class JFrameMain extends JFrame {
 				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
 			}
 		}
+	}
+
+	/*Viết phần quyền vô hàm này, tạo if else hay switch case gì đó*/
+	public void assignMenu(String username) {
+		StaffsDAO staffsDAO = new StaffsDAO();
+		Staffs staffs = staffsDAO.findUsername(username);
+		JLabelHello.setText("Hello " + staffs.getUsername());
+	}
+
+	protected void do_JButtonLogout_actionPerformed(ActionEvent e) {
+		JFrameLogin jFrameLogin = new JFrameLogin();
+		jFrameLogin.setVisible(true);
+		this.dispose();
 	}
 }
