@@ -22,6 +22,7 @@ public class Staffs implements java.io.Serializable {
 	private int staffId;
 	private Department department;
 	private String staffName;
+	private String username;
 	private boolean isAdmin;
 	private int role;
 	private String createLog;
@@ -68,6 +69,15 @@ public class Staffs implements java.io.Serializable {
 
 	public void setStaffId(int staffId) {
 		this.staffId = staffId;
+	}
+
+	@Column(name = "username", nullable = false)
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
