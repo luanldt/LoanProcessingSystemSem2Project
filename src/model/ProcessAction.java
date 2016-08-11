@@ -95,7 +95,7 @@ public class ProcessAction {
 		switch (name) {
 		case "LoanTypes":
 			JDialogFilterLoanTypes jDialogFilterLoanTypes = new JDialogFilterLoanTypes();
-			jDialogFilterLoanTypes.loadComboBox(((CustomTableModel) JPanelLoanType.JTable.getModel()).getColums());
+			jDialogFilterLoanTypes.loadComboBox(((CustomTableModel) JPanelLoanType.JTable.getModel()).getColumns());
 			jDialogFilterLoanTypes.setVisible(true);
 			break;
 		}

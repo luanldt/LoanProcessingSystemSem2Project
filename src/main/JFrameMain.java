@@ -8,6 +8,10 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -32,10 +35,6 @@ import javax.swing.tree.DefaultTreeModel;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -247,7 +246,6 @@ public class JFrameMain extends JFrame {
 		DefaultTreeModel defaultTreeModel = new DefaultTreeModel(root);
 
 		JTreeMenu.setModel(defaultTreeModel);
-
 	}
 
 	/*

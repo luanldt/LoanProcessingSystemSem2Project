@@ -11,6 +11,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.MatteBorder;
+import java.awt.SystemColor;
 
 /**
  * Class nay da viet day du roi<br>
@@ -34,10 +36,9 @@ public class JPanelActionData extends JPanel {
 	 * Create the panel.
 	 */
 	public JPanelActionData() {
+		setBorder(new MatteBorder(1, 0, 0, 0, (Color) SystemColor.controlHighlight));
 
 		ProcessAction processAction = new ProcessAction();
-
-		setBorder(new LineBorder(new Color(0, 153, 255)));
 
 		JButtonAdd = new JButton("Add");
 		JButtonAdd.addActionListener(new ActionListener() {
