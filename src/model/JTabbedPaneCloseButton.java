@@ -12,8 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import com.sun.prism.paint.Color;
-
 public class JTabbedPaneCloseButton extends JTabbedPane {
 
 	/**

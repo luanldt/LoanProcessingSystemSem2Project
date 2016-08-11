@@ -217,7 +217,6 @@ public class JFrameMain extends JFrame {
 		pack();
 
 		loadMenu();
-		System.out.println(this.getSize());
 	}
 
 	public void loadMenu() {

@@ -72,23 +72,4 @@ public abstract class AbstractModel<T> {
 			return null;
 		}
 	}
-
-	/**
-	 * Find custom
-	 * @param columnName
-	 * @param value
-	 * @return 
-	 */
-	public T findCustom(Object columnName, Object value) {
-		try {
-			if (!sessionFactory.getCurrentSession().getTransaction().isActive()) {
-				sessionFactory.getCurrentSession().getTransaction().begin();
-			}
-			return (T) sessionFactory.getCurrentSession()
-					.createQuery("from " + entityClass + "where " + entityClass + "." + "columnName" + " like " + value)
-					.list();
-		} catch (Exception e) {
-			return null;
-		}
-	}
 }

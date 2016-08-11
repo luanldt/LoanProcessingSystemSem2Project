@@ -50,16 +50,16 @@ public class JDialogAddLoanTypes extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 
 		lblNewLabel = new JLabel("Name");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
 		lblLoanType = new JLabel("Interest Rate");
-		lblLoanType.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblLoanType.setHorizontalAlignment(SwingConstants.LEFT);
 
 		lblLoanBase = new JLabel("Loan Base");
-		lblLoanBase.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblLoanBase.setHorizontalAlignment(SwingConstants.LEFT);
 
 		lblLoanRate = new JLabel("Loan Rate");
-		lblLoanRate.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblLoanRate.setHorizontalAlignment(SwingConstants.LEFT);
 
 		JTextFieldLoanTypeName = new JTextField();
 		JTextFieldLoanTypeName.setColumns(10);
@@ -79,7 +79,7 @@ public class JDialogAddLoanTypes extends JDialog {
 		JTextFieldLoanTypeID.setColumns(10);
 
 		lblId = new JLabel("ID");
-		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblId.setHorizontalAlignment(SwingConstants.LEFT);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(60, Short.MAX_VALUE)
