@@ -275,7 +275,6 @@ public class JFrameMain extends JFrame {
 		// KHI MUỐN THÊM 1 JPANEL VÀO THÌ CHỈ CẦN VIẾT GIỐNG NHƯ ĐOẠN
 		// CODE CHUẨN KIA NHƯNG THAY LÀ TÊN CỦA JPANEL ĐÓ LÀ XONG
 		////////////////////////////////////////////////////////////////////
-
 		}
 	}
 }
