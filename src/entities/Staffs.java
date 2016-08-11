@@ -1,5 +1,5 @@
 package entities;
-// Generated Aug 11, 2016 10:25:57 AM by Hibernate Tools 5.1.0.Alpha1
+// Generated Aug 11, 2016 1:42:11 PM by Hibernate Tools 5.1.0.Alpha1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +26,7 @@ public class Staffs implements java.io.Serializable {
 	private int role;
 	private String createLog;
 	private boolean isArchive;
+	private String password;
 	private Set<Payment> payments = new HashSet<Payment>(0);
 	private Set<Contracts> contractses = new HashSet<Contracts>(0);
 
@@ -33,7 +34,7 @@ public class Staffs implements java.io.Serializable {
 	}
 
 	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role, String createLog,
-			boolean isArchive) {
+			boolean isArchive, String password) {
 		this.staffId = staffId;
 		this.department = department;
 		this.staffName = staffName;
@@ -41,10 +42,11 @@ public class Staffs implements java.io.Serializable {
 		this.role = role;
 		this.createLog = createLog;
 		this.isArchive = isArchive;
+		this.password = password;
 	}
 
 	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role, String createLog,
-			boolean isArchive, Set<Payment> payments, Set<Contracts> contractses) {
+			boolean isArchive, String password, Set<Payment> payments, Set<Contracts> contractses) {
 		this.staffId = staffId;
 		this.department = department;
 		this.staffName = staffName;
@@ -52,6 +54,7 @@ public class Staffs implements java.io.Serializable {
 		this.role = role;
 		this.createLog = createLog;
 		this.isArchive = isArchive;
+		this.password = password;
 		this.payments = payments;
 		this.contractses = contractses;
 	}
@@ -120,6 +123,15 @@ public class Staffs implements java.io.Serializable {
 
 	public void setIsArchive(boolean isArchive) {
 		this.isArchive = isArchive;
+	}
+
+	@Column(name = "password", nullable = false)
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "staffs")
