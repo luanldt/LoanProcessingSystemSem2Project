@@ -26,8 +26,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -36,6 +34,8 @@ import model.MakeIcon;
 import model.MenuTreeCellRenderer;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -127,17 +127,15 @@ public class JFrameMain extends JFrame {
 						.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE).addGap(169)
 						.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.JButtonLogout)));
-		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(gl_JPanelTop
-				.createSequentialGroup()
-				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-						.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1)
-								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
-										.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 33,
-												GroupLayout.PREFERRED_SIZE))))
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_JPanelTop
+				.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+								.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1)
+										.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
+												.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+												.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
+								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] { this.JButtonLogout, this.JLabelName });
 		JPanelTop.setLayout(gl_JPanelTop);
 
@@ -154,15 +152,15 @@ public class JFrameMain extends JFrame {
 					jPanelLoanType = null;
 				}
 				/*
-				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve
-				 * null tuc la nhu chua tung load gia tri len
+				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve null
+				 * tuc la nhu chua tung load gia tri len
 				 * 
 				 */
 				if (e.getChild() instanceof JPanelStaff) {
 					jPanelStaff = null;
 				}
-				
-				if(e.getChild() instanceof JPanelDepartment){
+
+				if (e.getChild() instanceof JPanelDepartment) {
 					jPanelDepartment = null;
 				}
 
@@ -177,20 +175,17 @@ public class JFrameMain extends JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JTreeMenu = new JTree();
-		panel.add(JTreeMenu);
-		JTreeMenu.setBackground(SystemColor.menu);
-		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
-		JTreeMenu.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent e) {
-				if (JTreeMenu.isSelectionEmpty()) {
-					return;
-				} else {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTreeMenu.getSelectionPath()
-							.getLastPathComponent();
-					callTable(node);
+		JTreeMenu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (JTreeMenu.getPathForLocation(e.getX(), e.getY()) != null) {
+					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY()).getLastPathComponent());
 				}
 			}
 		});
+		panel.add(JTreeMenu);
+		JTreeMenu.setBackground(SystemColor.menu);
+		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
 		JTreeMenu.setCellRenderer(new MenuTreeCellRenderer());
 		JTreeMenu.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Menu") {
 			private static final long serialVersionUID = 1L;
@@ -200,14 +195,11 @@ public class JFrameMain extends JFrame {
 		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
 				.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
-		gl_panel_1
-				.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
-								.addGap(19)));
+		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
 		this.panel_1.setLayout(gl_panel_1);
 
 		this.panel_2 = new JPanel();
@@ -216,7 +208,10 @@ public class JFrameMain extends JFrame {
 
 		pack();
 
-		loadMenu();
+		// Gọi khởi tạo jtree menu
+		this.loadMenu();
+		// Gọi khởi tạo các jpanel
+		this.loadJPanel();
 	}
 
 	public void loadMenu() {
@@ -256,47 +251,59 @@ public class JFrameMain extends JFrame {
 	}
 
 	/*
-	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào
-	 * các node trên jtree
+	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào các
+	 * node trên jtree
 	 */
 	public void callTable(DefaultMutableTreeNode node) {
 		switch (node.getUserObject().toString()) {
 		case "Loan Types":
-			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
+			/*
+			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
+			 * tra khởi tạo lại.
+			 */
 			if (jPanelLoanType == null) {
 				jPanelLoanType = new JPanelLoanType();
-				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelLoanType);
-				jPanelLoanType.add(new JPanelActionData(), BorderLayout.SOUTH);
-				JTabbedPaneMain.setSelectedComponent(jPanelLoanType);
-			} else {
-				JTabbedPaneMain.setSelectedComponent(jPanelLoanType);
 			}
+			this.addAndSelect(node, jPanelLoanType);
 			break;
-		// END CODE CHUẨN VÀ ĐẦY ĐỦ//
-		////////////////////////////////////////////////////////////////////
-		// KHI MUỐN THÊM 1 JPANEL VÀO THÌ CHỈ CẦN VIẾT GIỐNG NHƯ ĐOẠN
-		// CODE CHUẨN KIA NHƯNG THAY LÀ TÊN CỦA JPANEL ĐÓ LÀ XONG
-		////////////////////////////////////////////////////////////////////
 		case "Staffs":
-			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
+			/*
+			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
+			 * tra khởi tạo lại.
+			 */
 			if (jPanelStaff == null) {
 				jPanelStaff = new JPanelStaff();
-				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelStaff);
-				jPanelStaff.add(new JPanelActionData(), BorderLayout.SOUTH);
-				JTabbedPaneMain.setSelectedComponent(jPanelStaff);
-			} else {
-				JTabbedPaneMain.setSelectedComponent(jPanelStaff);
 			}
+			this.addAndSelect(node, jPanelStaff);
 			break;
 		case "Departments":
+			/*
+			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
+			 * tra khởi tạo lại.
+			 */
 			if (jPanelDepartment == null) {
 				jPanelDepartment = new JPanelDepartment();
-				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelDepartment);
-				jPanelDepartment.add(new JPanelActionData(), BorderLayout.SOUTH);
-				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
-			} else {
-				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
 			}
+			this.addAndSelect(node, jPanelDepartment);
+			break;
+		}
+	}
+
+	// TẠO MỚI TẤT CẢ CÁC JPANEL SẴN NHƯNG KHÔNG ADD VÀO
+	private void loadJPanel() {
+		jPanelLoanType = new JPanelLoanType();
+		jPanelStaff = new JPanelStaff();
+		jPanelDepartment = new JPanelDepartment();
+	}
+
+	// ADD VÀ HIGHTLIGHT(SELECTED TAB)
+	private void addAndSelect(DefaultMutableTreeNode node, JPanel jpanel) {
+		if (JTabbedPaneMain.indexOfTab(node.getUserObject().toString()) != -1) {
+			JTabbedPaneMain.setSelectedComponent(jpanel);
+		} else {
+			JTabbedPaneMain.addTab(node.getUserObject().toString(), jpanel);
+			jpanel.add(new JPanelActionData(), BorderLayout.SOUTH);
+			JTabbedPaneMain.setSelectedComponent(jpanel);
 		}
 	}
 }
