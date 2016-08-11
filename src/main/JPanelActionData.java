@@ -7,8 +7,6 @@ import javax.swing.border.LineBorder;
 import model.ProcessAction;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

@@ -18,9 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class JDialogAddLoanTypes extends JDialog {
 
@@ -43,92 +44,117 @@ public class JDialogAddLoanTypes extends JDialog {
 	private LoanTypes loanTypes;
 
 	public JDialogAddLoanTypes() {
-		setTitle("Add Loan Types");
-		setBounds(100, 100, 436, 397);
+		setTitle("ModifyLoanTypes");
+		setBounds(100, 100, 436, 369);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-		lblNewLabel = new JLabel("Name");
+		lblNewLabel = new JLabel("Loan Type Name :");
+		lblNewLabel.setForeground(new Color(0, 100, 0));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
-		lblLoanType = new JLabel("Interest Rate");
+		lblLoanType = new JLabel("Interest Rate :");
+		lblLoanType.setForeground(new Color(0, 100, 0));
+		lblLoanType.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblLoanType.setHorizontalAlignment(SwingConstants.LEFT);
 
-		lblLoanBase = new JLabel("Loan Base");
+		lblLoanBase = new JLabel("Loan Base :");
+		lblLoanBase.setForeground(new Color(0, 100, 0));
+		lblLoanBase.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblLoanBase.setHorizontalAlignment(SwingConstants.LEFT);
 
-		lblLoanRate = new JLabel("Loan Rate");
+		lblLoanRate = new JLabel("Loan Rate :");
+		lblLoanRate.setForeground(new Color(0, 100, 0));
+		lblLoanRate.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblLoanRate.setHorizontalAlignment(SwingConstants.LEFT);
 
 		JTextFieldLoanTypeName = new JTextField();
+		JTextFieldLoanTypeName.setForeground(new Color(139, 0, 0));
+		JTextFieldLoanTypeName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JTextFieldLoanTypeName.setColumns(10);
 
 		JTextFieldLoanTypeInterestRate = new JTextField();
+		JTextFieldLoanTypeInterestRate.setForeground(new Color(139, 0, 0));
+		JTextFieldLoanTypeInterestRate.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JTextFieldLoanTypeInterestRate.setColumns(10);
 
 		JTextFieldLoanBase = new JTextField();
+		JTextFieldLoanBase.setForeground(new Color(139, 0, 0));
+		JTextFieldLoanBase.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JTextFieldLoanBase.setColumns(10);
 
 		JTextFieldLoanRate = new JTextField();
+		JTextFieldLoanRate.setForeground(new Color(139, 0, 0));
+		JTextFieldLoanRate.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JTextFieldLoanRate.setColumns(10);
 
 		JTextFieldLoanTypeID = new JTextField();
+		JTextFieldLoanTypeID.setText("Automatically . . .");
+		JTextFieldLoanTypeID.setForeground(new Color(139, 0, 0));
+		JTextFieldLoanTypeID.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JTextFieldLoanTypeID.setEditable(false);
 		JTextFieldLoanTypeID.setEnabled(false);
 		JTextFieldLoanTypeID.setColumns(10);
 
-		lblId = new JLabel("ID");
+		lblId = new JLabel("Loan Type ID :");
+		lblId.setForeground(new Color(0, 100, 0));
+		lblId.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblId.setHorizontalAlignment(SwingConstants.LEFT);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(60, Short.MAX_VALUE)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE).addGap(18)
-										.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.addComponent(lblLoanType))
-												.addGap(18)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 219,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 205,
-																GroupLayout.PREFERRED_SIZE)))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-												.addGap(18)
-												.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-												.addGap(18).addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 205,
-														GroupLayout.PREFERRED_SIZE))))
-						.addGap(50)));
-		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING).addGroup(gl_contentPanel
-				.createSequentialGroup().addContainerGap(45, Short.MAX_VALUE)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup().addGap(9).addComponent(lblId))
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap(28, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)
+							.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)
+							.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)
+							.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)
+							.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)
+							.addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)))
+					.addGap(17))
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap(21, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblLoanType)
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblLoanBase)
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGap(18).addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblLoanRate)
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGap(34)));
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL,
-				new Component[] { lblLoanBase, lblLoanRate, lblNewLabel, lblLoanType });
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] { JTextFieldLoanTypeName,
-				JTextFieldLoanTypeInterestRate, JTextFieldLoanBase, JTextFieldLoanRate });
+					.addGap(14))
+		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -136,6 +162,8 @@ public class JDialogAddLoanTypes extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton JButtonSave = new JButton("Save");
+				JButtonSave.setForeground(new Color(0, 0, 128));
+				JButtonSave.setFont(new Font("Algerian", Font.BOLD, 15));
 				JButtonSave.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						addUpdateLoanType();
@@ -147,6 +175,8 @@ public class JDialogAddLoanTypes extends JDialog {
 			}
 			{
 				JButton JButtonCancel = new JButton("Cancel");
+				JButtonCancel.setForeground(new Color(0, 0, 128));
+				JButtonCancel.setFont(new Font("Algerian", Font.BOLD, 15));
 				JButtonCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
