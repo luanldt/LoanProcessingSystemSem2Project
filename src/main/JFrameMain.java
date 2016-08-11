@@ -203,7 +203,7 @@ public class JFrameMain extends JFrame {
 		/* Danh mục */
 		DefaultMutableTreeNode list = new DefaultMutableTreeNode("List");
 		DefaultMutableTreeNode categoryLoanType = new DefaultMutableTreeNode("Loan Type");
-		DefaultMutableTreeNode categoryCustomer = new DefaultMutableTreeNode("Loan Customer");
+		DefaultMutableTreeNode categoryCustomer = new DefaultMutableTreeNode("Customer");
 		DefaultMutableTreeNode categoryDepartment = new DefaultMutableTreeNode("Department");		
 		DefaultMutableTreeNode categoryStaff = new DefaultMutableTreeNode("Staff");		
 		
@@ -216,7 +216,7 @@ public class JFrameMain extends JFrame {
 		/* Chứng từ */
 		DefaultMutableTreeNode voucher = new DefaultMutableTreeNode("Voucher");
 		DefaultMutableTreeNode voucherContract = new DefaultMutableTreeNode("Contract");
-		DefaultMutableTreeNode voucherPayment = new DefaultMutableTreeNode("Payments");
+		DefaultMutableTreeNode voucherPayment = new DefaultMutableTreeNode("Payment");
 		
 		voucher.add(voucherContract);
 		voucher.add(voucherPayment);
