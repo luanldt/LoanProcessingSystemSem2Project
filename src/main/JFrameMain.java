@@ -3,13 +3,11 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.SystemColor;
-import java.awt.Toolkit;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,13 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel;
-import javafx.scene.control.Tooltip;
 
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -39,8 +34,6 @@ import javax.swing.tree.DefaultTreeModel;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.AncestorEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 
@@ -61,10 +54,12 @@ public class JFrameMain extends JFrame {
 	private JMenu mnAbout;
 	private JSplitPane splitPane;
 	private JPanel panel;
-	// Noi de cac class jpanel add nao
-	JPanelLoanType jPanelLoanType;
 	private JPanel panel_1;
 	private JPanel panel_2;
+	// Noi de cac class jpanel add nao
+	JPanelLoanType jPanelLoanType;
+	JPanelStaff jPanelStaff;
+	JPanelDepartment jPanelDepartment;
 
 	/**
 	 * Launch the application.
@@ -158,7 +153,19 @@ public class JFrameMain extends JFrame {
 				if (e.getChild() instanceof JPanelLoanType) {
 					jPanelLoanType = null;
 				}
-				// Nó sẽ thực hiện việc hủy bỏ jpanel mình tạo ra khi nhấn close
+				/*
+				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve
+				 * null tuc la nhu chua tung load gia tri len
+				 * 
+				 */
+				if (e.getChild() instanceof JPanelStaff) {
+					jPanelStaff = null;
+				}
+				
+				if(e.getChild() instanceof JPanelDepartment){
+					jPanelDepartment = null;
+				}
+
 			}
 		});
 		splitPane.setRightComponent(JTabbedPaneMain);
@@ -190,26 +197,22 @@ public class JFrameMain extends JFrame {
 		}));
 		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
 		GroupLayout gl_panel_1 = new GroupLayout(this.panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
-				.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
-					.addGap(19))
-		);
+				.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
+		gl_panel_1
+				.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+								.addGap(19)));
 		this.panel_1.setLayout(gl_panel_1);
 
 		this.panel_2 = new JPanel();
 		this.panel_2.setName("panel_2");
 		this.ContentPane.add(this.panel_2, BorderLayout.SOUTH);
-
-		
 
 		pack();
 
@@ -223,23 +226,23 @@ public class JFrameMain extends JFrame {
 
 		/* Danh mục */
 		DefaultMutableTreeNode list = new DefaultMutableTreeNode("List");
-		DefaultMutableTreeNode categoryLoanType = new DefaultMutableTreeNode("Loan Type");
-		DefaultMutableTreeNode categoryCustomer = new DefaultMutableTreeNode("Customer");
-		DefaultMutableTreeNode categoryDepartment = new DefaultMutableTreeNode("Department");
-		DefaultMutableTreeNode categoryStaff = new DefaultMutableTreeNode("Staff");
+		DefaultMutableTreeNode categoryLoanTypes = new DefaultMutableTreeNode("Loan Types");
+		DefaultMutableTreeNode categoryCustomers = new DefaultMutableTreeNode("Customers");
+		DefaultMutableTreeNode categoryDepartments = new DefaultMutableTreeNode("Departments");
+		DefaultMutableTreeNode categoryStaffs = new DefaultMutableTreeNode("Staffs");
 
-		list.add(categoryLoanType);
-		list.add(categoryCustomer);
-		list.add(categoryDepartment);
-		list.add(categoryStaff);
+		list.add(categoryLoanTypes);
+		list.add(categoryCustomers);
+		list.add(categoryDepartments);
+		list.add(categoryStaffs);
 
 		/* Chứng từ */
 		DefaultMutableTreeNode voucher = new DefaultMutableTreeNode("Voucher");
-		DefaultMutableTreeNode voucherContract = new DefaultMutableTreeNode("Contract");
-		DefaultMutableTreeNode voucherPayment = new DefaultMutableTreeNode("Payment");
+		DefaultMutableTreeNode voucherContracts = new DefaultMutableTreeNode("Contracts");
+		DefaultMutableTreeNode voucherPayments = new DefaultMutableTreeNode("Payments");
 
-		voucher.add(voucherContract);
-		voucher.add(voucherPayment);
+		voucher.add(voucherContracts);
+		voucher.add(voucherPayments);
 
 		/* Báo cáo */
 		DefaultMutableTreeNode report = new DefaultMutableTreeNode("Report");
@@ -259,7 +262,7 @@ public class JFrameMain extends JFrame {
 	 */
 	public void callTable(DefaultMutableTreeNode node) {
 		switch (node.getUserObject().toString()) {
-		case "Loan Type":
+		case "Loan Types":
 			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
 			if (jPanelLoanType == null) {
 				jPanelLoanType = new JPanelLoanType();
@@ -275,6 +278,26 @@ public class JFrameMain extends JFrame {
 		// KHI MUỐN THÊM 1 JPANEL VÀO THÌ CHỈ CẦN VIẾT GIỐNG NHƯ ĐOẠN
 		// CODE CHUẨN KIA NHƯNG THAY LÀ TÊN CỦA JPANEL ĐÓ LÀ XONG
 		////////////////////////////////////////////////////////////////////
+		case "Staffs":
+			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
+			if (jPanelStaff == null) {
+				jPanelStaff = new JPanelStaff();
+				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelStaff);
+				jPanelStaff.add(new JPanelActionData(), BorderLayout.SOUTH);
+				JTabbedPaneMain.setSelectedComponent(jPanelStaff);
+			} else {
+				JTabbedPaneMain.setSelectedComponent(jPanelStaff);
+			}
+			break;
+		case "Departments":
+			if (jPanelDepartment == null) {
+				jPanelDepartment = new JPanelDepartment();
+				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelDepartment);
+				jPanelDepartment.add(new JPanelActionData(), BorderLayout.SOUTH);
+				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
+			} else {
+				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
+			}
 		}
 	}
 }
