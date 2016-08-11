@@ -7,6 +7,10 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,11 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import dao.StaffsDAO;
@@ -31,8 +35,6 @@ import entities.Staffs;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -149,8 +151,8 @@ public class JFrameMain extends JFrame {
 					jPanelLoanType = null;
 				}
 				/*
-				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve
-				 * null tuc la nhu chua tung load gia tri len
+				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve null
+				 * tuc la nhu chua tung load gia tri len
 				 * 
 				 */
 				if (e.getChild() instanceof JPanelStaff) {
@@ -174,20 +176,17 @@ public class JFrameMain extends JFrame {
 		JPanelTreeMenu.setLayout(new BorderLayout(0, 0));
 
 		JTreeMenu = new JTree();
-		JPanelTreeMenu.add(JTreeMenu);
-		JTreeMenu.setBackground(SystemColor.menu);
-		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
-		JTreeMenu.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent e) {
-				if (JTreeMenu.isSelectionEmpty()) {
-					return;
-				} else {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTreeMenu.getSelectionPath()
-							.getLastPathComponent();
-					callTable(node);
+		JTreeMenu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (JTreeMenu.getPathForLocation(e.getX(), e.getY()) != null) {
+					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY()).getLastPathComponent());
 				}
 			}
 		});
+		JPanelTreeMenu.add(JTreeMenu);
+		JTreeMenu.setBackground(SystemColor.menu);
+		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
 		JTreeMenu.setCellRenderer(new MenuTreeCellRenderer());
 		JTreeMenu.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Menu") {
 			private static final long serialVersionUID = 1L;
@@ -213,7 +212,10 @@ public class JFrameMain extends JFrame {
 
 		pack();
 
-		loadMenu();
+		// Gọi khởi tạo jtree menu
+		this.loadMenu();
+		// Gọi khởi tạo các jpanel
+		this.loadJPanel();
 	}
 
 	public void loadMenu() {
@@ -249,51 +251,62 @@ public class JFrameMain extends JFrame {
 		DefaultTreeModel defaultTreeModel = new DefaultTreeModel(root);
 
 		JTreeMenu.setModel(defaultTreeModel);
-
 	}
 
 	/*
-	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào
-	 * các node trên jtree
+	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào các
+	 * node trên jtree
 	 */
 	public void callTable(DefaultMutableTreeNode node) {
 		switch (node.getUserObject().toString()) {
 		case "Loan Types":
-			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
+			/*
+			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
+			 * tra khởi tạo lại.
+			 */
 			if (jPanelLoanType == null) {
 				jPanelLoanType = new JPanelLoanType();
-				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelLoanType);
-				jPanelLoanType.add(new JPanelActionData(), BorderLayout.SOUTH);
-				JTabbedPaneMain.setSelectedComponent(jPanelLoanType);
-			} else {
-				JTabbedPaneMain.setSelectedComponent(jPanelLoanType);
 			}
+			this.addAndSelect(node, jPanelLoanType);
 			break;
-		// END CODE CHUẨN VÀ ĐẦY ĐỦ//
-		////////////////////////////////////////////////////////////////////
-		// KHI MUỐN THÊM 1 JPANEL VÀO THÌ CHỈ CẦN VIẾT GIỐNG NHƯ ĐOẠN
-		// CODE CHUẨN KIA NHƯNG THAY LÀ TÊN CỦA JPANEL ĐÓ LÀ XONG
-		////////////////////////////////////////////////////////////////////
 		case "Staffs":
-			// START CODE CHUẨN VÀ ĐẦY ĐỦ//
+			/*
+			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
+			 * tra khởi tạo lại.
+			 */
 			if (jPanelStaff == null) {
 				jPanelStaff = new JPanelStaff();
-				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelStaff);
-				jPanelStaff.add(new JPanelActionData(), BorderLayout.SOUTH);
-				JTabbedPaneMain.setSelectedComponent(jPanelStaff);
-			} else {
-				JTabbedPaneMain.setSelectedComponent(jPanelStaff);
 			}
+			this.addAndSelect(node, jPanelStaff);
 			break;
 		case "Departments":
+			/*
+			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
+			 * tra khởi tạo lại.
+			 */
 			if (jPanelDepartment == null) {
 				jPanelDepartment = new JPanelDepartment();
-				JTabbedPaneMain.addTab(node.getUserObject().toString(), jPanelDepartment);
-				jPanelDepartment.add(new JPanelActionData(), BorderLayout.SOUTH);
-				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
-			} else {
-				JTabbedPaneMain.setSelectedComponent(jPanelDepartment);
 			}
+			this.addAndSelect(node, jPanelDepartment);
+			break;
+		}
+	}
+
+	// TẠO MỚI TẤT CẢ CÁC JPANEL SẴN NHƯNG KHÔNG ADD VÀO
+	private void loadJPanel() {
+		jPanelLoanType = new JPanelLoanType();
+		jPanelStaff = new JPanelStaff();
+		jPanelDepartment = new JPanelDepartment();
+	}
+
+	// ADD VÀ HIGHTLIGHT(SELECTED TAB)
+	private void addAndSelect(DefaultMutableTreeNode node, JPanel jpanel) {
+		if (JTabbedPaneMain.indexOfTab(node.getUserObject().toString()) != -1) {
+			JTabbedPaneMain.setSelectedComponent(jpanel);
+		} else {
+			JTabbedPaneMain.addTab(node.getUserObject().toString(), jpanel);
+			jpanel.add(new JPanelActionData(), BorderLayout.SOUTH);
+			JTabbedPaneMain.setSelectedComponent(jpanel);
 		}
 	}
 
