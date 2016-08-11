@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
@@ -24,6 +25,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel;
+import javafx.scene.control.Tooltip;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -60,6 +63,8 @@ public class JFrameMain extends JFrame {
 	private JPanel panel;
 	// Noi de cac class jpanel add nao
 	JPanelLoanType jPanelLoanType;
+	private JPanel panel_1;
+	private JPanel panel_2;
 
 	/**
 	 * Launch the application.
@@ -68,8 +73,9 @@ public class JFrameMain extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UIManager.setLookAndFeel(new SyntheticaBlueMoonLookAndFeel());
+					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 					JFrameMain frame = new JFrameMain();
+					frame.setExtendedState(MAXIMIZED_BOTH);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,22 +90,22 @@ public class JFrameMain extends JFrame {
 	public JFrameMain() {
 		setName("LoanProcessingSystem");
 		setIconImage(MakeIcon.getImage("tittleMain", 64, 64));
-		setResizable(false);
-		/* Lay Size cua man hinh set kich thuoc cho JFrame */
-		Dimension fullScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setTitle("Loan Processing System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(fullScreenSize);
-
+		System.out.println(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-
 		mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		ContentPane = new JPanel();
 		ContentPane.setName("ContentPane");
 		ContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(ContentPane);
+		this.ContentPane.setLayout(new BorderLayout(0, 0));
+
+		this.panel_1 = new JPanel();
+		this.panel_1.setName("panel_1");
+		this.ContentPane.add(this.panel_1);
 
 		JPanelTop = new JPanel();
 		JPanelTop.setName("JPanelTop");
@@ -123,19 +129,21 @@ public class JFrameMain extends JFrame {
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
 		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_JPanelTop.createSequentialGroup()
-						.addComponent(JLabelHello, GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE).addGap(175)
-						.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(JButtonLogout).addContainerGap()));
-		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelTop.createSequentialGroup()
-						.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-								.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(2).addComponent(JLabelName,
-										GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JButtonLogout,
-										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] { JButtonLogout, JLabelName });
+						.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE).addGap(169)
+						.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.JButtonLogout)));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(gl_JPanelTop
+				.createSequentialGroup()
+				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+						.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1)
+								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 33,
+												GroupLayout.PREFERRED_SIZE))))
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] { this.JButtonLogout, this.JLabelName });
 		JPanelTop.setLayout(gl_JPanelTop);
 
 		splitPane = new JSplitPane();
@@ -146,26 +154,16 @@ public class JFrameMain extends JFrame {
 		JTabbedPaneMain.addContainerListener(new ContainerAdapter() {
 			@Override
 			public void componentRemoved(ContainerEvent e) {
-				//Mỗi lần thêm 1 bảng thì thêm 1 if vào chỗ này để kiểm tra//
-				if(e.getChild() instanceof JPanelLoanType) {
+				// Mỗi lần thêm 1 bảng thì thêm 1 if vào chỗ này để kiểm tra//
+				if (e.getChild() instanceof JPanelLoanType) {
 					jPanelLoanType = null;
 				}
-				//Nó sẽ thực hiện việc hủy bỏ jpanel mình tạo ra khi nhấn close
+				// Nó sẽ thực hiện việc hủy bỏ jpanel mình tạo ra khi nhấn close
 			}
 		});
 		splitPane.setRightComponent(JTabbedPaneMain);
 		JTabbedPaneMain.setBorder(new LineBorder(new Color(30, 144, 255)));
 		JTabbedPaneMain.setBackground(UIManager.getColor("InternalFrame.background"));
-		GroupLayout gl_ContentPane = new GroupLayout(ContentPane);
-		gl_ContentPane.setHorizontalGroup(gl_ContentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_ContentPane.createSequentialGroup().addGap(17).addComponent(JPanelTop, GroupLayout.PREFERRED_SIZE,
-						1245, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_ContentPane.createSequentialGroup().addGap(17).addComponent(splitPane, GroupLayout.PREFERRED_SIZE,
-						1245, GroupLayout.PREFERRED_SIZE)));
-		gl_ContentPane.setVerticalGroup(gl_ContentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_ContentPane.createSequentialGroup().addGap(17)
-						.addComponent(JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE).addGap(6)
-						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE)));
 
 		panel = new JPanel();
 		splitPane.setLeftComponent(panel);
@@ -180,7 +178,8 @@ public class JFrameMain extends JFrame {
 				if (JTreeMenu.isSelectionEmpty()) {
 					return;
 				} else {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTreeMenu.getSelectionPath().getLastPathComponent();
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTreeMenu.getSelectionPath()
+							.getLastPathComponent();
 					callTable(node);
 				}
 			}
@@ -190,10 +189,32 @@ public class JFrameMain extends JFrame {
 			private static final long serialVersionUID = 1L;
 		}));
 		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
-		ContentPane.setLayout(gl_ContentPane);
+		GroupLayout gl_panel_1 = new GroupLayout(this.panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
+				.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+					.addGap(19))
+		);
+		this.panel_1.setLayout(gl_panel_1);
+
+		this.panel_2 = new JPanel();
+		this.panel_2.setName("panel_2");
+		this.ContentPane.add(this.panel_2, BorderLayout.SOUTH);
+
+		
+
+		pack();
 
 		loadMenu();
-
+		System.out.println(this.getSize());
 	}
 
 	public void loadMenu() {
@@ -204,10 +225,9 @@ public class JFrameMain extends JFrame {
 		DefaultMutableTreeNode list = new DefaultMutableTreeNode("List");
 		DefaultMutableTreeNode categoryLoanType = new DefaultMutableTreeNode("Loan Type");
 		DefaultMutableTreeNode categoryCustomer = new DefaultMutableTreeNode("Customer");
-		DefaultMutableTreeNode categoryDepartment = new DefaultMutableTreeNode("Department");		
-		DefaultMutableTreeNode categoryStaff = new DefaultMutableTreeNode("Staff");		
-		
-		
+		DefaultMutableTreeNode categoryDepartment = new DefaultMutableTreeNode("Department");
+		DefaultMutableTreeNode categoryStaff = new DefaultMutableTreeNode("Staff");
+
 		list.add(categoryLoanType);
 		list.add(categoryCustomer);
 		list.add(categoryDepartment);
@@ -217,11 +237,10 @@ public class JFrameMain extends JFrame {
 		DefaultMutableTreeNode voucher = new DefaultMutableTreeNode("Voucher");
 		DefaultMutableTreeNode voucherContract = new DefaultMutableTreeNode("Contract");
 		DefaultMutableTreeNode voucherPayment = new DefaultMutableTreeNode("Payment");
-		
+
 		voucher.add(voucherContract);
 		voucher.add(voucherPayment);
-		
-		
+
 		/* Báo cáo */
 		DefaultMutableTreeNode report = new DefaultMutableTreeNode("Report");
 
@@ -231,13 +250,12 @@ public class JFrameMain extends JFrame {
 		DefaultTreeModel defaultTreeModel = new DefaultTreeModel(root);
 
 		JTreeMenu.setModel(defaultTreeModel);
-		
-	
+
 	}
 
 	/*
-	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào các
-	 * node trên jtree
+	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào
+	 * các node trên jtree
 	 */
 	public void callTable(DefaultMutableTreeNode node) {
 		switch (node.getUserObject().toString()) {
@@ -260,6 +278,4 @@ public class JFrameMain extends JFrame {
 
 		}
 	}
-	
-	
 }
