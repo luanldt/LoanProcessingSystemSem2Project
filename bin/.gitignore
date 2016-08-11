@@ -1,7 +1,8 @@
-/dao/
-/entities/
-/factory/
-/hibernate.cfg.xml
-/hibernate.reveng.xml
-/main/
-/model/
+/.DS_Store
+/.classpath
+/.project
+/.settings/
+/hibernate/
+/icon/
+/theme/
+/theme.zip

@@ -60,6 +60,7 @@ public class JTabbedPaneCloseButton extends JTabbedPane {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
+		@SuppressWarnings("unused")
 		private Component tab;
 
 		public CloseButtonTab(final Component tab, String title, Icon icon) {
@@ -103,6 +104,7 @@ public class JTabbedPaneCloseButton extends JTabbedPane {
 		public void mouseReleased(MouseEvent e) {
 		}
 
+		@SuppressWarnings("unused")
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			if (e.getSource() instanceof JButton) {
@@ -111,6 +113,7 @@ public class JTabbedPaneCloseButton extends JTabbedPane {
 			}
 		}
 
+		@SuppressWarnings("unused")
 		@Override
 		public void mouseExited(MouseEvent e) {
 			if (e.getSource() instanceof JButton) {
