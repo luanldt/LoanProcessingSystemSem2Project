@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.EventQueue;
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -43,6 +44,7 @@ public class JFrameLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					 UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
 					JFrameLogin jFrameLogin = new JFrameLogin();
 					jFrameLogin.setVisible(true);
 				} catch (Exception e) {
