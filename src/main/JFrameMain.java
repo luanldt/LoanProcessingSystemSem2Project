@@ -28,18 +28,22 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
+import dao.StaffsDAO;
+import entities.Staffs;
 import dao.DepartmentDAO;
 import dao.LoanTypesDAO;
 import dao.StaffsDAO;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -52,13 +56,16 @@ public class JFrameMain extends JFrame {
 	private JTabbedPaneCloseButton JTabbedPaneMain;
 	private JPanel JPanelTop;
 	private JButton JButtonLogout;
+	private JLabel JLabelHello;
 	private JMenuBar menuBar;
-	private JLabel JLabelName;
 	private JMenu mnAbout;
-	private JSplitPane splitPane;
-	private JPanel panel;
-	private JPanel panel_1;
-	private JPanel panel_2;
+	private JSplitPane JSplitPane;
+	private JPanel JPanelTreeMenu;
+	private JPanel JPanelMain;
+	private JLabel JLabelName;
+	private JPanel JPanelBottom;
+
+	public String usernameLogin;
 	// Noi de cac class jpanel add nao
 	JPanelLoanType jPanelLoanType;
 	JPanelStaff jPanelStaff;
@@ -112,17 +119,22 @@ public class JFrameMain extends JFrame {
 		setContentPane(ContentPane);
 		this.ContentPane.setLayout(new BorderLayout(0, 0));
 
-		this.panel_1 = new JPanel();
-		this.panel_1.setName("panel_1");
-		this.ContentPane.add(this.panel_1);
+		this.JPanelMain = new JPanel();
+		this.JPanelMain.setName("JPanelMain");
+		this.ContentPane.add(this.JPanelMain);
 
 		JPanelTop = new JPanel();
 		JPanelTop.setName("JPanelTop");
 
 		JButtonLogout = new JButton("Logout");
+		JButtonLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_JButtonLogout_actionPerformed(e);
+			}
+		});
 		JButtonLogout.setIcon(MakeIcon.getIcon("logout", MakeIcon.ICON_24));
 		JButtonLogout.setMargin(new Insets(0, 0, 0, 0));
-		JButtonLogout.setForeground(new Color(0, 128, 0));
+		JButtonLogout.setForeground(new Color(255, 0, 0));
 		JButtonLogout.setFont(new Font("Algerian", Font.BOLD, 20));
 		JButtonLogout.setName("JButtonLogout");
 
@@ -140,9 +152,10 @@ public class JFrameMain extends JFrame {
 			}
 		});
 
-		splitPane = new JSplitPane();
-		splitPane.setOneTouchExpandable(true);
-		splitPane.setResizeWeight(0.2);
+		JSplitPane = new JSplitPane();
+		JSplitPane.setName("JSplitPane");
+		JSplitPane.setOneTouchExpandable(true);
+		JSplitPane.setResizeWeight(0.2);
 
 		JTabbedPaneMain = new JTabbedPaneCloseButton();
 		JTabbedPaneMain.addContainerListener(new ContainerAdapter() {
@@ -173,13 +186,15 @@ public class JFrameMain extends JFrame {
 
 			}
 		});
-		splitPane.setRightComponent(JTabbedPaneMain);
+		JSplitPane.setRightComponent(JTabbedPaneMain);
 		JTabbedPaneMain.setBorder(new LineBorder(new Color(30, 144, 255)));
-		JTabbedPaneMain.setBackground(UIManager.getColor("InternalFrame.background"));
+		JTabbedPaneMain.setBackground(SystemColor.menu);
 
-		panel = new JPanel();
-		splitPane.setLeftComponent(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanelTreeMenu = new JPanel();
+		JPanelTreeMenu.setBackground(SystemColor.menu);
+		JPanelTreeMenu.setName("JPanelTreeMenu");
+		JSplitPane.setLeftComponent(JPanelTreeMenu);
+		JPanelTreeMenu.setLayout(new BorderLayout(0, 0));
 
 		JTreeMenu = new JTree();
 		JTreeMenu.addMouseListener(new MouseAdapter() {
@@ -190,7 +205,7 @@ public class JFrameMain extends JFrame {
 				}
 			}
 		});
-		panel.add(JTreeMenu);
+		JPanelTreeMenu.add(JTreeMenu);
 		JTreeMenu.setBackground(SystemColor.menu);
 		JTreeMenu.setBorder(new LineBorder(new Color(30, 144, 255)));
 		JTreeMenu.setCellRenderer(new MenuTreeCellRenderer());
@@ -198,15 +213,15 @@ public class JFrameMain extends JFrame {
 			private static final long serialVersionUID = 1L;
 		}));
 		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
-		GroupLayout gl_panel_1 = new GroupLayout(this.panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+		GroupLayout gl_JPanelMain = new GroupLayout(this.JPanelMain);
+		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
-				.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
-		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
+				.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
+		gl_JPanelMain.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelMain.createSequentialGroup()
 						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
+						.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
 
 		panel_3 = new JPanel();
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -267,11 +282,11 @@ public class JFrameMain extends JFrame {
 												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 								.addContainerGap()));
 		JPanelTop.setLayout(gl_JPanelTop);
-		this.panel_1.setLayout(gl_panel_1);
+		this.JPanelMain.setLayout(gl_JPanelMain);
 
-		this.panel_2 = new JPanel();
-		this.panel_2.setName("panel_2");
-		this.ContentPane.add(this.panel_2, BorderLayout.SOUTH);
+		this.JPanelBottom = new JPanel();
+		this.JPanelBottom.setName("JPanelBottom");
+		this.ContentPane.add(this.JPanelBottom, BorderLayout.SOUTH);
 
 		pack();
 
@@ -492,4 +507,17 @@ public class JFrameMain extends JFrame {
 		}
 	}
 	/* END CODE REFRESH */
+
+	/*Viết phần quyền vô hàm này, tạo if else hay switch case gì đó*/
+	public void assignMenu(String username) {
+		StaffsDAO staffsDAO = new StaffsDAO();
+		Staffs staffs = staffsDAO.findUsername(username);
+		JLabelHello.setText("Hello " + staffs.getUsername());
+	}
+
+	protected void do_JButtonLogout_actionPerformed(ActionEvent e) {
+		JFrameLogin jFrameLogin = new JFrameLogin();
+		jFrameLogin.setVisible(true);
+		this.dispose();
+	}
 }
