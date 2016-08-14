@@ -56,13 +56,12 @@ public class JFrameMain extends JFrame {
 	private JTabbedPaneCloseButton JTabbedPaneMain;
 	private JPanel JPanelTop;
 	private JButton JButtonLogout;
-	private JLabel JLabelHello;
 	private JMenuBar menuBar;
 	private JMenu mnAbout;
 	private JSplitPane JSplitPane;
 	private JPanel JPanelTreeMenu;
 	private JPanel JPanelMain;
-	private JLabel JLabelName;
+	private JLabel JLabelHello;
 	private JPanel JPanelBottom;
 
 	public String usernameLogin;
@@ -138,9 +137,9 @@ public class JFrameMain extends JFrame {
 		JButtonLogout.setFont(new Font("Algerian", Font.BOLD, 20));
 		JButtonLogout.setName("JButtonLogout");
 
-		JLabelName = new JLabel("Hello Luận");
-		JLabelName.setForeground(Color.BLUE);
-		JLabelName.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		JLabelHello = new JLabel("Hello Luận");
+		JLabelHello.setForeground(Color.BLUE);
+		JLabelHello.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 
 		JTextFieldSearch = new JTextField();
 		JTextFieldSearch.setColumns(10);
@@ -266,14 +265,14 @@ public class JFrameMain extends JFrame {
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE).addGap(2)
 						.addComponent(JButtonSearch).addGap(8)
-						.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE).addGap(12)
+						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE).addGap(12)
 						.addComponent(JButtonLogout)));
 		gl_JPanelTop
 				.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_JPanelTop.createSequentialGroup()
 								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
 										.addGroup(Alignment.TRAILING, gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-												.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+												.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 												.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 												.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap().addComponent(JButtonSearch))
 												.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JTextFieldSearch,
