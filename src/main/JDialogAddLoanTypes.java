@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import entities.LoanTypes;
+//import model.ProcessAction;
 import dao.LoanTypesDAO;
 
 import javax.swing.GroupLayout;
@@ -23,6 +24,11 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
 
+/**
+ * 
+ * @author nguyenminhluan
+ *
+ */
 public class JDialogAddLoanTypes extends JDialog {
 
 	/**
@@ -103,58 +109,48 @@ public class JDialogAddLoanTypes extends JDialog {
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblId.setHorizontalAlignment(SwingConstants.LEFT);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(28, Short.MAX_VALUE)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING).addGroup(gl_contentPanel
+				.createSequentialGroup().addContainerGap(28, Short.MAX_VALUE)
+				.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addGap(15)
-							.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
+								.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addGap(15)
-							.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
+								.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addGap(15)
-							.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
+								.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 219,
+										GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addGap(15)
-							.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
+								.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addGap(15)
-							.addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)))
-					.addGap(17))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(21, Short.MAX_VALUE)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(14))
-		);
+								.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
+								.addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)))
+				.addGap(17)));
+		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(21, Short.MAX_VALUE)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+								.addComponent(JTextFieldLoanTypeID, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
+										JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
+										JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
+										JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
+										JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(14)));
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -189,6 +185,10 @@ public class JDialogAddLoanTypes extends JDialog {
 
 	}
 
+	/**
+	 * METHOD THAO TÁC THÊM VÀ SỬA VỚI DATABASE TRUYỀN VÀO JPANEL TỨC LÀ TRUYỀN NÀO JPANEL CHỨA JTABLE
+	 * @param jPanel
+	 */
 	private void addUpdateLoanType() {
 		// Thêm vào một loan type
 		try {
@@ -206,7 +206,6 @@ public class JDialogAddLoanTypes extends JDialog {
 			}
 			JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " loan type success!", "Success",
 					JOptionPane.INFORMATION_MESSAGE);
-			JPanelLoanType.loadTable();
 			this.dispose();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Can't " + (isUpdate ? "Update" : "Add") + " new loan type!", "Error",
@@ -214,6 +213,12 @@ public class JDialogAddLoanTypes extends JDialog {
 		}
 	}
 
+	/**
+	 * ĐÂY LÀ METHOD THỰC HIỆN HÀNH ĐỘNG LOAD DỮ LIỆU LÊN CỦA UPDATE
+	 * 
+	 * @param loanTypes
+	 * @return
+	 */
 	public JDialog isUpdate(LoanTypes loanTypes) {
 		isUpdate = true;
 		this.loanTypes = loanTypes;

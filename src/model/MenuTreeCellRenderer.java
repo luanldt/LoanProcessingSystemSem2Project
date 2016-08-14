@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
@@ -25,7 +26,6 @@ public class MenuTreeCellRenderer implements TreeCellRenderer {
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
 			boolean leaf, int row, boolean hasForcus) {
-
 		Object o = ((DefaultMutableTreeNode) value).getUserObject();
 		if (o != null) {
 			// Trường hợp tại đây phải + thêm menu là vì trong thư mục icon đặt thêm
@@ -39,6 +39,9 @@ public class MenuTreeCellRenderer implements TreeCellRenderer {
 			label.setText("" + value);
 		}
 		return label;
+		
 	}
+	
+	
 
 }

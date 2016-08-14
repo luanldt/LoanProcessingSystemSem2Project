@@ -1,7 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -14,16 +13,16 @@ import javax.swing.table.AbstractTableModel;
 public class CustomTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private List<String> columnsName = new ArrayList<String>();
-	private List<Object[]> dataRow = new ArrayList<Object[]>();
+	private String[] columnsName = {};
+	private Vector<Object[]> dataRow = new Vector<Object[]>();
 
 	/**
 	 * Thêm tên column vào trong model
 	 * 
 	 * @param columnName
 	 */
-	public void addColumn(String columnName) {
-		this.columnsName.add(columnName);
+	public void addColumn(String[] columnsName) {
+		this.columnsName = columnsName;
 	}
 
 	public void addRow(Object[] rows) {
@@ -31,7 +30,7 @@ public class CustomTableModel extends AbstractTableModel {
 	}
 
 	public String[] getColumns() {
-		return (String[]) columnsName.toArray(new String[columnsName.size()]);
+		return this.columnsName;
 	}
 
 	@Override
@@ -41,17 +40,16 @@ public class CustomTableModel extends AbstractTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columnsName.get(column);
+		return columnsName[column];
 	}
 
 	@Override
 	public int getColumnCount() {
-		return columnsName.size();
+		return columnsName.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		System.out.println(dataRow.size());
 		return dataRow.get(rowIndex)[columnIndex];
 	}
 

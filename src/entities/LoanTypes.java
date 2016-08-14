@@ -105,7 +105,7 @@ public class LoanTypes implements java.io.Serializable {
 		this.loanRate = loanRate;
 	}
 
-	@Column(name = "createLog", nullable = false, length = 30)
+	@Column(name = "createLog", nullable = true, length = 30)
 	public String getCreateLog() {
 		return this.createLog;
 	}
@@ -114,7 +114,7 @@ public class LoanTypes implements java.io.Serializable {
 		this.createLog = createLog;
 	}
 
-	@Column(name = "isArchive", nullable = false)
+	@Column(name = "isArchive", nullable = true)
 	public boolean isIsArchive() {
 		return this.isArchive;
 	}

@@ -10,16 +10,14 @@ public class JPanelLoanType extends AbstractJPanel{
 	private static final long serialVersionUID = 1L;
 
 	public JPanelLoanType() {
-		super("LoanTypes");
-		JPanelLoanType.loadTable();
+		super(JPanelLoanType.class);
+		loadTable();
 	}
 	
-	public static void loadTable() {
+	public void loadTable() {
 		CustomTableModel customTableModel = new CustomTableModel();
 		String []columns = {"ID", "Name", "InterestRate", "LoanBase", "LoanRate"};
-		for(String column : columns) {
-			customTableModel.addColumn(column);
-		}
+		customTableModel.addColumn(columns);
 		
 		for(LoanTypes loanTypes : new LoanTypesDAO().findAll()) {
 			customTableModel.addRow(new Object[] {

@@ -22,41 +22,28 @@ import dao.DepartmentDAO;
 import dao.LoanTypesDAO;
 import entities.Department;
 import entities.LoanTypes;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 
-@SuppressWarnings("serial")
+
 public class JDialogModifyDepartments extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblDepartmentId;
 	private JTextField JTextFieldDepartmentID;
 	private JLabel lblDepartmentname;
 	private JTextField JTextFieldDepartmentName;
 	private JLabel lblLoantypes;
-	@SuppressWarnings("rawtypes")
-	private JComboBox JComboBoxLoanTypeName;
+	private JComboBox<String> JComboBoxLoanTypeName;
 	private Department departments;
 	private boolean isUpdate;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			JDialogModifyDepartments dialog = new JDialogModifyDepartments();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	@SuppressWarnings("rawtypes")
 	public JDialogModifyDepartments() {
 		setTitle("ModifyDepartments");
 		setBounds(100, 100, 450, 268);
@@ -97,45 +84,43 @@ public class JDialogModifyDepartments extends JDialog {
 		lblLoantypes.setHorizontalAlignment(SwingConstants.LEFT);
 		lblLoantypes.setName("lblLoantypes");
 
-		JComboBoxLoanTypeName = new JComboBox();
+		JComboBoxLoanTypeName = new JComboBox<String>();
 		JComboBoxLoanTypeName.setForeground(new Color(139, 0, 0));
 		JComboBoxLoanTypeName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JComboBoxLoanTypeName.setName("JComboBoxLoanTypeName");
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(32, Short.MAX_VALUE)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDepartmentId, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDepartmentname)
-						.addComponent(lblLoantypes))
-					.addGap(15)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(JTextFieldDepartmentName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldDepartmentID, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JComboBoxLoanTypeName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
-					.addGap(22))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(23, Short.MAX_VALUE)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDepartmentId, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JTextFieldDepartmentID, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(JTextFieldDepartmentName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDepartmentname, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLoantypes, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JComboBoxLoanTypeName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(13))
-		);
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] {lblDepartmentId, lblDepartmentname, lblLoantypes});
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] {JTextFieldDepartmentID, JTextFieldDepartmentName, JComboBoxLoanTypeName});
+		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(32, Short.MAX_VALUE)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblDepartmentId, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDepartmentname).addComponent(lblLoantypes))
+						.addGap(15)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(JTextFieldDepartmentName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(JTextFieldDepartmentID, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(JComboBoxLoanTypeName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(22)));
+		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(23, Short.MAX_VALUE)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblDepartmentId, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+								.addComponent(JTextFieldDepartmentID, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(JTextFieldDepartmentName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDepartmentname, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblLoantypes, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
+										JComboBoxLoanTypeName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(13)));
+		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { lblDepartmentId, lblDepartmentname, lblLoantypes });
+		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { JTextFieldDepartmentID, JTextFieldDepartmentName, JComboBoxLoanTypeName });
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -171,6 +156,7 @@ public class JDialogModifyDepartments extends JDialog {
 		}
 
 		loadComboBox();
+
 	}
 
 	private void modifyDepartment() {
@@ -189,7 +175,6 @@ public class JDialogModifyDepartments extends JDialog {
 			}
 			JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " department success!", "Success",
 					JOptionPane.INFORMATION_MESSAGE);
-			JPanelDepartment.loadTable();
 			this.dispose();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null,
@@ -198,9 +183,8 @@ public class JDialogModifyDepartments extends JDialog {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void loadComboBox() {
-		DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel();
+		DefaultComboBoxModel<String> defaultComboBoxModel = new DefaultComboBoxModel<String>();
 		LoanTypesDAO loanTypesDAO = new LoanTypesDAO();
 		for (LoanTypes loanTypes : loanTypesDAO.findAll()) {
 			defaultComboBoxModel.addElement(loanTypes.getLoanTypeName());

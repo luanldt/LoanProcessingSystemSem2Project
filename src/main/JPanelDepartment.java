@@ -9,16 +9,14 @@ public class JPanelDepartment extends AbstractJPanel {
 	private static final long serialVersionUID = 1L;
 
 	public JPanelDepartment() {
-		super("Departments");
-		JPanelDepartment.loadTable();
+		super(JPanelDepartment.class);
+		loadTable();
 	}
 
-	public static void loadTable() {
+	public void loadTable() {
 		CustomTableModel customTableModel = new CustomTableModel();
 		String[] columns = { "Department Id", "Department Name", "Loan Type Name" };
-		for (String column : columns) {
-			customTableModel.addColumn(column);
-		}
+		customTableModel.addColumn(columns);
 
 		for (Department department : new DepartmentDAO().findAll()) {
 			customTableModel.addRow(new Object[] { department.getDepartmentId(), department.getDepartmentName(),

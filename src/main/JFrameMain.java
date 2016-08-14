@@ -2,12 +2,14 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseAdapter;
@@ -15,23 +17,26 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import dao.DepartmentDAO;
+import dao.LoanTypesDAO;
+import dao.StaffsDAO;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
@@ -47,7 +52,6 @@ public class JFrameMain extends JFrame {
 	private JTabbedPaneCloseButton JTabbedPaneMain;
 	private JPanel JPanelTop;
 	private JButton JButtonLogout;
-	private JLabel JLabelHello;
 	private JMenuBar menuBar;
 	private JLabel JLabelName;
 	private JMenu mnAbout;
@@ -59,6 +63,17 @@ public class JFrameMain extends JFrame {
 	JPanelLoanType jPanelLoanType;
 	JPanelStaff jPanelStaff;
 	JPanelDepartment jPanelDepartment;
+	private JTextField JTextFieldSearch;
+	private JButton JButtonSearch;
+	private JButton JButtonAdd;
+	public static JButton JButtonUpdate;
+	public static JButton JButtonDelete;
+	private JButton JButtonRefresh;
+	private JPanel panel_3;
+	private String name = "";
+	public static int currentId = -1;
+	private static final int UPDATE = 1;
+	private static final int ADD = 0;
 
 	/**
 	 * Launch the application.
@@ -111,32 +126,19 @@ public class JFrameMain extends JFrame {
 		JButtonLogout.setFont(new Font("Algerian", Font.BOLD, 20));
 		JButtonLogout.setName("JButtonLogout");
 
-		JLabelHello = new JLabel("Hello, this is Loan Processing System");
-		JLabelHello.setIcon(new ImageIcon("E:\\JavaSR\\ProjectLoanProcessingSystemSem2\\icon\\hello.png"));
-		JLabelHello.setForeground(new Color(139, 69, 19));
-		JLabelHello.setFont(new Font("Algerian", Font.BOLD, 20));
-		JLabelHello.setName("JLabelHello");
-
 		JLabelName = new JLabel("Hello Luận");
 		JLabelName.setForeground(Color.BLUE);
 		JLabelName.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
-		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelTop.createSequentialGroup()
-						.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE).addGap(169)
-						.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.JButtonLogout)));
-		gl_JPanelTop
-				.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_JPanelTop.createSequentialGroup().addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-								.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1)
-										.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
-												.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-												.addComponent(this.JLabelName, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_JPanelTop.linkSize(SwingConstants.VERTICAL, new Component[] { this.JButtonLogout, this.JLabelName });
-		JPanelTop.setLayout(gl_JPanelTop);
+
+		JTextFieldSearch = new JTextField();
+		JTextFieldSearch.setColumns(10);
+
+		JButtonSearch = new JButton("Search");
+		JButtonSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchData(JTextFieldSearch.getText());
+			}
+		});
 
 		splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(true);
@@ -162,6 +164,12 @@ public class JFrameMain extends JFrame {
 				if (e.getChild() instanceof JPanelDepartment) {
 					jPanelDepartment = null;
 				}
+				
+				JFrameMain.currentId = -1;
+				
+				name = "";
+
+				checkEnableButton();
 
 			}
 		});
@@ -199,6 +207,66 @@ public class JFrameMain extends JFrame {
 						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(this.splitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
+
+		panel_3 = new JPanel();
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+		JButtonAdd = new JButton("Add");
+		panel_3.add(JButtonAdd);
+		JButtonAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				processAddUpdate(JFrameMain.ADD);
+			}
+		});
+
+		JButtonUpdate = new JButton("Update");
+		panel_3.add(JButtonUpdate);
+		JButtonUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				processAddUpdate(JFrameMain.UPDATE);
+			}
+		});
+		JButtonUpdate.setEnabled(false);
+
+		JButtonDelete = new JButton("Delete");
+		panel_3.add(JButtonDelete);
+		JButtonDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				processDelete();
+			}
+		});
+		JButtonDelete.setEnabled(false);
+
+		JButtonRefresh = new JButton("Refresh");
+		panel_3.add(JButtonRefresh);
+		JButtonRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				processRefresh();
+			}
+		});
+		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
+		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE).addGap(2)
+						.addComponent(JButtonSearch).addGap(8)
+						.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE).addGap(12)
+						.addComponent(JButtonLogout)));
+		gl_JPanelTop
+				.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelTop.createSequentialGroup()
+								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+										.addGroup(Alignment.TRAILING, gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+												.addComponent(JLabelName, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+												.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap().addComponent(JButtonSearch))
+												.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JTextFieldSearch,
+														GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+										.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(panel_3,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addContainerGap()));
+		JPanelTop.setLayout(gl_JPanelTop);
 		this.panel_1.setLayout(gl_panel_1);
 
 		this.panel_2 = new JPanel();
@@ -211,6 +279,8 @@ public class JFrameMain extends JFrame {
 		this.loadMenu();
 		// Gọi khởi tạo các jpanel
 		this.loadJPanel();
+
+		checkEnableButton();
 	}
 
 	public void loadMenu() {
@@ -249,43 +319,43 @@ public class JFrameMain extends JFrame {
 	}
 
 	/*
-	 * Gọi gọi các table theo các giá trị truyền vào khi người dùng click vào các
-	 * node trên jtree
+	 * ///////////////////////////////////////////////////////////////////////////
+	 * / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI THÊM /
+	 * MỚI VÀO
+	 * ///////////////////////////////////////////////////////////////////////////
+	 * /
 	 */
 	public void callTable(DefaultMutableTreeNode node) {
-		switch (node.getUserObject().toString()) {
+		name = node.getUserObject().toString();
+		switch (name) {
 		case "Loan Types":
-			/*
-			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
-			 * tra khởi tạo lại.
-			 */
 			if (jPanelLoanType == null) {
 				jPanelLoanType = new JPanelLoanType();
 			}
 			this.addAndSelect(node, jPanelLoanType);
+			checkEnableButton();
 			break;
 		case "Staffs":
-			/*
-			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
-			 * tra khởi tạo lại.
-			 */
 			if (jPanelStaff == null) {
 				jPanelStaff = new JPanelStaff();
 			}
 			this.addAndSelect(node, jPanelStaff);
+			checkEnableButton();
 			break;
 		case "Departments":
-			/*
-			 * Vì sao khi remove tab thì đối tượng đã bị set thành null nên phải kiểm
-			 * tra khởi tạo lại.
-			 */
 			if (jPanelDepartment == null) {
 				jPanelDepartment = new JPanelDepartment();
 			}
 			this.addAndSelect(node, jPanelDepartment);
+			checkEnableButton();
 			break;
 		}
 	}
+	/*
+	 * ///////////////////////////////////////////////////////////////////////////
+	 * / // END GỌI CÁC JPANEL ADD VÀO MAIN
+	 * ///////////////////////////////////////////////////////////////////////////
+	 */
 
 	// TẠO MỚI TẤT CẢ CÁC JPANEL SẴN NHƯNG KHÔNG ADD VÀO
 	private void loadJPanel() {
@@ -300,8 +370,126 @@ public class JFrameMain extends JFrame {
 			JTabbedPaneMain.setSelectedComponent(jpanel);
 		} else {
 			JTabbedPaneMain.addTab(node.getUserObject().toString(), jpanel);
-			jpanel.add(new JPanelActionData(), BorderLayout.SOUTH);
 			JTabbedPaneMain.setSelectedComponent(jpanel);
 		}
 	}
+
+	/* THẬT RA LÀ NGẠI CODE TRONG CLASS DÀI QUÁ MỚI TÁCH RA THÔI (:v) */
+	/* CODE ADD UPDATE VÀ CÁC LỰA CHỌN ADD UPDATE */
+	private void processAddUpdate(int order) {
+		// Nhờ vào tên của các jpanel nên có thể dễ dàng gọi các jdialog add ra dễ
+		// dàng.
+		switch (name) {
+		case "Loan Types":
+			if (order == JFrameMain.ADD) {
+				new JDialogAddLoanTypes().setVisible(true);
+			} else {
+				new JDialogAddLoanTypes().isUpdate(new LoanTypesDAO().find(currentId)).setVisible(true);
+			}
+			break;
+		case "Staffs":
+			if (order == JFrameMain.ADD) {
+				new JDialogModifyStaff().setVisible(true);
+			} else {
+				new JDialogModifyStaff().isUpdate(new StaffsDAO().find(currentId)).setVisible(true);
+			}
+			break;
+		case "Departments":
+			if (order == JFrameMain.ADD) {
+				new JDialogModifyDepartments().setVisible(true);
+			} else {
+				new JDialogModifyDepartments().isUpdate(new DepartmentDAO().find(currentId)).setVisible(true);
+			}
+			break;
+		}
+		processRefresh();
+	}
+	/* END CODE ADD UPDATE */
+
+	/* START CODE DELETE */
+	private void processDelete() {
+		switch (name) {
+		case "Loan Types":
+			try {
+				new LoanTypesDAO().delete(new LoanTypesDAO().find(currentId));
+				JOptionPane.showMessageDialog(null, "Delete loan types success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Delete loan types error!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			break;
+		case "Staffs":
+			try {
+				new StaffsDAO().delete(new StaffsDAO().find(currentId));
+				JOptionPane.showMessageDialog(null, "Delete staff success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Delete staff error!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			break;
+		case "Departments":
+			try {
+				new DepartmentDAO().delete(new DepartmentDAO().find(currentId));
+				JOptionPane.showMessageDialog(null, "Delete departments success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Delete departments error!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			break;
+		}
+		processRefresh();
+	}
+	/* END CODE DELETE */
+
+	/* START CODE SET ENABLE BUTTON ACTION WITH DATA */
+	private void checkEnableButton() {
+		if (name.isEmpty()) {
+			JButtonAdd.setEnabled(false);
+			JButtonRefresh.setEnabled(false);
+			JTextFieldSearch.setEnabled(false);
+			JButtonSearch.setEnabled(false);
+		} else {
+			JTextFieldSearch.setEnabled(true);
+			JButtonSearch.setEnabled(true);
+			JButtonAdd.setEnabled(true);
+			JButtonRefresh.setEnabled(true);
+		}
+		if (currentId == -1) {
+			JButtonDelete.setEnabled(false);
+			JButtonUpdate.setEnabled(false);
+		} else {
+			JButtonDelete.setEnabled(true);
+			JButtonUpdate.setEnabled(true);
+		}
+	}
+	/* END CODE SET ENABLE BUTTON ACTION WITH DATA */
+
+	/* START CODE SEARCH DATA */
+	private void searchData(String sValue) {
+		switch (name) {
+		case "Loan Types":
+			jPanelLoanType.filter(sValue);
+			break;
+		case "Staffs":
+			jPanelStaff.filter(sValue);
+			break;
+		case "Departments":
+			jPanelDepartment.filter(sValue);
+			break;
+		}
+	}
+	/* END CODE SEARCH DATA */
+
+	/* START CODE REFRESH */
+	private void processRefresh() {
+		switch (name) {
+		case "Loan Types":
+			jPanelLoanType.loadTable();
+			break;
+		case "Staffs":
+			jPanelStaff.loadTable();
+			break;
+		case "Departments":
+			jPanelDepartment.loadTable();
+			break;
+		}
+	}
+	/* END CODE REFRESH */
 }
