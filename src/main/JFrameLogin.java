@@ -1,24 +1,31 @@
 package main;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import dao.StaffsDAO;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.UIManager;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+
+import dao.StaffsDAO;
+import model.MakeIcon;
 
 /*Hàm login, có kèm sẵn phân quyền, chỉ cần viết thêm nội dung phân quyền vào hàm assignMenu
  * Sau khi nhập password, có thể ấn Enter để đăng nhập thay vì click chuột vào button Login
@@ -35,6 +42,8 @@ public class JFrameLogin extends JFrame {
 	private JPasswordField JPasswordFieldPassword;
 	private JButton JButtonLogin;
 	private JButton JButtonCancel;
+	private JCheckBox JCheckboxRemeber;
+	private String username;
 
 	/**
 	 * Launch the application.
@@ -44,7 +53,8 @@ public class JFrameLogin extends JFrame {
 			@Override
 			public void run() {
 				try {
-//					 UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
+					// UIManager.setLookAndFeel(new
+					// SyntheticaPlainLookAndFeel());
 					JFrameLogin jFrameLogin = new JFrameLogin();
 					jFrameLogin.setVisible(true);
 				} catch (Exception e) {
@@ -58,7 +68,7 @@ public class JFrameLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameLogin() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\JavaSR\\Icon\\loginsystem.png"));
+		setIconImage(MakeIcon.getImage("titleMain", MakeIcon.ICON_64));
 		setResizable(false);
 		setTitle("Login System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,7 +123,7 @@ public class JFrameLogin extends JFrame {
 				do_JButtonLogin_actionPerformed(e);
 			}
 		});
-		JButtonLogin.setBounds(48, 107, 108, 25);
+		JButtonLogin.setBounds(48, 128, 108, 25);
 		JPanel.setLayout(null);
 		JButtonLogin.setForeground(new Color(0, 0, 128));
 		JButtonLogin.setFont(new Font("Algerian", Font.BOLD, 13));
@@ -133,15 +143,26 @@ public class JFrameLogin extends JFrame {
 		});
 		JButtonCancel.setForeground(new Color(0, 0, 128));
 		JButtonCancel.setFont(new Font("Algerian", Font.BOLD, 13));
-		JButtonCancel.setBounds(179, 107, 108, 25);
+		JButtonCancel.setBounds(179, 128, 108, 25);
 		JButtonCancel.setName("JButtonCancel");
 		JPanel.add(JButtonCancel);
+
+		JCheckboxRemeber = new JCheckBox("Remember?");
+		JCheckboxRemeber.setBounds(139, 98, 97, 23);
+		JCheckboxRemeber.setName("JCheckboxRemeber");
+		JPanel.add(JCheckboxRemeber);
+		username = readRememberUsername();
+		if(username != null) {
+			JTextFieldUsername.setText(username);
+			JCheckboxRemeber.setSelected(true);
+		}
+		
 	}
 
 	protected void do_JButtonLogin_actionPerformed(ActionEvent e) {
 		try {
 			StaffsDAO staffsDAO = new StaffsDAO();
-			String username = JTextFieldUsername.getText();
+			username = JTextFieldUsername.getText();
 			String password = new String(JPasswordFieldPassword.getPassword());
 			if (username.equals("") || password.equals("")) {
 				JOptionPane.showMessageDialog(null, "Account or password can't be blank!");
@@ -154,8 +175,28 @@ public class JFrameLogin extends JFrame {
 				jFrameMain.setVisible(true);
 				setVisible(false);
 			}
+			if (JCheckboxRemeber.isSelected()) {
+				writeRemeberUsername(username);
+			} else {
+				writeRemeberUsername("");
+			}
 		} catch (Exception e2) {
 			System.out.println(e2.getMessage());
+		}
+	}
+
+	private void writeRemeberUsername(String username) {
+		try (PrintWriter writer = new PrintWriter("rmb.rmbusn", "UTF-8")) {
+			writer.write(username);
+		} catch (Exception e) {
+		}
+	}
+
+	private String readRememberUsername() {
+		try (BufferedReader br = new BufferedReader(new FileReader("rmb.rmbusn"))) {
+			return br.readLine();
+		} catch (Exception e) {
+			return null;
 		}
 	}
 
@@ -168,5 +209,4 @@ public class JFrameLogin extends JFrame {
 	protected void do_JButtonCancel_actionPerformed(ActionEvent e) {
 		this.dispose();
 	}
-
 }

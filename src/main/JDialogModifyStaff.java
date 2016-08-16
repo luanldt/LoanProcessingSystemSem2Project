@@ -1,33 +1,37 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Set;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import dao.DepartmentDAO;
 import dao.StaffsDAO;
 import entities.Department;
 import entities.Staffs;
 import helper.EncryptPasswordWithPBKDF2WithHmacSHA1;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class JDialogModifyStaff extends JDialog {
@@ -254,8 +258,8 @@ public class JDialogModifyStaff extends JDialog {
 		setModal(true);
 	}
 
+	//TODO: lam tiep pham kiem tra username (luan dep trai)
 	private void modifyStaff() {
-
 		try {
 			if (staffs == null) {
 				staffs = new Staffs();
@@ -263,22 +267,39 @@ public class JDialogModifyStaff extends JDialog {
 			staffs.setStaffName(JTextFieldStaffName.getText());
 			staffs.setDepartment(new DepartmentDAO().findByName(JComboboxDepartmentName.getSelectedItem().toString()));
 			staffs.setIsAdmin(JCheckboxIsAdmin.isSelected());
-			staffs.setPassword(EncryptPasswordWithPBKDF2WithHmacSHA1
-					.generateStorngPasswordHash(String.valueOf(JPasswordFieldPassword.getPassword())));
-			if (isUpdate) {
-				new StaffsDAO().update(staffs);
-			} else {
-				if (String.valueOf(JPasswordFieldRepassword.getPassword())
-						.equals(String.valueOf(JPasswordFieldPassword.getPassword()))) {
-					staffs.setUsername(JTextFieldUsername.getText());
-					new StaffsDAO().create(staffs);
-				} else {
-					JOptionPane.showMessageDialog(null, "Password do not analogous, please re-enter!");
+			staffs.setUsername(JTextFieldUsername.getText());
+			// Kiem tra mat khau va mat khau nhap lai
+			if (String.valueOf(JPasswordFieldRepassword.getPassword())
+					.equals(String.valueOf(JPasswordFieldPassword.getPassword()))) {
+				if (JPasswordFieldPassword.getPassword().length > 0) {
+					staffs.setPassword(EncryptPasswordWithPBKDF2WithHmacSHA1
+							.generateStorngPasswordHash(String.valueOf(JPasswordFieldPassword.getPassword())));
 				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Password do not analogous!");
+				return;
 			}
-			JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " staff success!", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-			this.dispose();
+			// End kiem tra mat khau va mat khau nhap lai
+			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+			Validator validator = validatorFactory.getValidator();
+			Set<ConstraintViolation<Staffs>> constraintViolations = validator.validate(staffs);
+			if (!constraintViolations.isEmpty()) {
+				String error = "";
+				for (ConstraintViolation<Staffs> violation : constraintViolations) {
+					error += violation.getMessage() + "\n";
+				}
+				JOptionPane.showMessageDialog(null, error);
+			} else {
+				if (isUpdate) {
+					new StaffsDAO().update(staffs);
+				} else {
+					new StaffsDAO().create(staffs);
+				}
+				JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " staff success!", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
+				this.dispose();
+			}
+
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null,
 					"Can't " + (isUpdate ? "Update" : "Add") + " new staff!" + ex.getMessage(), "Error",

@@ -46,8 +46,6 @@ import model.MakeIcon;
 import model.MenuTreeCellRenderer;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 public class JFrameMain extends JFrame {
 

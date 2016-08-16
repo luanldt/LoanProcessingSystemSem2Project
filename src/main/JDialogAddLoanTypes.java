@@ -206,6 +206,7 @@ public class JDialogAddLoanTypes extends JDialog {
 			} else {
 				new LoanTypesDAO().create(loanTypes);
 			}
+			
 			JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " loan type success!", "Success",
 					JOptionPane.INFORMATION_MESSAGE);
 			this.dispose();
