@@ -23,6 +23,7 @@ public abstract class AbstractModel<T> {
 				sessionFactory.getCurrentSession().getTransaction().begin();
 			return sessionFactory.getCurrentSession().createQuery("from " + entityClass.getName()).list();
 		} catch (RuntimeException re) {
+			System.out.println(re);
 			return null;
 		}
 	}

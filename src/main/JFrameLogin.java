@@ -153,8 +153,7 @@ public class JFrameLogin extends JFrame {
 				setVisible(false);
 			}
 		} catch (Exception e2) {
-			System.out.println("");
-			//e2.printStackTrace();
+			System.out.println(e2.getMessage());
 		}
 	}
 
