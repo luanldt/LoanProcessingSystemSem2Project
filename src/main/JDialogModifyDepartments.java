@@ -156,7 +156,7 @@ public class JDialogModifyDepartments extends JDialog {
 		}
 
 		loadComboBox();
-
+		setModal(true);
 	}
 
 	private void modifyDepartment() {

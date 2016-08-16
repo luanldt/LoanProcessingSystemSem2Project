@@ -182,7 +182,7 @@ public class JDialogAddLoanTypes extends JDialog {
 				buttonPane.add(JButtonCancel);
 			}
 		}
-
+		setModal(true);
 	}
 
 	/**

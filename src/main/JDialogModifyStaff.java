@@ -232,7 +232,7 @@ public class JDialogModifyStaff extends JDialog {
 			}
 		}
 		loadComboBox();
-
+		setModal(true);
 	}
 
 	private void modifyStaff() {

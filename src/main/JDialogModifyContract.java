@@ -513,6 +513,7 @@ public class JDialogModifyContract extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		setModal(true);
 	}
 	public JDialog isUpdate(Contracts contracts) {
 		txtContractId.setText(Integer.toString(contracts.getContractId()));
