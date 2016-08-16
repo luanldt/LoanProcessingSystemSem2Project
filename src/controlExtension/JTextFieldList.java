@@ -35,7 +35,7 @@ public class JTextFieldList extends JTextField{
 		}
 		
 		if(this.getText().length()>0)
-			dialogLookup.refreshData(this.getText());
+			JDialogLookup.refreshData(this.getText());
 		else{
 			dialogLookup.setVisible(false);
 		}

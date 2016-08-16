@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.EventQueue;
-import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -42,6 +41,7 @@ public class JFrameLogin extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 //					 UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
@@ -108,6 +108,7 @@ public class JFrameLogin extends JFrame {
 
 		JButtonLogin = new JButton("Login");
 		JButtonLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				do_JButtonLogin_actionPerformed(e);
 			}
@@ -125,6 +126,7 @@ public class JFrameLogin extends JFrame {
 
 		JButtonCancel = new JButton("Cancel");
 		JButtonCancel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				do_JButtonCancel_actionPerformed(e);
 			}

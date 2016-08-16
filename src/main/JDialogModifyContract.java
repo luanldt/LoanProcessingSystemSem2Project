@@ -12,7 +12,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,31 +21,21 @@ import java.util.Properties;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import entities.Contracts;
-import entities.Customers;
-
 import org.jdatepicker.impl.JDatePanelImpl;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.awt.Component;
-import java.awt.EventQueue;
-
 import controlExtension.JTextFieldList;
-import dao.CustomersDAO;
-import dao.StaffsDAO;
-import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
-
 import javax.swing.JTextArea;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Dialog.ModalityType;
 
 @SuppressWarnings("serial")
 public class JDialogModifyContract extends JDialog {
@@ -362,6 +351,7 @@ public class JDialogModifyContract extends JDialog {
 		this.lblId.setName("lblId");
 		
 		this.txtContractId = new JTextField();
+		txtContractId.setEnabled(false);
 		this.txtContractId.setName("txtContractId");
 		this.txtContractId.setColumns(10);
 		
@@ -499,6 +489,7 @@ public class JDialogModifyContract extends JDialog {
 			{
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						do_okButton_actionPerformed(e);
 					}

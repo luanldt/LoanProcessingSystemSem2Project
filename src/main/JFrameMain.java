@@ -28,24 +28,26 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import dao.StaffsDAO;
-import entities.Contracts;
-import entities.Staffs;
+
 import dao.ContractsDAO;
+import dao.CustomersDAO;
 import dao.DepartmentDAO;
 import dao.LoanTypesDAO;
+import dao.PaymentDAO;
 import dao.StaffsDAO;
+import entities.Staffs;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -72,6 +74,8 @@ public class JFrameMain extends JFrame {
 	JPanelStaff jPanelStaff;
 	JPanelDepartment jPanelDepartment;
 	JPanelContract jPanelContract;
+	JPanelCustomer jPanelCustomers;
+	JPanelPayment jPanelPayment;
 	private JTextField JTextFieldSearch;
 	private JButton JButtonSearch;
 	private JButton JButtonAdd;
@@ -89,6 +93,7 @@ public class JFrameMain extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -130,6 +135,7 @@ public class JFrameMain extends JFrame {
 
 		JButtonLogout = new JButton("Logout");
 		JButtonLogout.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				do_JButtonLogout_actionPerformed(e);
 			}
@@ -149,6 +155,7 @@ public class JFrameMain extends JFrame {
 
 		JButtonSearch = new JButton("Search");
 		JButtonSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				searchData(JTextFieldSearch.getText());
 			}
@@ -160,6 +167,11 @@ public class JFrameMain extends JFrame {
 		JSplitPane.setResizeWeight(0.2);
 
 		JTabbedPaneMain = new JTabbedPaneCloseButton();
+		JTabbedPaneMain.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				do_JTabbedPaneMain_stateChanged(arg0);
+			}
+		});
 		JTabbedPaneMain.addContainerListener(new ContainerAdapter() {
 			@Override
 			public void componentRemoved(ContainerEvent e) {
@@ -168,8 +180,8 @@ public class JFrameMain extends JFrame {
 					jPanelLoanType = null;
 				}
 				/*
-				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve null
-				 * tuc la nhu chua tung load gia tri len
+				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve
+				 * null tuc la nhu chua tung load gia tri len
 				 * 
 				 */
 				if (e.getChild() instanceof JPanelStaff) {
@@ -179,14 +191,27 @@ public class JFrameMain extends JFrame {
 				if (e.getChild() instanceof JPanelDepartment) {
 					jPanelDepartment = null;
 				}
-				
+
 				if (e.getChild() instanceof JPanelContract) {
 					jPanelContract = null;
 				}
-				
+
+				if (e.getChild() instanceof JPanelCustomer) {
+					jPanelCustomers = null;
+				}
+
+				if (e.getChild() instanceof JPanelPayment) {
+					jPanelPayment = null;
+				}
+
 				JFrameMain.currentId = -1;
-				
+
 				name = "";
+
+				if (JTabbedPaneMain.getTabCount() > 0) {
+					JTabbedPaneMain.setSelectedIndex(JTabbedPaneMain.getTabCount() - 1);
+					name = JTabbedPaneMain.getTitleAt(JTabbedPaneMain.getTabCount() - 1);
+				}
 
 				checkEnableButton();
 
@@ -207,7 +232,8 @@ public class JFrameMain extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (JTreeMenu.getPathForLocation(e.getX(), e.getY()) != null) {
-					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY()).getLastPathComponent());
+					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY())
+							.getLastPathComponent());
 				}
 			}
 		});
@@ -223,11 +249,14 @@ public class JFrameMain extends JFrame {
 		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
 				.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
-		gl_JPanelMain.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelMain.createSequentialGroup()
-						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
+		gl_JPanelMain
+				.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelMain.createSequentialGroup()
+								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+								.addGap(19)));
 
 		panel_3 = new JPanel();
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -235,6 +264,7 @@ public class JFrameMain extends JFrame {
 		JButtonAdd = new JButton("Add");
 		panel_3.add(JButtonAdd);
 		JButtonAdd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				processAddUpdate(JFrameMain.ADD);
 			}
@@ -243,6 +273,7 @@ public class JFrameMain extends JFrame {
 		JButtonUpdate = new JButton("Update");
 		panel_3.add(JButtonUpdate);
 		JButtonUpdate.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				processAddUpdate(JFrameMain.UPDATE);
 			}
@@ -252,6 +283,7 @@ public class JFrameMain extends JFrame {
 		JButtonDelete = new JButton("Delete");
 		panel_3.add(JButtonDelete);
 		JButtonDelete.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				processDelete();
 			}
@@ -261,32 +293,37 @@ public class JFrameMain extends JFrame {
 		JButtonRefresh = new JButton("Refresh");
 		panel_3.add(JButtonRefresh);
 		JButtonRefresh.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				processRefresh();
 			}
 		});
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE).addGap(2)
-						.addComponent(JButtonSearch).addGap(8)
-						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE).addGap(12)
-						.addComponent(JButtonLogout)));
 		gl_JPanelTop
-				.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-										.addGroup(Alignment.TRAILING, gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-												.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-												.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap().addComponent(JButtonSearch))
-												.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JTextFieldSearch,
-														GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
-										.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(panel_3,
-												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addContainerGap()));
+				.setHorizontalGroup(
+						gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
+										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(2)
+										.addComponent(JButtonSearch).addGap(8).addComponent(JLabelHello,
+												GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+										.addGap(12).addComponent(JButtonLogout)));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(gl_JPanelTop
+				.createSequentialGroup()
+				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING, gl_JPanelTop
+						.createParallelGroup(Alignment.LEADING)
+						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap().addComponent(JButtonSearch))
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JTextFieldSearch,
+								GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(panel_3,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+				.addContainerGap()));
 		JPanelTop.setLayout(gl_JPanelTop);
 		this.JPanelMain.setLayout(gl_JPanelMain);
 
@@ -302,7 +339,7 @@ public class JFrameMain extends JFrame {
 		this.loadJPanel();
 
 		checkEnableButton();
-		
+
 		setExtendedState(MAXIMIZED_BOTH);
 	}
 
@@ -342,11 +379,11 @@ public class JFrameMain extends JFrame {
 	}
 
 	/*
-	 * ///////////////////////////////////////////////////////////////////////////
-	 * / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI THÊM /
-	 * MỚI VÀO
-	 * ///////////////////////////////////////////////////////////////////////////
-	 * /
+	 * /////////////////////////////////////////////////////////////////////////
+	 * // / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI
+	 * THÊM / MỚI VÀO
+	 * /////////////////////////////////////////////////////////////////////////
+	 * // /
 	 */
 	public void callTable(DefaultMutableTreeNode node) {
 		name = node.getUserObject().toString();
@@ -379,12 +416,28 @@ public class JFrameMain extends JFrame {
 			this.addAndSelect(node, jPanelContract);
 			checkEnableButton();
 			break;
+		case "Customers":
+			if (jPanelCustomers == null) {
+				jPanelCustomers = new JPanelCustomer();
+			}
+			this.addAndSelect(node, jPanelCustomers);
+			checkEnableButton();
+			break;
+		case "Payments":
+			if (jPanelPayment == null) {
+				jPanelPayment = new JPanelPayment();
+			}
+			this.addAndSelect(node, jPanelPayment);
+			checkEnableButton();
+			break;
 		}
+
 	}
 	/*
-	 * ///////////////////////////////////////////////////////////////////////////
-	 * / // END GỌI CÁC JPANEL ADD VÀO MAIN
-	 * ///////////////////////////////////////////////////////////////////////////
+	 * /////////////////////////////////////////////////////////////////////////
+	 * // / // END GỌI CÁC JPANEL ADD VÀO MAIN
+	 * /////////////////////////////////////////////////////////////////////////
+	 * //
 	 */
 
 	// TẠO MỚI TẤT CẢ CÁC JPANEL SẴN NHƯNG KHÔNG ADD VÀO
@@ -393,6 +446,8 @@ public class JFrameMain extends JFrame {
 		jPanelStaff = new JPanelStaff();
 		jPanelDepartment = new JPanelDepartment();
 		jPanelContract = new JPanelContract();
+		jPanelCustomers = new JPanelCustomer();
+		jPanelPayment = new JPanelPayment();
 	}
 
 	// ADD VÀ HIGHTLIGHT(SELECTED TAB)
@@ -408,7 +463,8 @@ public class JFrameMain extends JFrame {
 	/* THẬT RA LÀ NGẠI CODE TRONG CLASS DÀI QUÁ MỚI TÁCH RA THÔI (:v) */
 	/* CODE ADD UPDATE VÀ CÁC LỰA CHỌN ADD UPDATE */
 	private void processAddUpdate(int order) {
-		// Nhờ vào tên của các jpanel nên có thể dễ dàng gọi các jdialog add ra dễ
+		// Nhờ vào tên của các jpanel nên có thể dễ dàng gọi các jdialog add ra
+		// dễ
 		// dàng.
 		switch (name) {
 		case "Loan Types":
@@ -446,33 +502,69 @@ public class JFrameMain extends JFrame {
 
 	/* START CODE DELETE */
 	private void processDelete() {
-		switch (name) {
-		case "Loan Types":
-			try {
-				new LoanTypesDAO().delete(new LoanTypesDAO().find(currentId));
-				JOptionPane.showMessageDialog(null, "Delete loan types success!", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Delete loan types error!", "Error", JOptionPane.ERROR_MESSAGE);
+		if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+			switch (name) {
+			case "Loan Types":
+				try {
+					new LoanTypesDAO().delete(new LoanTypesDAO().find(currentId));
+					JOptionPane.showMessageDialog(null, "Delete loan types success!", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Delete loan types error!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				break;
+			case "Staffs":
+				try {
+					new StaffsDAO().delete(new StaffsDAO().find(currentId));
+					JOptionPane.showMessageDialog(null, "Delete staff success!", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Delete staff error!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				break;
+			case "Departments":
+				try {
+					new DepartmentDAO().delete(new DepartmentDAO().find(currentId));
+					JOptionPane.showMessageDialog(null, "Delete departments success!", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Delete departments error!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				break;
+			case "Customers":
+				try {
+					new CustomersDAO().delete(new CustomersDAO().find(currentId));
+					JOptionPane.showMessageDialog(null, "Delete customer success!", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Delete customer error!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				break;
+
+			case "Contracts":
+				try {
+					new ContractsDAO().delete(new ContractsDAO().find(currentId));
+					JOptionPane.showMessageDialog(null, "Delete contract success!", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Delete contract error!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				break;
+			case "Payments":
+				try {
+					new PaymentDAO().delete(new PaymentDAO().find(currentId));
+					JOptionPane.showMessageDialog(null, "Delete customer success!", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Delete customer error!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				break;
 			}
-			break;
-		case "Staffs":
-			try {
-				new StaffsDAO().delete(new StaffsDAO().find(currentId));
-				JOptionPane.showMessageDialog(null, "Delete staff success!", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Delete staff error!", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			break;
-		case "Departments":
-			try {
-				new DepartmentDAO().delete(new DepartmentDAO().find(currentId));
-				JOptionPane.showMessageDialog(null, "Delete departments success!", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Delete departments error!", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			break;
+			processRefresh();
 		}
-		processRefresh();
+
 	}
 	/* END CODE DELETE */
 
@@ -514,6 +606,12 @@ public class JFrameMain extends JFrame {
 		case "Contracts":
 			jPanelContract.filter(sValue);
 			break;
+		case "Customers":
+			jPanelCustomers.filter(sValue);
+			break;
+		case "Payments":
+			jPanelPayment.filter(sValue);
+			break;
 		}
 	}
 	/* END CODE SEARCH DATA */
@@ -533,11 +631,17 @@ public class JFrameMain extends JFrame {
 		case "Contracts":
 			jPanelContract.loadTable();
 			break;
+		case "Customers":
+			jPanelCustomers.loadTable();
+			break;
+		case "Payments":
+			jPanelPayment.loadTable();
+			break;
 		}
 	}
 	/* END CODE REFRESH */
 
-	/*Viết phần quyền vô hàm này, tạo if else hay switch case gì đó*/
+	/* Viết phần quyền vô hàm này, tạo if else hay switch case gì đó */
 	public void assignMenu(String username) {
 		StaffsDAO staffsDAO = new StaffsDAO();
 		Staffs staffs = staffsDAO.findUsername(username);
@@ -548,5 +652,14 @@ public class JFrameMain extends JFrame {
 		JFrameLogin jFrameLogin = new JFrameLogin();
 		jFrameLogin.setVisible(true);
 		this.dispose();
+	}
+
+	protected void do_JTabbedPaneMain_stateChanged(ChangeEvent arg0) {
+		int tabSelected = JTabbedPaneMain.getSelectedIndex();
+		if (tabSelected != -1) {
+			this.name = JTabbedPaneMain.getTitleAt(tabSelected);
+		}
+		JFrameMain.currentId = -1;
+		checkEnableButton();
 	}
 }

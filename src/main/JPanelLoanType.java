@@ -14,6 +14,7 @@ public class JPanelLoanType extends AbstractJPanel{
 		loadTable();
 	}
 	
+	@Override
 	public void loadTable() {
 		CustomTableModel customTableModel = new CustomTableModel();
 		String []columns = {"ID", "Name", "InterestRate", "LoanBase", "LoanRate"};

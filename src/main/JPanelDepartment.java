@@ -13,6 +13,7 @@ public class JPanelDepartment extends AbstractJPanel {
 		loadTable();
 	}
 
+	@Override
 	public void loadTable() {
 		CustomTableModel customTableModel = new CustomTableModel();
 		String[] columns = { "Department Id", "Department Name", "Loan Type Name" };

@@ -15,6 +15,7 @@ public class JPanelContract extends AbstractJPanel {
 		super(JPanelContract.class);
 		loadTable();
 	}
+	@Override
 	public void loadTable() {
 		CustomTableModel customTableModel = new CustomTableModel();
 		String []columns = {"ID", "Contract Date", "Customer Name", "Staff Name", "Loan Type", "Maturity Period", "Paid Times", 

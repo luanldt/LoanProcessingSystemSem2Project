@@ -13,6 +13,7 @@ import dao.DepartmentDAO;
 import dao.StaffsDAO;
 import entities.Department;
 import entities.Staffs;
+import helper.EncryptPasswordWithPBKDF2WithHmacSHA1;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -148,19 +149,20 @@ public class JDialogModifyStaff extends JDialog {
 								.addComponent(lblStaffname, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblRepassword, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblRepassword, GroupLayout.PREFERRED_SIZE,
+										123, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblDepartmentname)
 								.addComponent(lblIsadmin, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
 						.addGap(5)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(JComboboxDepartmentName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
-										GroupLayout.PREFERRED_SIZE)
+								.addComponent(JComboboxDepartmentName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
+										219, GroupLayout.PREFERRED_SIZE)
 								.addComponent(JCheckboxIsAdmin, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
 										GroupLayout.PREFERRED_SIZE)
-								.addComponent(JPasswordFieldRepassword, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(JPasswordFieldPassword, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
-										GroupLayout.PREFERRED_SIZE)
+								.addComponent(JPasswordFieldRepassword, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
+										219, GroupLayout.PREFERRED_SIZE)
+								.addComponent(JPasswordFieldPassword, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
+										219, GroupLayout.PREFERRED_SIZE)
 								.addComponent(JTextFieldUsername, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
 										GroupLayout.PREFERRED_SIZE)
 								.addComponent(JTextFieldStaffName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
@@ -168,36 +170,51 @@ public class JDialogModifyStaff extends JDialog {
 								.addComponent(JTextFieldStaffID, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
 										GroupLayout.PREFERRED_SIZE))
 						.addGap(29)));
-		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(15, Short.MAX_VALUE)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblStaffid, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-								.addComponent(JTextFieldStaffID, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblStaffname, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JTextFieldStaffName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JTextFieldUsername, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JPasswordFieldPassword, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblRepassword, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JPasswordFieldRepassword, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblDepartmentname, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-								.addComponent(JComboboxDepartmentName, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblIsadmin, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JCheckboxIsAdmin, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGap(10)));
+		gl_contentPanel
+				.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(15, Short.MAX_VALUE)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblStaffid, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JTextFieldStaffID, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(18)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblStaffname, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JTextFieldStaffName, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(18)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JTextFieldUsername, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(18)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JPasswordFieldPassword, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(18)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblRepassword, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JPasswordFieldRepassword, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(18)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblDepartmentname, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JComboboxDepartmentName, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(18)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblIsadmin, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JCheckboxIsAdmin, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(10)));
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -208,6 +225,7 @@ public class JDialogModifyStaff extends JDialog {
 				JButtonSave.setForeground(new Color(0, 0, 128));
 				JButtonSave.setFont(new Font("Algerian", Font.BOLD, 15));
 				JButtonSave.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						do_JButtonSave_actionPerformed(arg0);
 					}
@@ -222,6 +240,7 @@ public class JDialogModifyStaff extends JDialog {
 				JButtonCancel.setForeground(new Color(0, 0, 128));
 				JButtonCancel.setFont(new Font("Algerian", Font.BOLD, 15));
 				JButtonCancel.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						do_JButtonCancel_actionPerformed(e);
 					}
@@ -244,8 +263,8 @@ public class JDialogModifyStaff extends JDialog {
 			staffs.setStaffName(JTextFieldStaffName.getText());
 			staffs.setDepartment(new DepartmentDAO().findByName(JComboboxDepartmentName.getSelectedItem().toString()));
 			staffs.setIsAdmin(JCheckboxIsAdmin.isSelected());
-			staffs.setPassword(String.valueOf(JPasswordFieldPassword.getPassword()));
-
+			staffs.setPassword(EncryptPasswordWithPBKDF2WithHmacSHA1
+					.generateStorngPasswordHash(String.valueOf(JPasswordFieldPassword.getPassword())));
 			if (isUpdate) {
 				new StaffsDAO().update(staffs);
 			} else {
@@ -261,8 +280,9 @@ public class JDialogModifyStaff extends JDialog {
 					JOptionPane.INFORMATION_MESSAGE);
 			this.dispose();
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Can't " + (isUpdate ? "Update" : "Add") + " new staff!" + ex.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Can't " + (isUpdate ? "Update" : "Add") + " new staff!" + ex.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

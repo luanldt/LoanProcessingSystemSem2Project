@@ -41,15 +41,16 @@ public class JDialogLookup extends JDialog {
 		this.scrollPane.setName("scrollPane");
 		getContentPane().add(this.scrollPane, BorderLayout.CENTER);
 
-		this.table = new JTable();
-		this.table.setName("table");
-		this.table.setRowSelectionAllowed(true);
-		this.table.addKeyListener(new KeyAdapter() {
+		JDialogLookup.table = new JTable();
+		JDialogLookup.table.setName("table");
+		JDialogLookup.table.setRowSelectionAllowed(true);
+		JDialogLookup.table.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyPressed(KeyEvent arg0) {
 				do_thisTable_keyPressed(arg0, jTextFieldList);
 			}
 		});
-		this.scrollPane.setViewportView(this.table);
+		this.scrollPane.setViewportView(JDialogLookup.table);
 		loadData(keyLookUp);
 		this.setAlwaysOnTop(true);
 	}
@@ -110,7 +111,7 @@ public class JDialogLookup extends JDialog {
 			this.transferFocus();
 			jTextFieldList.requestFocus();
 		} else if (arg0.getKeyCode() == KeyEvent.VK_ENTER || arg0.getKeyCode() == KeyEvent.VK_TAB) {
-			jTextFieldList.setText(this.table.getValueAt(this.table.getSelectedRow(), 0).toString());
+			jTextFieldList.setText(JDialogLookup.table.getValueAt(JDialogLookup.table.getSelectedRow(), 0).toString());
 			// this.transferFocus();
 			// jTextFieldList.transferFocus();
 			this.setVisible(false);

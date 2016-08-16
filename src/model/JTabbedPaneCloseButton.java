@@ -12,8 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import main.JFrameMain;
-
 public class JTabbedPaneCloseButton extends JTabbedPane {
 
 	/**

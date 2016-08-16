@@ -129,6 +129,7 @@ public class JDialogModifyDepartments extends JDialog {
 			{
 				JButton JButtonSave = new JButton("Save");
 				JButtonSave.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						do_JButtonSave_actionPerformed(e);
 					}
@@ -143,6 +144,7 @@ public class JDialogModifyDepartments extends JDialog {
 			{
 				JButton JButtonCancel = new JButton("Cancel");
 				JButtonCancel.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						do_JButtonCancel_actionPerformed(e);
 					}

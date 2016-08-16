@@ -161,6 +161,7 @@ public class JDialogAddLoanTypes extends JDialog {
 				JButtonSave.setForeground(new Color(0, 0, 128));
 				JButtonSave.setFont(new Font("Algerian", Font.BOLD, 15));
 				JButtonSave.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						addUpdateLoanType();
 					}
@@ -174,6 +175,7 @@ public class JDialogAddLoanTypes extends JDialog {
 				JButtonCancel.setForeground(new Color(0, 0, 128));
 				JButtonCancel.setFont(new Font("Algerian", Font.BOLD, 15));
 				JButtonCancel.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
