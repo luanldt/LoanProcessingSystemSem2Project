@@ -75,7 +75,7 @@ public class JTabbedPaneCloseButton extends JTabbedPane {
 			add(jLabel);
 			JButton button = new JButton(MakeIcon.getIcon("close", 12));
 			button.setOpaque(false);
-			button.setMargin(new Insets(-5, -13, -5, -13));
+			button.setMargin(new Insets(-7, -7, -7, -7));
 			button.addMouseListener(new CloseListener(tab));
 			add(button);
 		}

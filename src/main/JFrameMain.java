@@ -295,6 +295,8 @@ public class JFrameMain extends JFrame {
 		this.loadJPanel();
 
 		checkEnableButton();
+		
+		setExtendedState(MAXIMIZED_BOTH);
 	}
 
 	public void loadMenu() {
