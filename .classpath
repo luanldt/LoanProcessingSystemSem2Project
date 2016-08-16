@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="hibernate/slf4j-api-1.7.21.jar"/>
 	<classpathentry kind="lib" path="hibernate/sqljdbc.jar"/>
 	<classpathentry kind="lib" path="theme/syntheticaPlain.jar"/>
+	<classpathentry kind="lib" path="ExtendedLibraries/jdatepicker-1.3.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

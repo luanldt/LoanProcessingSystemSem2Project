@@ -35,7 +35,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import dao.StaffsDAO;
+import entities.Contracts;
 import entities.Staffs;
+import dao.ContractsDAO;
 import dao.DepartmentDAO;
 import dao.LoanTypesDAO;
 import dao.StaffsDAO;
@@ -69,6 +71,7 @@ public class JFrameMain extends JFrame {
 	JPanelLoanType jPanelLoanType;
 	JPanelStaff jPanelStaff;
 	JPanelDepartment jPanelDepartment;
+	JPanelContract jPanelContract;
 	private JTextField JTextFieldSearch;
 	private JButton JButtonSearch;
 	private JButton JButtonAdd;
@@ -175,6 +178,10 @@ public class JFrameMain extends JFrame {
 
 				if (e.getChild() instanceof JPanelDepartment) {
 					jPanelDepartment = null;
+				}
+				
+				if (e.getChild() instanceof JPanelContract) {
+					jPanelContract = null;
 				}
 				
 				JFrameMain.currentId = -1;
@@ -363,6 +370,13 @@ public class JFrameMain extends JFrame {
 			this.addAndSelect(node, jPanelDepartment);
 			checkEnableButton();
 			break;
+		case "Contracts":
+			if (jPanelContract == null) {
+				jPanelContract = new JPanelContract();
+			}
+			this.addAndSelect(node, jPanelContract);
+			checkEnableButton();
+			break;
 		}
 	}
 	/*
@@ -376,6 +390,7 @@ public class JFrameMain extends JFrame {
 		jPanelLoanType = new JPanelLoanType();
 		jPanelStaff = new JPanelStaff();
 		jPanelDepartment = new JPanelDepartment();
+		jPanelContract = new JPanelContract();
 	}
 
 	// ADD VÀ HIGHTLIGHT(SELECTED TAB)
@@ -413,6 +428,13 @@ public class JFrameMain extends JFrame {
 				new JDialogModifyDepartments().setVisible(true);
 			} else {
 				new JDialogModifyDepartments().isUpdate(new DepartmentDAO().find(currentId)).setVisible(true);
+			}
+			break;
+		case "Contracts":
+			if (order == JFrameMain.ADD) {
+				new JDialogModifyContract().setVisible(true);
+			} else {
+				new JDialogModifyContract().isUpdate(new ContractsDAO().find(currentId)).setVisible(true);
 			}
 			break;
 		}
@@ -487,6 +509,9 @@ public class JFrameMain extends JFrame {
 		case "Departments":
 			jPanelDepartment.filter(sValue);
 			break;
+		case "Contracts":
+			jPanelContract.filter(sValue);
+			break;
 		}
 	}
 	/* END CODE SEARCH DATA */
@@ -502,6 +527,9 @@ public class JFrameMain extends JFrame {
 			break;
 		case "Departments":
 			jPanelDepartment.loadTable();
+			break;
+		case "Contracts":
+			jPanelContract.loadTable();
 			break;
 		}
 	}

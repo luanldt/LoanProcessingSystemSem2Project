@@ -44,7 +44,7 @@ public class JFrameLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					 UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
+//					 UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
 					JFrameLogin jFrameLogin = new JFrameLogin();
 					jFrameLogin.setVisible(true);
 				} catch (Exception e) {
@@ -153,7 +153,8 @@ public class JFrameLogin extends JFrame {
 				setVisible(false);
 			}
 		} catch (Exception e2) {
-			e2.printStackTrace();
+			System.out.println("");
+			//e2.printStackTrace();
 		}
 	}
 

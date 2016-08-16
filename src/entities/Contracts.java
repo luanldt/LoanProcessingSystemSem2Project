@@ -36,10 +36,11 @@ public class Contracts implements java.io.Serializable {
 	private int loanTerm;
 	private BigDecimal initialAmount;
 	private BigDecimal remainAmount;
-	private String dueDate;
-	private String initiateDate;
+	private Date dueDate;
+	private Date initiateDate;
 	private BigDecimal loanMax;
 	private String createLog;
+	private String notes;
 	private boolean isArchive;
 	private Set<Payment> payments = new HashSet<Payment>(0);
 
@@ -48,7 +49,7 @@ public class Contracts implements java.io.Serializable {
 
 	public Contracts(int contractId, Customers customers, LoanTypes loanTypes, Staffs staffs, Date contractDate,
 			int maturityPeriod, int paidTimes, int loanTerm, BigDecimal initialAmount, BigDecimal remainAmount,
-			String dueDate, String initiateDate, String createLog, boolean isArchive) {
+			Date dueDate, Date initiateDate, String createLog, String notes, boolean isArchive) {
 		this.contractId = contractId;
 		this.customers = customers;
 		this.loanTypes = loanTypes;
@@ -62,12 +63,13 @@ public class Contracts implements java.io.Serializable {
 		this.dueDate = dueDate;
 		this.initiateDate = initiateDate;
 		this.createLog = createLog;
+		this.notes = notes;
 		this.isArchive = isArchive;
 	}
 
 	public Contracts(int contractId, Customers customers, LoanTypes loanTypes, Staffs staffs, Date contractDate,
 			int maturityPeriod, int paidTimes, int loanTerm, BigDecimal initialAmount, BigDecimal remainAmount,
-			String dueDate, String initiateDate, BigDecimal loanMax, String createLog, boolean isArchive,
+			Date dueDate, Date initiateDate, BigDecimal loanMax, String createLog, String notes, boolean isArchive,
 			Set<Payment> payments) {
 		this.contractId = contractId;
 		this.customers = customers;
@@ -83,6 +85,7 @@ public class Contracts implements java.io.Serializable {
 		this.initiateDate = initiateDate;
 		this.loanMax = loanMax;
 		this.createLog = createLog;
+		this.notes = notes;
 		this.isArchive = isArchive;
 		this.payments = payments;
 	}
@@ -183,21 +186,19 @@ public class Contracts implements java.io.Serializable {
 		this.remainAmount = remainAmount;
 	}
 
-	@Column(name = "dueDate", nullable = false, length = 10)
-	public String getDueDate() {
+	public Date getDueDate() {
 		return this.dueDate;
 	}
 
-	public void setDueDate(String dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 
-	@Column(name = "initiateDate", nullable = false, length = 10)
-	public String getInitiateDate() {
+	public Date getInitiateDate() {
 		return this.initiateDate;
 	}
 
-	public void setInitiateDate(String initiateDate) {
+	public void setInitiateDate(Date initiateDate) {
 		this.initiateDate = initiateDate;
 	}
 
@@ -219,6 +220,14 @@ public class Contracts implements java.io.Serializable {
 		this.createLog = createLog;
 	}
 
+	public String getNotes() {
+		return this.notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	
 	@Column(name = "isArchive", nullable = false)
 	public boolean isIsArchive() {
 		return this.isArchive;
