@@ -118,6 +118,7 @@ public class JDialogModifyStaff extends JDialog {
 		lblIsadmin.setName("lblIsadmin");
 
 		JCheckboxIsAdmin = new JCheckBox();
+		this.JCheckboxIsAdmin.setEnabled(false);
 		JCheckboxIsAdmin.setForeground(new Color(139, 0, 0));
 		JCheckboxIsAdmin.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JCheckboxIsAdmin.setName("JCheckboxIsAdmin");
