@@ -12,7 +12,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = UsernameValidator.class)
 @Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Username {
+public @interface UsernameCustom {
 
 	String message() default "Username can not starting with number!";
 

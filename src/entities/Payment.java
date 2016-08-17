@@ -2,6 +2,8 @@ package entities;
 // Generated Aug 11, 2016 1:42:11 PM by Hibernate Tools 5.1.0.Alpha1
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +26,7 @@ public class Payment implements java.io.Serializable {
 	private Contracts contracts;
 	private Staffs staffs;
 	private int paymentType;
-	private String paymentDate;
+	private Date paymentDate;
 	private int duePeriod;
 	private BigDecimal paymentAmount;
 	private long fineRate;
@@ -36,7 +38,7 @@ public class Payment implements java.io.Serializable {
 	public Payment() {
 	}
 
-	public Payment(int paymentId, Contracts contracts, Staffs staffs, int paymentType, String paymentDate,
+	public Payment(int paymentId, Contracts contracts, Staffs staffs, int paymentType, Date paymentDate,
 			int duePeriod, BigDecimal paymentAmount, long fineRate, BigDecimal fineAmount, boolean paid,
 			boolean isArchive, String createLog) {
 		this.paymentId = paymentId;
@@ -94,11 +96,11 @@ public class Payment implements java.io.Serializable {
 	}
 
 	@Column(name = "PaymentDate", nullable = false, length = 10)
-	public String getPaymentDate() {
+	public Date getPaymentDate() {
 		return this.paymentDate;
 	}
 
-	public void setPaymentDate(String paymentDate) {
+	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 

@@ -6,13 +6,13 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class UsernameValidator implements ConstraintValidator<Username, String> {
+class UsernameValidator implements ConstraintValidator<UsernameCustom, String> {
 
 	private String USERNAME_PATTERN = "^\\d+";
 
 	@Override
-	public void initialize(Username arg0) {
-
+	public void initialize(UsernameCustom arg0) {
+		
 	}
 
 	@Override

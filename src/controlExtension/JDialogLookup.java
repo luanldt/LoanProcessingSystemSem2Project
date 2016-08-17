@@ -1,27 +1,29 @@
 package controlExtension;
 
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import dao.ContractsDAO;
 import dao.CustomersDAO;
 import dao.LoanTypesDAO;
 import dao.StaffsDAO;
+import entities.Contracts;
 import entities.Customers;
 import entities.LoanTypes;
 import entities.Staffs;
 import model.CustomTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
 
 @SuppressWarnings("serial")
 public class JDialogLookup extends JDialog {
@@ -116,8 +118,21 @@ public class JDialogLookup extends JDialog {
 			customTableModel.addColumn(columns);
 
 			for (Staffs staffs : new StaffsDAO().findAll()) {
-				customTableModel.addRow(new Object[] { staffs.getStaffId(), staffs.getStaffName(),
-						staffs.getDepartment().getDepartmentName() });
+				customTableModel.addRow(
+						new Object[] { staffs.getStaffId(), staffs.getStaffName(), staffs.getDepartment().getDepartmentName() });
+			}
+		}
+			break;
+		case "contract": {
+			String[] columns = { "ContractID", "ContractDate", "CustomerID", "StaffID", "LoanTypeID", "PaidTime", "DueDate",
+					"LoanMax" };
+			customTableModel.addColumn(columns);
+
+			for (Contracts contracts : new ContractsDAO().findAll()) {
+				customTableModel.addRow(new Object[] { contracts.getContractId(), contracts.getContractDate(),
+						contracts.getCustomers().getCustomerId(), contracts.getStaffs().getStaffId(),
+						contracts.getLoanTypes().getLoanTypeId(), contracts.getPaidTimes(), contracts.getDueDate(),
+						contracts.getLoanMax() });
 			}
 		}
 			break;
@@ -140,24 +155,30 @@ public class JDialogLookup extends JDialog {
 			switch (jTextFieldList.getName()) {
 			case "txtCustomerId":
 				CustomersDAO customersDAO = new CustomersDAO();
-				((JLabel) getComponentByName("lblCustomerName")).setText(
-						String.valueOf(customersDAO.getCustomerNameByID(Integer.parseInt(value))));
+				((JLabel) getComponentByName("lblCustomerName"))
+						.setText(String.valueOf(customersDAO.getCustomerNameByID(Integer.parseInt(value))));
 				System.out.println(customersDAO.getCustomerNameByID(Integer.parseInt(value)));
 				break;
 			case "txtStaffId":
 				StaffsDAO staffsDAO = new StaffsDAO();
-				((JLabel) getComponentByName("lblStaffName")).setText(
-						String.valueOf(staffsDAO.getStaffNameByID(Integer.parseInt(value))));
+				((JLabel) getComponentByName("lblStaffName"))
+						.setText(String.valueOf(staffsDAO.getStaffNameByID(Integer.parseInt(value))));
 				System.out.println(staffsDAO.getStaffNameByID(Integer.parseInt(value)));
 				break;
 			case "txtTypeId":
 				LoanTypesDAO loanTypesDAO = new LoanTypesDAO();
-				((JLabel) getComponentByName("lblLoanType")).setText(
-						String.valueOf(loanTypesDAO.getLoanTypeNameByID(Integer.parseInt(value))));
+				((JLabel) getComponentByName("lblLoanType"))
+						.setText(String.valueOf(loanTypesDAO.getLoanTypeNameByID(Integer.parseInt(value))));
 				System.out.println(loanTypesDAO.getLoanTypeNameByID(Integer.parseInt(value)));
 				break;
+			case "txtContractId":
+				ContractsDAO contractsDAO = new ContractsDAO();
+				((JLabel) getComponentByName("lblContractId"))
+						.setText(String.valueOf(contractsDAO.find(Integer.parseInt(value)).getContractId()));
+				System.out.println(contractsDAO.find(Integer.parseInt(value)).getContractId());
+				break;
 			}
-			
+
 			this.transferFocus();
 			jTextFieldList.transferFocus();
 			this.setVisible(false);

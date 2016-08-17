@@ -91,7 +91,7 @@ public class JDialogModifyContract extends JDialog {
 	private JTextArea txaNotes;
 	private JLabel lblNotes;
 	private boolean isUpdate = false;
-	Contracts contracts;
+	private Contracts contracts;
 	/**
 	 * Launch the application.
 	 */
@@ -524,6 +524,7 @@ public class JDialogModifyContract extends JDialog {
 				buttonPane.add(btnCancel);
 			}
 		}
+		setModal(true);
 	}
 	public JDialog isUpdate(Contracts contracts) {
 		isUpdate = true;
@@ -588,13 +589,13 @@ public class JDialogModifyContract extends JDialog {
 		
 	}
 	protected void do_okButton_actionPerformed(ActionEvent e) {
-		if (contracts == null) {
+		if(contracts == null) {
 			contracts = new Contracts();
 		}
 		contracts.setContractDate((Date)dpkContract.getModel().getValue());
-		contracts.setCustomers(new CustomersDAO().find(txtCustomerId));
-		contracts.setStaffs(new StaffsDAO().find(txtStaffId));
-		contracts.setLoanTypes(new LoanTypesDAO().find(txtTypeId));
+		contracts.setCustomers(new CustomersDAO().find(Integer.parseInt(txtCustomerId.getText())));
+		contracts.setStaffs(new StaffsDAO().find(Integer.parseInt(txtStaffId.getText())));
+		contracts.setLoanTypes(new LoanTypesDAO().find(Integer.parseInt(txtTypeId.getText())));
 		contracts.setInitiateDate((Date)dpkInitiate.getModel().getValue());
 		contracts.setMaturityPeriod(Integer.parseInt(txtMaturityPeriod.getText()));
 		contracts.setLoanTerm(Integer.parseInt(txtLoanTerm.getText()));

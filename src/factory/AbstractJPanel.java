@@ -18,19 +18,20 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableRowSorter;
-
+import javax.swing.table.JTableHeader;
 import main.JFrameMain;
 import model.CustomTableModel;
 
 /**
  * Đây là class dùng để kế thừa để tạo nên 1 jpanel có table và các sự kiện của
  * table chỉ cần gọi và sử dụng các table giống nhau nhưng sẽ có các model khác
- * nhau và tên khác nhau cần truyền vào tên của panel để nhận biết
- * CLASS NÀY ĐÃ ĐẦY ĐỦ VÀ KHÔNG CHỈNH SỬA NỮA TRỪ KHI CÓ YỀU CẦU
+ * nhau và tên khác nhau cần truyền vào tên của panel để nhận biết CLASS NÀY ĐÃ
+ * ĐẦY ĐỦ VÀ KHÔNG CHỈNH SỬA NỮA TRỪ KHI CÓ YỀU CẦU
+ * 
  * @author LUANDEPTRAI
  *
  */
-public class AbstractJPanel extends JPanel {
+public abstract class AbstractJPanel extends JPanel {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// CLASS NAY DA HOAN THANH VA KHI XU DUNG NEU CO GI THAY DOI HOAC MUON THAY //
@@ -145,9 +146,7 @@ public class AbstractJPanel extends JPanel {
 	/**
 	 * METHOD NÀY PHẢI ĐƯỢC KẾ THỪA ĐỂ VIẾT LẠI<br>
 	 */
-	public void loadTable() {
-
-	}
+	public abstract void loadTable();
 
 	public void filter(String sValue) {
 		if (sValue.isEmpty()) {

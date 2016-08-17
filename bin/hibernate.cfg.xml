@@ -6,9 +6,6 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="hibernate.connection.password">chicken@01</property>
-        <property name="hibernate.connection.url">jdbc:sqlserver://112.78.6.27:1433;databaseName=vzsoft_chicken_team</property>
-        <property name="hibernate.connection.username">vzsoft_chicken_team</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.default_schema">dbo</property>
         <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
