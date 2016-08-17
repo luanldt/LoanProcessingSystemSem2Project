@@ -1,37 +1,38 @@
 package dao;
 
 import org.hibernate.Query;
+
 import entities.Staffs;
+import helper.EncryptPasswordWithPBKDF2WithHmacSHA1;
 
 public class StaffsDAO extends AbstractModel<Staffs> {
 	public StaffsDAO() {
 		super(Staffs.class);
 	}
-	
-	public String getStaffNameByID(int staffId){
+
+	public String getStaffNameByID(int staffId) {
 		try {
 			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
 				sessionFactory.getCurrentSession().getTransaction().begin();
 			return (String) sessionFactory.getCurrentSession()
 					.createQuery("select s.staffName from Staffs s where s.staffId = :staffId")
-					.setInteger("staffId", staffId)
-					.uniqueResult();
+					.setInteger("staffId", staffId).uniqueResult();
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	public Staffs login(String username, String password) {
+	public boolean login(String username, String password) {
 		try {
 			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
 				sessionFactory.getCurrentSession().getTransaction().begin();
 			Query query = sessionFactory.getCurrentSession()
-					.createQuery("select st from Staffs st where st.username = :username and st.password = :password");
+					.createQuery("select st from Staffs st where st.username = :username");
 			query.setString("username", username);
-			query.setString("password", password);
-			return (Staffs) query.uniqueResult();
+			Staffs staff = (Staffs) query.uniqueResult();
+			return EncryptPasswordWithPBKDF2WithHmacSHA1.validatePassword(password, staff.getPassword());
 		} catch (Exception e) {
-			return null;
+			return false;
 		}
 	}
 

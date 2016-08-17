@@ -3,7 +3,6 @@ package main;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -152,11 +151,11 @@ public class JFrameLogin extends JFrame {
 		JCheckboxRemeber.setName("JCheckboxRemeber");
 		JPanel.add(JCheckboxRemeber);
 		username = readRememberUsername();
-		if(username != null) {
+		if (username != null) {
 			JTextFieldUsername.setText(username);
 			JCheckboxRemeber.setSelected(true);
 		}
-		
+
 	}
 
 	protected void do_JButtonLogin_actionPerformed(ActionEvent e) {
@@ -166,7 +165,7 @@ public class JFrameLogin extends JFrame {
 			String password = new String(JPasswordFieldPassword.getPassword());
 			if (username.equals("") || password.equals("")) {
 				JOptionPane.showMessageDialog(null, "Account or password can't be blank!");
-			} else if (staffsDAO.login(username, password) == null) {
+			} else if (!staffsDAO.login(username, password)) {
 				JOptionPane.showMessageDialog(null, "Account or password incorrect!");
 			} else {
 				JFrameMain jFrameMain = new JFrameMain();
