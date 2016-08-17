@@ -48,16 +48,16 @@ public class JDialogLookup extends JDialog {
 		this.scrollPane.setName("scrollPane");
 		getContentPane().add(this.scrollPane, BorderLayout.CENTER);
 
-		JDialogLookup.table = new JTable();
-		JDialogLookup.table.setName("table");
-		JDialogLookup.table.setRowSelectionAllowed(true);
-		JDialogLookup.table.addKeyListener(new KeyAdapter() {
+		this.table = new JTable();
+		this.table.setName("table");
+		this.table.setRowSelectionAllowed(true);
+		this.table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				do_thisTable_keyPressed(arg0, jTextFieldList);
 			}
 		});
-		this.scrollPane.setViewportView(JDialogLookup.table);
+		this.scrollPane.setViewportView(this.table);
 		createComponentMap(jTextFieldList.getParent());
 		loadData(keyLookUp);
 		this.setAlwaysOnTop(true);
@@ -128,13 +128,12 @@ public class JDialogLookup extends JDialog {
 		tableModel = customTableModel;
 	}
 
-	@SuppressWarnings("static-access")
 	protected void do_thisTable_keyPressed(KeyEvent arg0, JTextFieldList jTextFieldList) {
 		if (arg0.getKeyCode() != KeyEvent.VK_DOWN && arg0.getKeyCode() != KeyEvent.VK_UP
-				&& arg0.getKeyCode() != KeyEvent.VK_ENTER && arg0.getKeyCode() != KeyEvent.VK_TAB) {
+				&& arg0.getKeyCode() != KeyEvent.VK_TAB) {
 			this.transferFocus();
 			jTextFieldList.requestFocus();
-		} else if (arg0.getKeyCode() == KeyEvent.VK_ENTER || arg0.getKeyCode() == KeyEvent.VK_TAB) {
+		} else if (arg0.getKeyCode() == KeyEvent.VK_TAB) {
 			String value = JDialogLookup.table.getValueAt(JDialogLookup.table.getSelectedRow(), 0).toString();
 			jTextFieldList.setText(value);
 
