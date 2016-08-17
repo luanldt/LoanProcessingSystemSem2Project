@@ -1,13 +1,15 @@
 package helper;
 
 import java.math.BigInteger;
-import java.security.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 public class EncryptPasswordWithPBKDF2WithHmacSHA1 {
-	
+
 	public static String generateStorngPasswordHash(String password)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		int iterations = 1000;
@@ -64,4 +66,13 @@ public class EncryptPasswordWithPBKDF2WithHmacSHA1 {
 		return bytes;
 	}
 
+	public static String encPassword(String decpassword) {
+		String bytesEncoded = java.util.Base64.getEncoder().encodeToString(decpassword.getBytes());
+		return bytesEncoded;
+	}
+
+	public static String decPassword(String encPassword) {
+		byte[] valueDecoded = java.util.Base64.getDecoder().decode(encPassword);
+		return new String(valueDecoded);
+	}
 }
