@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -31,6 +30,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -44,8 +45,6 @@ import entities.Staffs;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class JFrameMain extends JFrame {
 
@@ -113,7 +112,6 @@ public class JFrameMain extends JFrame {
 		setIconImage(MakeIcon.getImage("tittleMain", 64, 64));
 		setTitle("Loan Processing System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		System.out.println(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		mnAbout = new JMenu("About");
@@ -166,6 +164,7 @@ public class JFrameMain extends JFrame {
 
 		JTabbedPaneMain = new JTabbedPaneCloseButton();
 		JTabbedPaneMain.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				do_JTabbedPaneMain_stateChanged(arg0);
 			}
@@ -247,14 +246,11 @@ public class JFrameMain extends JFrame {
 		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
 				.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
-		gl_JPanelMain
-				.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_JPanelMain.createSequentialGroup()
-								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
-								.addGap(19)));
+		gl_JPanelMain.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelMain.createSequentialGroup()
+						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
 
 		panel_3 = new JPanel();
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -297,19 +293,14 @@ public class JFrameMain extends JFrame {
 			}
 		});
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop
-				.setHorizontalGroup(
-						gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
-										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(2)
-										.addComponent(JButtonSearch).addGap(8).addComponent(JLabelHello,
-												GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-										.addGap(12).addComponent(JButtonLogout)));
+		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
+						.addGap(2).addComponent(JButtonSearch).addGap(8)
+						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+						.addGap(12).addComponent(JButtonLogout)));
 		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(gl_JPanelTop
 				.createSequentialGroup()
 				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING, gl_JPanelTop
