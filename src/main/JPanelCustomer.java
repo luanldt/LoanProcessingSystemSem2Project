@@ -22,10 +22,11 @@ public class JPanelCustomer extends AbstractJPanel {
 				"identityCardNo", "notes", "salary" };
 		customTableModel.addColumn(columns);
 
-		for (Customers customers : new CustomersDAO().findAll()) {
+		for (Customers customers : new CustomersDAO().findForUser()) {
 			customTableModel.addRow(new Object[] { customers.getCustomerId(), customers.getCustomerName(),
-					customers.getAddress(), customers.getPhoneNumber(), customers.getEmail(), customers.getAccountNumber(),
-					customers.getIdentityCardNo(), customers.getNotes(), customers.getSalary() });
+					customers.getAddress(), customers.getPhoneNumber(), customers.getEmail(),
+					customers.getAccountNumber(), customers.getIdentityCardNo(), customers.getNotes(),
+					customers.getSalary().stripTrailingZeros().toPlainString() });
 		}
 		setModel(customTableModel);
 	}

@@ -7,9 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import dao.StaffsDAO;
+import helper.EncryptPasswordWithPBKDF2WithHmacSHA1;
 import model.MakeIcon;
 
 /*Hàm login, có kèm sẵn phân quyền, chỉ cần viết thêm nội dung phân quyền vào hàm assignMenu
@@ -147,12 +151,12 @@ public class JFrameLogin extends JFrame {
 		JPanel.add(JButtonCancel);
 
 		JCheckboxRemeber = new JCheckBox("Remember?");
-		JCheckboxRemeber.setBounds(139, 98, 97, 23);
+		JCheckboxRemeber.setBounds(59, 98, 97, 23);
 		JCheckboxRemeber.setName("JCheckboxRemeber");
 		JPanel.add(JCheckboxRemeber);
-		username = readRememberUsername();
-		if (username != null) {
-			JTextFieldUsername.setText(username);
+		if (readRememberUsername() != null) {
+			JTextFieldUsername.setText(readRememberUsername());
+			JPasswordFieldPassword.setText(readRememberPassword());
 			JCheckboxRemeber.setSelected(true);
 		}
 
@@ -175,26 +179,62 @@ public class JFrameLogin extends JFrame {
 				setVisible(false);
 			}
 			if (JCheckboxRemeber.isSelected()) {
-				writeRemeberUsername(username);
+				writeRemeberUsername(username, password);
 			} else {
-				writeRemeberUsername("");
+				writeRemeberUsername("", "");
 			}
 		} catch (Exception e2) {
 			System.out.println(e2.getMessage());
 		}
 	}
 
-	private void writeRemeberUsername(String username) {
-		try (PrintWriter writer = new PrintWriter("rmb.rmbusn", "UTF-8")) {
-			writer.write(username);
-		} catch (Exception e) {
+	private void writeRemeberUsername(String username, String password) {
+		Properties properties = new Properties();
+		File filepath = new File("config/hibernate.properties");
+		try {
+			properties.load(new FileInputStream(filepath));
+			properties.setProperty("username", username);
+			properties.setProperty("password", EncryptPasswordWithPBKDF2WithHmacSHA1.encPassword(password));
+			properties.store(new FileOutputStream(filepath, false),
+					"Hibernate settings for application, do not modify");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	private String readRememberUsername() {
-		try (BufferedReader br = new BufferedReader(new FileReader("rmb.rmbusn"))) {
-			return br.readLine();
-		} catch (Exception e) {
+		Properties properties = new Properties();
+		File filepath = new File("config/hibernate.properties");
+
+		try {
+			properties.load(new FileInputStream(filepath));
+			return properties.getProperty("username");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private String readRememberPassword() {
+		Properties properties = new Properties();
+		File filepath = new File("config/hibernate.properties");
+
+		try {
+			properties.load(new FileInputStream(filepath));
+			return EncryptPasswordWithPBKDF2WithHmacSHA1.decPassword(properties.getProperty("password"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -206,6 +246,6 @@ public class JFrameLogin extends JFrame {
 	}
 
 	protected void do_JButtonCancel_actionPerformed(ActionEvent e) {
-		this.dispose();
+		System.exit(0);
 	}
 }

@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,6 +29,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -84,6 +87,8 @@ public class JFrameMain extends JFrame {
 	public static int currentId = -1;
 	private static final int UPDATE = 1;
 	private static final int ADD = 0;
+	private JLabel currentUser;
+	private JLabel lblUser;
 
 	/**
 	 * Launch the application.
@@ -147,6 +152,7 @@ public class JFrameMain extends JFrame {
 		JLabelHello.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 
 		JTextFieldSearch = new JTextField();
+		JTextFieldSearch.addKeyListener(new JTextFieldSearchKeyListener());
 		JTextFieldSearch.setColumns(10);
 
 		JButtonSearch = new JButton("Search");
@@ -298,27 +304,43 @@ public class JFrameMain extends JFrame {
 						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
-						.addGap(2).addComponent(JButtonSearch).addGap(8)
+						.addGap(2).addComponent(JButtonSearch).addGap(105)
 						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addGap(12).addComponent(JButtonLogout)));
-		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(gl_JPanelTop
-				.createSequentialGroup()
-				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING, gl_JPanelTop
-						.createParallelGroup(Alignment.LEADING)
-						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap().addComponent(JButtonSearch))
-						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(JTextFieldSearch,
-								GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
-						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(1).addComponent(panel_3,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap()));
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(JButtonLogout,
+								GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGap(60)));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(
+				Alignment.TRAILING)
+				.addGroup(gl_JPanelTop.createSequentialGroup().addGroup(gl_JPanelTop
+						.createParallelGroup(Alignment.TRAILING).addGroup(gl_JPanelTop
+								.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
+										.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap()
+										.addComponent(JButtonSearch)))
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addContainerGap())
+				.addGroup(gl_JPanelTop.createSequentialGroup().addComponent(JTextFieldSearch,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addGap(20)));
 		JPanelTop.setLayout(gl_JPanelTop);
 		this.JPanelMain.setLayout(gl_JPanelMain);
 
 		this.JPanelBottom = new JPanel();
 		this.JPanelBottom.setName("JPanelBottom");
 		this.ContentPane.add(this.JPanelBottom, BorderLayout.SOUTH);
+
+		currentUser = new JLabel("Currently logged as:");
+		currentUser.setHorizontalAlignment(SwingConstants.CENTER);
+		currentUser.setName("currentUser");
+		JPanelBottom.add(currentUser);
+
+		lblUser = new JLabel("");
+		lblUser.setName("lblUser");
+		JPanelBottom.add(lblUser);
 
 		pack();
 
@@ -484,6 +506,13 @@ public class JFrameMain extends JFrame {
 				new JDialogModifyContract().isUpdate(new ContractsDAO().find(currentId)).setVisible(true);
 			}
 			break;
+		case "Customers":
+			if (order == JFrameMain.ADD) {
+				new JDialogCustomer().setVisible(true);
+			} else {
+				new JDialogCustomer().isUpdate(new CustomersDAO().find(currentId)).setVisible(true);
+			}
+			break;
 		}
 		processRefresh();
 	}
@@ -634,7 +663,8 @@ public class JFrameMain extends JFrame {
 	public void assignMenu(String username) {
 		StaffsDAO staffsDAO = new StaffsDAO();
 		Staffs staffs = staffsDAO.findUsername(username);
-		JLabelHello.setText("Hello " + staffs.getUsername());
+		JLabelHello.setText("Hello " + staffs.getStaffName());
+		lblUser.setText(staffs.getUsername());
 	}
 
 	protected void do_JButtonLogout_actionPerformed(ActionEvent e) {
@@ -650,5 +680,13 @@ public class JFrameMain extends JFrame {
 		}
 		JFrameMain.currentId = -1;
 		checkEnableButton();
+	}
+
+	// Search at runtime
+	private class JTextFieldSearchKeyListener extends KeyAdapter {
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			searchData(JTextFieldSearch.getText());
+		}
 	}
 }
