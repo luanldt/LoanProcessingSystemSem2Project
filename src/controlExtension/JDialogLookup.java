@@ -1,8 +1,12 @@
 package controlExtension;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.TableModel;
@@ -17,12 +21,15 @@ import entities.Staffs;
 import model.CustomTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
 @SuppressWarnings("serial")
 public class JDialogLookup extends JDialog {
 	private JScrollPane scrollPane;
 	public static JTable table;
 	private static TableModel tableModel;
+	@SuppressWarnings("rawtypes")
+	private HashMap componentMap;
 
 	/**
 	 * Create the dialog.
@@ -51,8 +58,25 @@ public class JDialogLookup extends JDialog {
 			}
 		});
 		this.scrollPane.setViewportView(JDialogLookup.table);
+		createComponentMap(jTextFieldList.getParent());
 		loadData(keyLookUp);
 		this.setAlwaysOnTop(true);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createComponentMap(Container container) {
+		componentMap = new HashMap<String, Component>();
+		Component[] components = container.getComponents();
+		for (int i = 0; i < components.length; i++) {
+			componentMap.put(components[i].getName(), components[i]);
+		}
+	}
+
+	public Component getComponentByName(String name) {
+		if (componentMap.containsKey(name)) {
+			return (Component) componentMap.get(name);
+		} else
+			return null;
 	}
 
 	public static void refreshData(String searchKey) {
@@ -111,9 +135,32 @@ public class JDialogLookup extends JDialog {
 			this.transferFocus();
 			jTextFieldList.requestFocus();
 		} else if (arg0.getKeyCode() == KeyEvent.VK_ENTER || arg0.getKeyCode() == KeyEvent.VK_TAB) {
-			jTextFieldList.setText(JDialogLookup.table.getValueAt(JDialogLookup.table.getSelectedRow(), 0).toString());
-			// this.transferFocus();
-			// jTextFieldList.transferFocus();
+			String value = JDialogLookup.table.getValueAt(JDialogLookup.table.getSelectedRow(), 0).toString();
+			jTextFieldList.setText(value);
+
+			switch (jTextFieldList.getName()) {
+			case "txtCustomerId":
+				CustomersDAO customersDAO = new CustomersDAO();
+				((JLabel) getComponentByName("lblCustomerName")).setText(
+						String.valueOf(customersDAO.getCustomerNameByID(Integer.parseInt(value))));
+				System.out.println(customersDAO.getCustomerNameByID(Integer.parseInt(value)));
+				break;
+			case "txtStaffId":
+				StaffsDAO staffsDAO = new StaffsDAO();
+				((JLabel) getComponentByName("lblStaffName")).setText(
+						String.valueOf(staffsDAO.getStaffNameByID(Integer.parseInt(value))));
+				System.out.println(staffsDAO.getStaffNameByID(Integer.parseInt(value)));
+				break;
+			case "txtTypeId":
+				LoanTypesDAO loanTypesDAO = new LoanTypesDAO();
+				((JLabel) getComponentByName("lblLoanType")).setText(
+						String.valueOf(loanTypesDAO.getLoanTypeNameByID(Integer.parseInt(value))));
+				System.out.println(loanTypesDAO.getLoanTypeNameByID(Integer.parseInt(value)));
+				break;
+			}
+			
+			this.transferFocus();
+			jTextFieldList.transferFocus();
 			this.setVisible(false);
 		}
 	}
