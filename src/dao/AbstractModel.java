@@ -29,6 +29,17 @@ public abstract class AbstractModel<T> {
 			return null;
 		}
 	}
+	
+	public List<T> findPending() {
+		try {
+			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
+				sessionFactory.getCurrentSession().getTransaction().begin();
+			return sessionFactory.getCurrentSession().createQuery("from " + entityClass.getName() + " where isArchive = 1").list();
+		} catch (RuntimeException re) {
+			System.out.println(re);
+			return null;
+		}
+	}
 
 	// This findForUser is for user
 	public List<T> findForUser() {
