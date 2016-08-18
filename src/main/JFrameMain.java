@@ -48,6 +48,12 @@ import entities.Staffs;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
+import moderator.JPanelApproveDeleting;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 public class JFrameMain extends JFrame {
 
@@ -76,6 +82,7 @@ public class JFrameMain extends JFrame {
 	JPanelContract jPanelContract;
 	JPanelCustomer jPanelCustomers;
 	JPanelPayment jPanelPayment;
+	JPanelApproveDeleting jPanelApproveDeleting;
 	private JTextField JTextFieldSearch;
 	private JButton JButtonSearch;
 	private JButton JButtonAdd;
@@ -89,7 +96,21 @@ public class JFrameMain extends JFrame {
 	private static final int ADD = 0;
 	private JLabel currentUser;
 	private JLabel lblUser;
-
+        private JMenu mnPermission;
+	private JMenuItem mntmUser;
+        private JMenu mnModeratorTools;
+	private JButton btnAssign;
+	private JMenu mnApproveDeleting;
+	private JMenuItem mntmLoanTypes;
+	private JMenuItem mntmCustomers;
+	private JMenuItem mntmDepartments;
+	private JMenuItem mntmStaffs;
+	private JSeparator separator;
+	private JMenuItem mntmContracts;
+	private JMenuItem mntmPayments;
+	private JButton btnApprove;
+	private JButton btnCancel;
+	public static String mntmAprrove;
 	/**
 	 * Launch the application.
 	 */
@@ -121,6 +142,79 @@ public class JFrameMain extends JFrame {
 		setJMenuBar(menuBar);
 		mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
+this.mnModeratorTools = new JMenu("Moderator Tools");
+		this.mnModeratorTools.setName("mnModeratorTools");
+		this.menuBar.add(this.mnModeratorTools);
+		
+		this.mnApproveDeleting = new JMenu("Approve Deleting");
+		this.mnApproveDeleting.setName("mnApproveDeleting");
+		this.mnModeratorTools.add(this.mnApproveDeleting);
+		
+		this.mntmLoanTypes = new JMenuItem("Loan types");
+		this.mntmLoanTypes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				do_mntmApproveDeleting_actionPerformed(arg0);
+			}
+		});
+		this.mntmLoanTypes.setName("mntmLoanTypes");
+		this.mnApproveDeleting.add(this.mntmLoanTypes);
+		
+		this.mntmCustomers = new JMenuItem("Customers");
+		this.mntmCustomers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_mntmApproveDeleting_actionPerformed(e);
+			}
+		});
+		this.mntmCustomers.setName("mntmCustomers");
+		this.mnApproveDeleting.add(this.mntmCustomers);
+		
+		this.mntmDepartments = new JMenuItem("Departments");
+		this.mntmDepartments.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_mntmApproveDeleting_actionPerformed(e);
+			}
+		});
+		this.mntmDepartments.setName("mntmDepartments");
+		this.mnApproveDeleting.add(this.mntmDepartments);
+		
+		this.mntmStaffs = new JMenuItem("Staffs");
+		this.mntmStaffs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_mntmApproveDeleting_actionPerformed(e);
+			}
+		});
+		this.mntmStaffs.setName("mntmStaffs");
+		this.mnApproveDeleting.add(this.mntmStaffs);
+		
+		this.separator = new JSeparator();
+		this.separator.setName("separator");
+		this.mnApproveDeleting.add(this.separator);
+		
+		this.mntmContracts = new JMenuItem("Contracts");
+		this.mntmContracts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_mntmApproveDeleting_actionPerformed(e);
+			}
+		});
+		this.mntmContracts.setName("mntmContracts");
+		this.mnApproveDeleting.add(this.mntmContracts);
+		
+		this.mntmPayments = new JMenuItem("Payments");
+		this.mntmPayments.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_mntmApproveDeleting_actionPerformed(e);
+			}
+		});
+		this.mntmPayments.setName("mntmPayments");
+		this.mnApproveDeleting.add(this.mntmPayments);
+		
+		this.mnPermission = new JMenu("Permission");
+		this.mnPermission.setName("mnPermission");
+		this.menuBar.add(this.mnPermission);
+		
+		this.mntmUser = new JMenuItem("User");
+		this.mntmUser.setName("mntmUser");
+		this.mnPermission.add(this.mntmUser);
 		ContentPane = new JPanel();
 		ContentPane.setName("ContentPane");
 		ContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -207,6 +301,9 @@ public class JFrameMain extends JFrame {
 					jPanelPayment = null;
 				}
 
+                                if(e.getChild() instanceof JPanelApproveDeleting){
+					jPanelApproveDeleting = null;
+				}
 				JFrameMain.currentId = -1;
 
 				name = "";
@@ -326,6 +423,21 @@ public class JFrameMain extends JFrame {
 						.addContainerGap())
 				.addGroup(gl_JPanelTop.createSequentialGroup().addComponent(JTextFieldSearch,
 						GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addGap(20)));
+this.btnAssign = new JButton("Assign");
+		this.btnAssign.setName("btnAssign");
+		this.panel_3.add(this.btnAssign);
+		
+		this.btnApprove = new JButton("Approve");
+		this.btnApprove.setName("btnApprove");
+		this.panel_3.add(this.btnApprove);
+		
+		this.btnCancel = new JButton("Cancel");
+		this.btnCancel.setName("btnCancel");
+		this.panel_3.add(this.btnCancel);
+		
+		this.btnAssign.setVisible(false);
+		this.btnApprove.setVisible(false);
+		this.btnCancel.setVisible(false);
 		JPanelTop.setLayout(gl_JPanelTop);
 		this.JPanelMain.setLayout(gl_JPanelMain);
 
@@ -512,7 +624,7 @@ public class JFrameMain extends JFrame {
 			} else {
 				new JDialogCustomer().isUpdate(new CustomersDAO().find(currentId)).setVisible(true);
 			}
-			break;
+			break;		
 		}
 		processRefresh();
 	}
@@ -680,6 +792,13 @@ public class JFrameMain extends JFrame {
 		}
 		JFrameMain.currentId = -1;
 		checkEnableButton();
+	}
+
+        protected void do_mntmApproveDeleting_actionPerformed(ActionEvent e) {
+		String tabName = ((JMenuItem)e.getSource()).getName();
+		jPanelApproveDeleting = new JPanelApproveDeleting(tabName);
+		JTabbedPaneMain.addTab(tabName, jPanelApproveDeleting);
+		JTabbedPaneMain.setSelectedComponent(jPanelApproveDeleting);
 	}
 
 	// Search at runtime

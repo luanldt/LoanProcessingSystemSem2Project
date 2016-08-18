@@ -92,6 +92,7 @@ public class JDialogModifyContract extends JDialog {
 	private JLabel lblNotes;
 	private boolean isUpdate = false;
 	private Contracts contracts;
+	private JLabel lblLoginfo;
 	/**
 	 * Launch the application.
 	 */
@@ -513,6 +514,11 @@ public class JDialogModifyContract extends JDialog {
 						do_okButton_actionPerformed(e);
 					}
 				});
+				
+				this.lblLoginfo = new JLabel("");
+				this.lblLoginfo.setForeground(Color.BLUE);
+				this.lblLoginfo.setName("lblLoginfo");
+				buttonPane.add(this.lblLoginfo);
 				btnSave.setActionCommand("OK");
 				buttonPane.add(btnSave);
 				getRootPane().setDefaultButton(btnSave);
@@ -524,7 +530,6 @@ public class JDialogModifyContract extends JDialog {
 				buttonPane.add(btnCancel);
 			}
 		}
-		setModal(true);
 	}
 	public JDialog isUpdate(Contracts contracts) {
 		isUpdate = true;
@@ -563,6 +568,11 @@ public class JDialogModifyContract extends JDialog {
 		txtRemainAmount.setText(String.valueOf(contracts.getRemainAmount()));
 		txtLoanMax.setText(String.valueOf(contracts.getLoanMax()));
 		txtPaidTimes.setText(Integer.toString(contracts.getPaidTimes()));
+		long date = Long.parseLong(contracts.getCreateLog().substring(0, 13));
+		String user = contracts.getCreateLog().substring(13, contracts.getCreateLog().length());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date resultdate = new Date(date);
+		lblLoginfo.setText("Create by: " + user + " Date: " + sdf.format(resultdate));
 		return this;
 	}
 	public class DateLabelFormatter extends AbstractFormatter {
@@ -603,7 +613,7 @@ public class JDialogModifyContract extends JDialog {
 		contracts.setInitialAmount(new BigDecimal(txtInitialAmount.getText()));
 		contracts.setRemainAmount(new BigDecimal(txtRemainAmount.getText()));
 		contracts.setLoanMax(new BigDecimal(txtLoanMax.getText()));
-		contracts.setCreateLog("");
+		contracts.setCreateLog(System.currentTimeMillis() + JFrameLogin.username);
 		contracts.setNotes(txaNotes.getText());
 		
 		try {
