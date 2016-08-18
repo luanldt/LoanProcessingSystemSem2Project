@@ -16,12 +16,12 @@ public class JPanelStaff extends AbstractJPanel {
 	@Override
 	public void loadTable() {
 		CustomTableModel customTableModel = new CustomTableModel();
-		String[] columns = { "StaffID", "StaffName", "Username", "DepartmentName", "IsAdmin" };
+		String[] columns = { "StaffID", "StaffName", "Username", "DepartmentName" };
 		customTableModel.addColumn(columns);
 
 		for (Staffs staffs : new StaffsDAO().findAll()) {
 			customTableModel.addRow(new Object[] { staffs.getStaffId(), staffs.getStaffName(), staffs.getUsername(),
-					staffs.getDepartment().getDepartmentName(), staffs.isIsAdmin() });
+					staffs.getDepartment().getDepartmentName() });
 		}
 		setModel(customTableModel);
 	}

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +24,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -51,6 +54,7 @@ import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
 
 @SuppressWarnings("serial")
 public class JDialogModifyContract extends JDialog {
@@ -77,23 +81,23 @@ public class JDialogModifyContract extends JDialog {
 	private JLabel lblStaffName;
 	private JLabel lblLoanType;
 	private JLabel lblRate;
-	private JTextField txtRate;
+	private JFormattedTextField JFormatedTextFieldRate;
 	private JPanel pnlDuration;
 	private JLabel lblStart;
 	private JLabel lblEnd;
 	private JLabel lblMaturityPeriod;
-	private JTextField txtMaturityPeriod;
-	private JTextField txtLoanTerm;
+	private JFormattedTextField JFormatedTextFieldMaturityPeriod;
+	private JFormattedTextField JFormattedTextFieldLoanTerm;
 	private JLabel lblLoanTerm;
 	private JPanel panel;
-	private JTextField txtInitialAmount;
+	private JFormattedTextField JFormatedTextFieldInitialAmount;
 	private JLabel lblInitial;
 	private JLabel lblRemain;
-	private JTextField txtRemainAmount;
-	private JTextField txtLoanMax;
+	private JFormattedTextField JFormatedTextFieldRemain;
+	private JFormattedTextField JFormatedTextFieldMax;
 	private JLabel lblMax;
 	private JLabel lblPaidtimes;
-	private JTextField txtPaidTimes;
+	private JFormattedTextField JFormatedTextFieldPaidTime;
 	private JTextArea txaNotes;
 	private JLabel lblNotes;
 	private boolean isUpdate = false;
@@ -139,9 +143,10 @@ public class JDialogModifyContract extends JDialog {
 		this.lblRate.setForeground(Color.RED);
 		this.lblRate.setName("lblRate");
 
-		this.txtRate = new JTextField();
-		this.txtRate.setColumns(10);
-		this.txtRate.setName("txtRate");
+		this.JFormatedTextFieldRate = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormatedTextFieldRate.setColumns(10);
+		this.JFormatedTextFieldRate.setName("txtRate");
 
 		this.pnlDuration = new JPanel();
 		this.pnlDuration.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Duration",
@@ -156,9 +161,10 @@ public class JDialogModifyContract extends JDialog {
 		this.lblPaidtimes.setForeground(Color.RED);
 		this.lblPaidtimes.setName("lblPaidtimes");
 
-		this.txtPaidTimes = new JTextField();
-		this.txtPaidTimes.setColumns(10);
-		this.txtPaidTimes.setName("txtPaidTimes");
+		this.JFormatedTextFieldPaidTime = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormatedTextFieldPaidTime.setColumns(10);
+		this.JFormatedTextFieldPaidTime.setName("txtPaidTimes");
 
 		this.txaNotes = new JTextArea();
 		this.txaNotes.setName("txaNotes");
@@ -167,56 +173,65 @@ public class JDialogModifyContract extends JDialog {
 		this.lblNotes.setName("lblNotes");
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(137)
-						.addComponent(this.lblContracts, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE).addGap(126))
-				.addGroup(Alignment.LEADING,
-						gl_contentPanel.createSequentialGroup().addGap(33).addComponent(this.lblNotes).addGap(18)
-								.addComponent(this.txaNotes, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE).addContainerGap())
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
-						.addComponent(this.lblPaidtimes, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.txtPaidTimes, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(536, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
-						.addComponent(this.pnlDuration, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap())
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
-						.addComponent(this.lblRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addGap(19)
-						.addComponent(this.txtRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(536, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
-						.addComponent(this.pnlGeneralInfos, GroupLayout.PREFERRED_SIZE, 746, Short.MAX_VALUE).addContainerGap())
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
-						.addComponent(this.panel, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap()));
-		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap()
-						.addComponent(this.lblContracts, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(this.pnlGeneralInfos, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE).addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblRate).addComponent(
-								this.txtRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(this.pnlDuration, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(this.panel, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(14)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(this.txtPaidTimes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(this.lblPaidtimes))
-										.addGap(18).addComponent(this.txaNotes, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-										.addGap(21))
-								.addGroup(Alignment.TRAILING,
-										gl_contentPanel.createSequentialGroup()
-												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(this.lblNotes).addGap(55)))));
+		gl_contentPanel
+				.setHorizontalGroup(
+						gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(137)
+										.addComponent(this.lblContracts, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE).addGap(126))
+								.addGroup(Alignment.LEADING,
+										gl_contentPanel.createSequentialGroup().addGap(33).addComponent(this.lblNotes).addGap(18)
+												.addComponent(this.txaNotes, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE).addContainerGap())
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
+										.addComponent(this.lblPaidtimes, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(this.JFormatedTextFieldPaidTime, GroupLayout.PREFERRED_SIZE, 55,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap(536, Short.MAX_VALUE))
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+										.addComponent(this.pnlDuration, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap())
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
+										.addComponent(this.lblRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addGap(19)
+										.addComponent(this.JFormatedTextFieldRate, GroupLayout.PREFERRED_SIZE, 55,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap(536, Short.MAX_VALUE))
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+										.addComponent(this.pnlGeneralInfos, GroupLayout.PREFERRED_SIZE, 746, Short.MAX_VALUE)
+										.addContainerGap())
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+										.addComponent(this.panel, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap()));
+		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPanel
+				.createSequentialGroup().addContainerGap()
+				.addComponent(this.lblContracts, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(this.pnlGeneralInfos, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE).addGap(18)
+				.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblRate).addComponent(
+						this.JFormatedTextFieldRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(this.pnlDuration, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE).addGap(18)
+				.addComponent(this.panel, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+				.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPanel.createSequentialGroup().addGap(14)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.JFormatedTextFieldPaidTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(this.lblPaidtimes))
+								.addGap(18).addComponent(this.txaNotes, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+								.addGap(21))
+						.addGroup(Alignment.TRAILING,
+								gl_contentPanel.createSequentialGroup()
+										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(this.lblNotes).addGap(55)))));
 		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] { this.pnlDuration, this.panel });
-		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] { this.txtRate, this.txtPaidTimes });
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] { this.txtRate, this.txtPaidTimes });
+		gl_contentPanel.linkSize(SwingConstants.VERTICAL,
+				new Component[] { this.JFormatedTextFieldRate, this.JFormatedTextFieldPaidTime });
+		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { this.JFormatedTextFieldRate, this.JFormatedTextFieldPaidTime });
 
-		this.txtInitialAmount = new JTextField();
-		this.txtInitialAmount.setColumns(10);
-		this.txtInitialAmount.setName("txtInitialAmount");
+		this.JFormatedTextFieldInitialAmount = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormatedTextFieldInitialAmount.setColumns(10);
+		this.JFormatedTextFieldInitialAmount.setName("txtInitialAmount");
 
 		this.lblInitial = new JLabel("Initial");
 		this.lblInitial.setName("lblInitial");
@@ -224,44 +239,48 @@ public class JDialogModifyContract extends JDialog {
 		this.lblRemain = new JLabel("Remain");
 		this.lblRemain.setName("lblRemain");
 
-		this.txtRemainAmount = new JTextField();
-		this.txtRemainAmount.setColumns(10);
-		this.txtRemainAmount.setName("txtRemainAmount");
+		this.JFormatedTextFieldRemain = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormatedTextFieldRemain.setColumns(10);
+		this.JFormatedTextFieldRemain.setName("txtRemainAmount");
 
-		this.txtLoanMax = new JTextField();
-		this.txtLoanMax.setColumns(10);
-		this.txtLoanMax.setName("txtLoanMax");
+		this.JFormatedTextFieldMax = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormatedTextFieldMax.setColumns(10);
+		this.JFormatedTextFieldMax.setName("txtLoanMax");
 
 		this.lblMax = new JLabel("Max");
 		this.lblMax.setName("lblMax");
 		GroupLayout gl_panel = new GroupLayout(this.panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
-						.addComponent(this.lblInitial, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.txtInitialAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE).addGap(69)
-						.addComponent(this.lblRemain, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE).addGap(4)
-						.addComponent(this.txtRemainAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-						.addComponent(this.lblMax, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.txtLoanMax, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE).addGap(16)));
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addContainerGap()
+				.addComponent(this.lblInitial, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(this.JFormatedTextFieldInitialAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+				.addGap(69).addComponent(this.lblRemain, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE).addGap(4)
+				.addComponent(this.JFormatedTextFieldRemain, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+				.addComponent(this.lblMax, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(this.JFormatedTextFieldMax, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+				.addGap(16)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblMax).addComponent(
-										this.txtLoanMax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										this.JFormatedTextFieldMax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(this.lblRemain))
-								.addComponent(this.txtRemainAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								.addComponent(this.JFormatedTextFieldRemain, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblInitial).addComponent(
-										this.txtInitialAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										this.JFormatedTextFieldInitialAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE)))
 						.addContainerGap(19, Short.MAX_VALUE)));
-		gl_panel.linkSize(SwingConstants.VERTICAL,
-				new Component[] { this.txtInitialAmount, this.txtRemainAmount, this.txtLoanMax });
-		gl_panel.linkSize(SwingConstants.HORIZONTAL,
-				new Component[] { this.txtInitialAmount, this.txtRemainAmount, this.txtLoanMax });
+		gl_panel.linkSize(SwingConstants.VERTICAL, new Component[] { this.JFormatedTextFieldInitialAmount,
+				this.JFormatedTextFieldRemain, this.JFormatedTextFieldMax });
+		gl_panel.linkSize(SwingConstants.HORIZONTAL, new Component[] { this.JFormatedTextFieldInitialAmount,
+				this.JFormatedTextFieldRemain, this.JFormatedTextFieldMax });
 		this.panel.setLayout(gl_panel);
 
 		this.dpnlInitiate = new JDatePanelImpl(new UtilDateModel(), p);
@@ -281,30 +300,32 @@ public class JDialogModifyContract extends JDialog {
 		this.lblMaturityPeriod = new JLabel("Maturity Period");
 		this.lblMaturityPeriod.setName("lblMaturityPeriod");
 
-		this.txtMaturityPeriod = new JTextField();
-		this.txtMaturityPeriod.setColumns(10);
-		this.txtMaturityPeriod.setName("txtMaturityPeriod");
+		this.JFormatedTextFieldMaturityPeriod = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormatedTextFieldMaturityPeriod.setColumns(10);
+		this.JFormatedTextFieldMaturityPeriod.setName("txtMaturityPeriod");
 
-		this.txtLoanTerm = new JTextField();
-		this.txtLoanTerm.setColumns(10);
-		this.txtLoanTerm.setName("txtLoanTerm");
+		this.JFormattedTextFieldLoanTerm = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		this.JFormattedTextFieldLoanTerm.setColumns(10);
+		this.JFormattedTextFieldLoanTerm.setName("txtLoanTerm");
 
 		this.lblLoanTerm = new JLabel("Loan Term");
 		this.lblLoanTerm.setName("lblLoanTerm");
 
 		GroupLayout gl_pnlDuration = new GroupLayout(this.pnlDuration);
-		gl_pnlDuration.setHorizontalGroup(gl_pnlDuration.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_pnlDuration.createSequentialGroup().addContainerGap().addComponent(this.lblStart).addGap(18)
-						.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(44)
-						.addComponent(this.lblMaturityPeriod).addGap(10)
-						.addComponent(this.txtMaturityPeriod, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addGap(33)
-						.addComponent(this.lblLoanTerm, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.txtLoanTerm, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-						.addComponent(this.lblEnd, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(33)));
+		gl_pnlDuration.setHorizontalGroup(gl_pnlDuration.createParallelGroup(Alignment.TRAILING).addGroup(gl_pnlDuration
+				.createSequentialGroup().addContainerGap().addComponent(this.lblStart).addGap(18)
+				.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(44)
+				.addComponent(this.lblMaturityPeriod).addGap(10)
+				.addComponent(this.JFormatedTextFieldMaturityPeriod, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+				.addGap(33).addComponent(this.lblLoanTerm, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(this.JFormattedTextFieldLoanTerm, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+				.addComponent(this.lblEnd, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(33)));
 		gl_pnlDuration.setVerticalGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlDuration.createSequentialGroup().addGap(14).addComponent(this.lblStart).addContainerGap(13,
 						Short.MAX_VALUE))
@@ -318,16 +339,17 @@ public class JDialogModifyContract extends JDialog {
 										.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING).addComponent(this.lblMaturityPeriod)
-												.addComponent(this.txtMaturityPeriod, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addComponent(this.JFormatedTextFieldMaturityPeriod, Alignment.TRAILING,
+														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addComponent(this.lblLoanTerm)
-										.addGroup(gl_pnlDuration
-												.createParallelGroup(Alignment.BASELINE).addComponent(this.txtLoanTerm,
-														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_pnlDuration.createParallelGroup(Alignment.BASELINE)
+												.addComponent(this.JFormattedTextFieldLoanTerm, GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(this.lblEnd)))
 								.addGap(13)));
-		gl_pnlDuration.linkSize(SwingConstants.VERTICAL, new Component[] { this.lblStart, this.dpkDueDate, this.lblEnd,
-				this.lblMaturityPeriod, this.txtMaturityPeriod, this.txtLoanTerm, this.lblLoanTerm });
+		gl_pnlDuration.linkSize(SwingConstants.VERTICAL,
+				new Component[] { this.lblStart, this.dpkDueDate, this.lblEnd, this.lblMaturityPeriod,
+						this.JFormatedTextFieldMaturityPeriod, this.JFormattedTextFieldLoanTerm, this.lblLoanTerm });
 		this.pnlDuration.setLayout(gl_pnlDuration);
 
 		this.lblId = new JLabel("Id");
@@ -527,23 +549,23 @@ public class JDialogModifyContract extends JDialog {
 		lblStaffName.setText(contracts.getStaffs().getStaffName());
 		txtTypeId.setText(Integer.toString(contracts.getLoanTypes().getLoanTypeId()));
 		lblLoanType.setText(contracts.getLoanTypes().getLoanTypeName());
-		txtRate.setText(String.valueOf(contracts.getLoanTypes().getLoanRate()));
+		JFormatedTextFieldRate.setText(String.valueOf(contracts.getLoanTypes().getLoanRate()));
 		Calendar cldInitiateDate = new GregorianCalendar();
 		cldInitiateDate.setTime(contracts.getInitiateDate());
 		dpkInitiate.getModel().setDate(cldInitiateDate.get(Calendar.YEAR), cldInitiateDate.get(Calendar.MONTH),
 				cldInitiateDate.get(Calendar.DAY_OF_MONTH));
 		dpkInitiate.getModel().setSelected(true);
-		txtMaturityPeriod.setText(Integer.toString(contracts.getMaturityPeriod()));
-		txtLoanTerm.setText(Integer.toString(contracts.getLoanTerm()));
+		JFormatedTextFieldMaturityPeriod.setText(Integer.toString(contracts.getMaturityPeriod()));
+		JFormattedTextFieldLoanTerm.setText(Integer.toString(contracts.getLoanTerm()));
 		Calendar cldDueDate = new GregorianCalendar();
 		cldDueDate.setTime(contracts.getDueDate());
 		dpkDueDate.getModel().setDate(cldDueDate.get(Calendar.YEAR), cldDueDate.get(Calendar.MONTH),
 				cldDueDate.get(Calendar.DAY_OF_MONTH));
 		dpkDueDate.getModel().setSelected(true);
-		txtInitialAmount.setText(String.valueOf(contracts.getInitialAmount()));
-		txtRemainAmount.setText(String.valueOf(contracts.getRemainAmount()));
-		txtLoanMax.setText(String.valueOf(contracts.getLoanMax()));
-		txtPaidTimes.setText(Integer.toString(contracts.getPaidTimes()));
+		JFormatedTextFieldInitialAmount.setText(String.valueOf(contracts.getInitialAmount()));
+		JFormatedTextFieldRemain.setText(String.valueOf(contracts.getRemainAmount()));
+		JFormatedTextFieldMax.setText(String.valueOf(contracts.getLoanMax()));
+		JFormatedTextFieldPaidTime.setText(Integer.toString(contracts.getPaidTimes()));
 		long date = Long.parseLong(contracts.getCreateLog().substring(0, 13));
 		String user = contracts.getCreateLog().substring(13, contracts.getCreateLog().length());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -588,12 +610,12 @@ public class JDialogModifyContract extends JDialog {
 			contracts.setStaffs(new StaffsDAO().find(Integer.parseInt(txtStaffId.getText())));
 			contracts.setLoanTypes(new LoanTypesDAO().find(Integer.parseInt(txtTypeId.getText())));
 			contracts.setInitiateDate((Date) dpkInitiate.getModel().getValue());
-			contracts.setMaturityPeriod(Integer.parseInt(txtMaturityPeriod.getText()));
-			contracts.setLoanTerm(Integer.parseInt(txtLoanTerm.getText()));
+			contracts.setMaturityPeriod(Integer.parseInt(JFormatedTextFieldMaturityPeriod.getText()));
+			contracts.setLoanTerm(Integer.parseInt(JFormattedTextFieldLoanTerm.getText()));
 			contracts.setDueDate((Date) dpkDueDate.getModel().getValue());
-			contracts.setInitialAmount(new BigDecimal(txtInitialAmount.getText()));
-			contracts.setRemainAmount(new BigDecimal(txtRemainAmount.getText()));
-			contracts.setLoanMax(new BigDecimal(txtLoanMax.getText()));
+			contracts.setInitialAmount(new BigDecimal(JFormatedTextFieldInitialAmount.getText()));
+			contracts.setRemainAmount(new BigDecimal(JFormatedTextFieldRemain.getText()));
+			contracts.setLoanMax(new BigDecimal(JFormatedTextFieldMax.getText()));
 			contracts.setCreateLog(System.currentTimeMillis() + JFrameLogin.username);
 			contracts.setNotes(txaNotes.getText());
 			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();

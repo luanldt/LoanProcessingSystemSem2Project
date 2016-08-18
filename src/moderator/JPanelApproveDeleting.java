@@ -71,7 +71,7 @@ public class JPanelApproveDeleting extends AbstractJPanel{
 
 				for (Staffs staffs : new StaffsDAO().findPending()) {
 					customTableModel.addRow(new Object[] {Boolean.FALSE, staffs.getStaffId(), staffs.getStaffName(), staffs.getUsername(),
-							staffs.getDepartment().getDepartmentName(), staffs.isIsAdmin() });
+							staffs.getDepartment().getDepartmentName() });
 				}
 		    break;
 		    case 4: //mntmContracts

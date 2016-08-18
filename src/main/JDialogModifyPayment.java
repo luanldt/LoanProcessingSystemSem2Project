@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,6 +29,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -44,6 +47,7 @@ import dao.StaffsDAO;
 import entities.Department;
 import entities.Payment;
 import entities.Staffs;
+import javax.swing.JFormattedTextField;
 
 public class JDialogModifyPayment extends JDialog {
 
@@ -59,13 +63,13 @@ public class JDialogModifyPayment extends JDialog {
 	private JTextField JTextFieldPaymentType;
 	private JLabel lblPaymentDate;
 	private JLabel lblDueP;
-	private JTextField JTextFieldDuePeriod;
+	private JFormattedTextField JFormatedTextFieldDuePeriod;
 	private JLabel lblPaymentAmout;
-	private JTextField JTextFieldPaymentAmount;
+	private JFormattedTextField JFormatedTextFieldPaymentAmount;
 	private JLabel lblFineRate;
-	private JTextField JTextFieldFineRate;
+	private JFormattedTextField JFormatedTextFieldFineRate;
 	private JLabel lblFineAmout;
-	private JTextField JTextFieldFineAmout;
+	private JFormattedTextField JFormatedTextFieldFineAmout;
 	private JLabel lblStaffId;
 	private JComboBox<String> JComboBoxStaffId;
 	private JLabel lblPaid;
@@ -121,23 +125,31 @@ public class JDialogModifyPayment extends JDialog {
 
 		lblDueP = new JLabel("Due Period");
 
-		JTextFieldDuePeriod = new JTextField();
-		JTextFieldDuePeriod.setColumns(10);
+		JFormatedTextFieldDuePeriod = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JFormatedTextFieldDuePeriod.setText("0");
+		JFormatedTextFieldDuePeriod.setColumns(10);
 
 		lblPaymentAmout = new JLabel("Payment Amout");
 
-		JTextFieldPaymentAmount = new JTextField();
-		JTextFieldPaymentAmount.setColumns(10);
+		JFormatedTextFieldPaymentAmount = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JFormatedTextFieldPaymentAmount.setText("0");
+		JFormatedTextFieldPaymentAmount.setColumns(10);
 
 		lblFineRate = new JLabel("Fine Rate");
 
-		JTextFieldFineRate = new JTextField();
-		JTextFieldFineRate.setColumns(10);
+		JFormatedTextFieldFineRate = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JFormatedTextFieldFineRate.setText("0");
+		JFormatedTextFieldFineRate.setColumns(10);
 
 		lblFineAmout = new JLabel("Fine Amout");
 
-		JTextFieldFineAmout = new JTextField();
-		JTextFieldFineAmout.setColumns(10);
+		JFormatedTextFieldFineAmout = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JFormatedTextFieldFineAmout.setText("0");
+		JFormatedTextFieldFineAmout.setColumns(10);
 
 		lblStaffId = new JLabel("Staff ID");
 
@@ -175,17 +187,20 @@ public class JDialogModifyPayment extends JDialog {
 										.addComponent(JDatePickerPaymentDate, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblDueP, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE).addGap(6)
-										.addComponent(JTextFieldDuePeriod, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+										.addComponent(JFormatedTextFieldDuePeriod, GroupLayout.PREFERRED_SIZE, 190,
+												GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblPaymentAmout, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-										.addGap(6)
-										.addComponent(JTextFieldPaymentAmount, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+										.addGap(6).addComponent(JFormatedTextFieldPaymentAmount, GroupLayout.PREFERRED_SIZE, 190,
+												GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblFineRate, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE).addGap(6)
-										.addComponent(JTextFieldFineRate, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+										.addComponent(JFormatedTextFieldFineRate, GroupLayout.PREFERRED_SIZE, 190,
+												GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblFineAmout, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE).addGap(6)
-										.addComponent(JTextFieldFineAmout, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+										.addComponent(JFormatedTextFieldFineAmout, GroupLayout.PREFERRED_SIZE, 190,
+												GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblStaffId, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE).addGap(
 												6)
@@ -215,19 +230,19 @@ public class JDialogModifyPayment extends JDialog {
 						.addGap(19)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup().addGap(6).addComponent(lblDueP))
-								.addComponent(JTextFieldDuePeriod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addComponent(JFormatedTextFieldDuePeriod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGap(19)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(6).addComponent(lblPaymentAmout))
-								.addComponent(JTextFieldPaymentAmount, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(6).addComponent(lblPaymentAmout)).addComponent(
+										JFormatedTextFieldPaymentAmount, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGap(19)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup().addGap(6).addComponent(lblFineRate))
-								.addComponent(JTextFieldFineRate, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addComponent(JFormatedTextFieldFineRate, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGap(19)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup().addGap(6).addComponent(lblFineAmout))
-								.addComponent(JTextFieldFineAmout, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addComponent(JFormatedTextFieldFineAmout, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGap(19)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup().addGap(6).addComponent(lblStaffId))
@@ -255,12 +270,16 @@ public class JDialogModifyPayment extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 		loadStaffCombox();
-		setModal(true);
 	}
 
 	// Inner class dùng để tạo thành 1 formater cho việc truy xuất dữ liệu jdate
@@ -300,17 +319,18 @@ public class JDialogModifyPayment extends JDialog {
 		if (payment == null) {
 			payment = new Payment();
 		}
-		payment.setPaymentType(Integer.parseInt(JTextFieldPaymentType.getText()));
-		payment.setDuePeriod(Integer.parseInt(JTextFieldDuePeriod.getText()));
-		payment.setFineAmount(BigDecimal.valueOf(Double.parseDouble(JTextFieldPaymentType.getText())));
-		payment.setContracts(new ContractsDAO().find(Integer.parseInt(txtContractId.getText())));
-		payment.setFineRate(Long.parseLong(JTextFieldPaymentType.getText()));
-		payment.setPaid(JCheckBoxPaid.isSelected());
-		payment.setPaymentDate((Date) JDatePickerPaymentDate.getModel().getValue());
-		payment.setStaffs(new StaffsDAO().find(Integer.parseInt(JComboBoxStaffId.getSelectedItem().toString())));
-		payment.setPaymentAmount(BigDecimal.valueOf(Double.parseDouble(JTextFieldPaymentAmount.getText())));
-		payment.setCreateLog("");
+
 		try {
+			payment.setPaymentType(Integer.parseInt(JTextFieldPaymentType.getText()));
+			payment.setDuePeriod(Integer.parseInt(JFormatedTextFieldDuePeriod.getText()));
+			payment.setFineAmount(BigDecimal.valueOf(Double.parseDouble(JFormatedTextFieldFineAmout.getText())));
+			payment.setContracts(new ContractsDAO().find(Integer.parseInt(txtContractId.getText())));
+			payment.setFineRate(Long.parseLong(JFormatedTextFieldFineRate.getText()));
+			payment.setPaid(JCheckBoxPaid.isSelected());
+			payment.setPaymentDate((Date) JDatePickerPaymentDate.getModel().getValue());
+			payment.setStaffs(new StaffsDAO().find(Integer.parseInt(JComboBoxStaffId.getSelectedItem().toString())));
+			payment.setPaymentAmount(BigDecimal.valueOf(Double.parseDouble(JFormatedTextFieldPaymentAmount.getText())));
+			payment.setCreateLog("");
 			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 			Validator validator = validatorFactory.getValidator();
 			Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(payment);
@@ -347,13 +367,13 @@ public class JDialogModifyPayment extends JDialog {
 				calendar.get(Calendar.DAY_OF_MONTH));
 		this.JDatePickerPaymentDate.getModel().setSelected(true);
 		this.JTextFieldPaymentID.setText(Integer.toString(payment.getPaymentId()));
-		this.JTextFieldFineRate.setText(Long.toString(payment.getFineRate()));
-		this.JTextFieldDuePeriod.setText(Integer.toString(payment.getDuePeriod()));
+		this.JFormatedTextFieldFineRate.setText(Long.toString(payment.getFineRate()));
+		this.JFormatedTextFieldDuePeriod.setText(Integer.toString(payment.getDuePeriod()));
 		this.JTextFieldPaymentType.setText(Integer.toString(payment.getPaymentType()));
-		this.JTextFieldFineAmout.setText(payment.getFineAmount().toString());
+		this.JFormatedTextFieldFineAmout.setText(payment.getFineAmount().toString());
 		this.JComboBoxStaffId.setSelectedItem(Integer.toString(payment.getStaffs().getStaffId()));
 		this.JCheckBoxPaid.setSelected(payment.isPaid());
-		this.JTextFieldPaymentAmount.setText(payment.getPaymentAmount().toString());
+		this.JFormatedTextFieldPaymentAmount.setText(payment.getPaymentAmount().toString());
 		this.txtContractId.setText(Integer.toString(payment.getContracts().getContractId()));
 		return this;
 	}

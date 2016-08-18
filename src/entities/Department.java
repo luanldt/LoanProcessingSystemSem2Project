@@ -65,7 +65,6 @@ public class Department implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotEmpty(message = "Loan type id can not be empty!")
 	@JoinColumn(name = "loanTypeID", nullable = false)
 	public LoanTypes getLoanTypes() {
 		return this.loanTypes;
