@@ -96,9 +96,9 @@ public class JFrameMain extends JFrame {
 	private static final int ADD = 0;
 	private JLabel currentUser;
 	private JLabel lblUser;
-        private JMenu mnPermission;
+	private JMenu mnPermission;
 	private JMenuItem mntmUser;
-        private JMenu mnModeratorTools;
+	private JMenu mnModeratorTools;
 	private JButton btnAssign;
 	private JMenu mnApproveDeleting;
 	private JMenuItem mntmLoanTypes;
@@ -111,6 +111,7 @@ public class JFrameMain extends JFrame {
 	private JButton btnApprove;
 	private JButton btnCancel;
 	public static String mntmAprrove;
+
 	/**
 	 * Launch the application.
 	 */
@@ -142,14 +143,14 @@ public class JFrameMain extends JFrame {
 		setJMenuBar(menuBar);
 		mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
-this.mnModeratorTools = new JMenu("Moderator Tools");
+		this.mnModeratorTools = new JMenu("Moderator Tools");
 		this.mnModeratorTools.setName("mnModeratorTools");
 		this.menuBar.add(this.mnModeratorTools);
-		
+
 		this.mnApproveDeleting = new JMenu("Approve Deleting");
 		this.mnApproveDeleting.setName("mnApproveDeleting");
 		this.mnModeratorTools.add(this.mnApproveDeleting);
-		
+
 		this.mntmLoanTypes = new JMenuItem("Loan types");
 		this.mntmLoanTypes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -158,7 +159,7 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		});
 		this.mntmLoanTypes.setName("mntmLoanTypes");
 		this.mnApproveDeleting.add(this.mntmLoanTypes);
-		
+
 		this.mntmCustomers = new JMenuItem("Customers");
 		this.mntmCustomers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +168,7 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		});
 		this.mntmCustomers.setName("mntmCustomers");
 		this.mnApproveDeleting.add(this.mntmCustomers);
-		
+
 		this.mntmDepartments = new JMenuItem("Departments");
 		this.mntmDepartments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -176,7 +177,7 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		});
 		this.mntmDepartments.setName("mntmDepartments");
 		this.mnApproveDeleting.add(this.mntmDepartments);
-		
+
 		this.mntmStaffs = new JMenuItem("Staffs");
 		this.mntmStaffs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,11 +186,11 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		});
 		this.mntmStaffs.setName("mntmStaffs");
 		this.mnApproveDeleting.add(this.mntmStaffs);
-		
+
 		this.separator = new JSeparator();
 		this.separator.setName("separator");
 		this.mnApproveDeleting.add(this.separator);
-		
+
 		this.mntmContracts = new JMenuItem("Contracts");
 		this.mntmContracts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -198,7 +199,7 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		});
 		this.mntmContracts.setName("mntmContracts");
 		this.mnApproveDeleting.add(this.mntmContracts);
-		
+
 		this.mntmPayments = new JMenuItem("Payments");
 		this.mntmPayments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -207,11 +208,11 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		});
 		this.mntmPayments.setName("mntmPayments");
 		this.mnApproveDeleting.add(this.mntmPayments);
-		
+
 		this.mnPermission = new JMenu("Permission");
 		this.mnPermission.setName("mnPermission");
 		this.menuBar.add(this.mnPermission);
-		
+
 		this.mntmUser = new JMenuItem("User");
 		this.mntmUser.setName("mntmUser");
 		this.mnPermission.add(this.mntmUser);
@@ -301,7 +302,7 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 					jPanelPayment = null;
 				}
 
-                                if(e.getChild() instanceof JPanelApproveDeleting){
+				if (e.getChild() instanceof JPanelApproveDeleting) {
 					jPanelApproveDeleting = null;
 				}
 				JFrameMain.currentId = -1;
@@ -349,11 +350,14 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
 				.addComponent(this.JPanelTop, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
 				.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE));
-		gl_JPanelMain.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelMain.createSequentialGroup()
-						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE).addGap(19)));
+		gl_JPanelMain
+				.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelMain.createSequentialGroup()
+								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 40,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+								.addGap(19)));
 
 		panel_3 = new JPanel();
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -396,16 +400,21 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 			}
 		});
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
-						.addGap(2).addComponent(JButtonSearch).addGap(105)
-						.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(JButtonLogout,
-								GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGap(60)));
+		gl_JPanelTop
+				.setHorizontalGroup(
+						gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
+										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(2).addComponent(JButtonSearch).addGap(105)
+										.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(JButtonLogout,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addGap(60)));
 		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(
 				Alignment.TRAILING)
 				.addGroup(gl_JPanelTop.createSequentialGroup().addGroup(gl_JPanelTop
@@ -423,18 +432,18 @@ this.mnModeratorTools = new JMenu("Moderator Tools");
 						.addContainerGap())
 				.addGroup(gl_JPanelTop.createSequentialGroup().addComponent(JTextFieldSearch,
 						GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addGap(20)));
-this.btnAssign = new JButton("Assign");
+		this.btnAssign = new JButton("Assign");
 		this.btnAssign.setName("btnAssign");
 		this.panel_3.add(this.btnAssign);
-		
+
 		this.btnApprove = new JButton("Approve");
 		this.btnApprove.setName("btnApprove");
 		this.panel_3.add(this.btnApprove);
-		
+
 		this.btnCancel = new JButton("Cancel");
 		this.btnCancel.setName("btnCancel");
 		this.panel_3.add(this.btnCancel);
-		
+
 		this.btnAssign.setVisible(false);
 		this.btnApprove.setVisible(false);
 		this.btnCancel.setVisible(false);
@@ -624,7 +633,14 @@ this.btnAssign = new JButton("Assign");
 			} else {
 				new JDialogCustomer().isUpdate(new CustomersDAO().find(currentId)).setVisible(true);
 			}
-			break;		
+			break;
+		case "Payments":
+			if (order == JFrameMain.ADD) {
+				new JDialogModifyPayment().setVisible(true);
+			} else {
+				new JDialogModifyPayment().isUpdate(new PaymentDAO().find(currentId)).setVisible(true);
+			}
+			break;
 		}
 		processRefresh();
 	}
@@ -794,8 +810,8 @@ this.btnAssign = new JButton("Assign");
 		checkEnableButton();
 	}
 
-        protected void do_mntmApproveDeleting_actionPerformed(ActionEvent e) {
-		String tabName = ((JMenuItem)e.getSource()).getName();
+	protected void do_mntmApproveDeleting_actionPerformed(ActionEvent e) {
+		String tabName = ((JMenuItem) e.getSource()).getName();
 		jPanelApproveDeleting = new JPanelApproveDeleting(tabName);
 		JTabbedPaneMain.addTab(tabName, jPanelApproveDeleting);
 		JTabbedPaneMain.setSelectedComponent(jPanelApproveDeleting);

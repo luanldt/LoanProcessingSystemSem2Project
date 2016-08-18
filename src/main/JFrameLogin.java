@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import dao.StaffsDAO;
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import helper.EncryptPasswordWithPBKDF2WithHmacSHA1;
 import model.MakeIcon;
 
@@ -56,8 +57,7 @@ public class JFrameLogin extends JFrame {
 			@Override
 			public void run() {
 				try {
-					// UIManager.setLookAndFeel(new
-					// SyntheticaPlainLookAndFeel());
+					 UIManager.setLookAndFeel(new  SyntheticaPlainLookAndFeel());
 					JFrameLogin jFrameLogin = new JFrameLogin();
 					jFrameLogin.setVisible(true);
 				} catch (Exception e) {
