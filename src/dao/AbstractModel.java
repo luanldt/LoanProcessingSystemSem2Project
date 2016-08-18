@@ -23,18 +23,19 @@ public abstract class AbstractModel<T> {
 		try {
 			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
 				sessionFactory.getCurrentSession().getTransaction().begin();
-			return sessionFactory.getCurrentSession().createQuery("from " + entityClass.getName()).list();
+			return sessionFactory.getCurrentSession().createQuery("from " + entityClass.getName() + " where isArchive = false").list();
 		} catch (RuntimeException re) {
 			System.out.println(re);
 			return null;
 		}
 	}
 	
+	//findPending is data wait for moderator's appoval
 	public List<T> findPending() {
 		try {
 			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
 				sessionFactory.getCurrentSession().getTransaction().begin();
-			return sessionFactory.getCurrentSession().createQuery("from " + entityClass.getName() + " where isArchive = 1").list();
+			return sessionFactory.getCurrentSession().createQuery("from " + entityClass.getName() + " where isArchive = true").list();
 		} catch (RuntimeException re) {
 			System.out.println(re);
 			return null;

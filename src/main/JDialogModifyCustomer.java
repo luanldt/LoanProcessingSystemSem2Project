@@ -58,7 +58,6 @@ public class JDialogModifyCustomer extends JDialog {
 	private JTextArea noteTxtArea;
 	private boolean isUpdate = false;
 	Customers Customer;
-	private JCheckBox chckbxDelete;
 
 	/**
 	 * Create the dialog.
@@ -128,85 +127,79 @@ public class JDialogModifyCustomer extends JDialog {
 
 		scrollPane = new JScrollPane();
 		scrollPane.setName("scrollPane");
-
-		chckbxDelete = new JCheckBox("Delete?");
-		chckbxDelete.setVisible(false);
-		chckbxDelete.setEnabled(false);
-		chckbxDelete.setName("chckbxDelete");
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel
-				.setHorizontalGroup(
-						gl_contentPanel
-								.createParallelGroup(
-										Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap().addGroup(gl_contentPanel
-										.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPanel.createSequentialGroup().addComponent(lblNewLabel)
-												.addPreferredGap(ComponentPlacement.RELATED, 239, Short.MAX_VALUE).addComponent(lblNotes))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblIdentityCardNumber).addComponent(lblNewLabel_1).addComponent(lblNewLabel_2)
-														.addComponent(lblNewLabel_3).addComponent(lblNewLabel_4).addComponent(lblSalary))
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(JFormatedTextFieldSalary, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(JTextFieldAccountNumber, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(emailTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(phoneTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(addrTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)
-														.addGroup(
-																gl_contentPanel.createParallelGroup(Alignment.LEADING, false).addComponent(nameTxt)
-																		.addComponent(IDcardTxt, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
-												.addGap(50)))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING).addComponent(chckbxDelete)
-												.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
-										.addContainerGap()));
-		gl_contentPanel
-				.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPanel
-						.createSequentialGroup().addContainerGap().addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(nameTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(this.lblNewLabel)
+							.addPreferredGap(ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+							.addComponent(this.lblNotes))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(this.lblIdentityCardNumber)
+								.addComponent(this.lblNewLabel_1)
+								.addComponent(this.lblNewLabel_2)
+								.addComponent(this.lblNewLabel_3)
+								.addComponent(this.lblNewLabel_4)
+								.addComponent(this.lblSalary))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(this.JFormatedTextFieldSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(this.JTextFieldAccountNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(this.emailTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(this.phoneTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(this.addrTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(this.nameTxt)
+									.addComponent(this.IDcardTxt, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
+							.addGap(50)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(this.scrollPane, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(this.nameTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
-																.addComponent(lblNotes))
-														.addGap(18)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																.addComponent(lblNewLabel_1).addComponent(addrTxt, GroupLayout.PREFERRED_SIZE,
-																		GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addGap(18)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																.addComponent(lblNewLabel_2).addComponent(phoneTxt, GroupLayout.PREFERRED_SIZE,
-																		GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addGap(18)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																.addComponent(lblNewLabel_3).addComponent(emailTxt, GroupLayout.PREFERRED_SIZE,
-																		GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-												.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))
-										.addGap(18)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_4)
-														.addComponent(JTextFieldAccountNumber, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addComponent(chckbxDelete))))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblIdentityCardNumber)
-								.addComponent(IDcardTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblSalary).addComponent(
-								JFormatedTextFieldSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] { IDcardTxt, nameTxt, addrTxt, phoneTxt,
-				emailTxt, JTextFieldAccountNumber, JFormatedTextFieldSalary });
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.lblNewLabel)
+										.addComponent(this.lblNotes))
+									.addGap(18)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.lblNewLabel_1)
+										.addComponent(this.addrTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGap(18)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.lblNewLabel_2)
+										.addComponent(this.phoneTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGap(18)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.lblNewLabel_3)
+										.addComponent(this.emailTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(this.scrollPane, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(this.lblNewLabel_4)
+								.addComponent(this.JTextFieldAccountNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(21)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(this.lblIdentityCardNumber)
+						.addComponent(this.IDcardTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(this.lblSalary)
+						.addComponent(this.JFormatedTextFieldSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(23, Short.MAX_VALUE))
+		);
+		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] {this.IDcardTxt, this.nameTxt, this.addrTxt, this.phoneTxt, this.emailTxt, this.JTextFieldAccountNumber, this.JFormatedTextFieldSalary});
 
 		noteTxtArea = new JTextArea();
 		noteTxtArea.setName("noteTxtArea");
@@ -257,6 +250,7 @@ public class JDialogModifyCustomer extends JDialog {
 				Customer.setSalary(new BigDecimal((JFormatedTextFieldSalary.getText())));
 				Customer.setNotes(noteTxtArea.getText());
 				Customer.setCreateLog("Why does this exist?");
+				Customer.setIsArchive(false);
 				ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 				Validator validator = validatorFactory.getValidator();
 				Set<ConstraintViolation<Customers>> constraintViolations = validator.validate(Customer);
@@ -268,7 +262,6 @@ public class JDialogModifyCustomer extends JDialog {
 					JOptionPane.showMessageDialog(null, error);
 				} else {
 					if (isUpdate) {
-						Customer.setIsArchive(chckbxDelete.isSelected());
 						new CustomersDAO().update(Customer);
 					} else {
 						new CustomersDAO().create(Customer);
@@ -287,8 +280,6 @@ public class JDialogModifyCustomer extends JDialog {
 
 	public JDialog isUpdate(Customers find) {
 		isUpdate = true;
-		chckbxDelete.setEnabled(true);
-		chckbxDelete.setVisible(true);
 		this.setTitle("Update Customer");
 		this.Customer = find;
 		nameTxt.setText(find.getCustomerName());
@@ -299,7 +290,6 @@ public class JDialogModifyCustomer extends JDialog {
 		IDcardTxt.setText(find.getIdentityCardNo());
 		JFormatedTextFieldSalary.setText(find.getSalary().stripTrailingZeros().toPlainString());
 		noteTxtArea.setText(find.getNotes());
-		chckbxDelete.setSelected(find.isIsArchive());
 		return this;
 	}
 }

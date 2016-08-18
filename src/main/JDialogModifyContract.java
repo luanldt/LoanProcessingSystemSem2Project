@@ -55,6 +55,8 @@ import java.math.BigDecimal;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
+import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
 
 @SuppressWarnings("serial")
 public class JDialogModifyContract extends JDialog {
@@ -90,7 +92,7 @@ public class JDialogModifyContract extends JDialog {
 	private JFormattedTextField JFormattedTextFieldLoanTerm;
 	private JLabel lblLoanTerm;
 	private JPanel panel;
-	private JFormattedTextField JFormatedTextFieldInitialAmount;
+	private JTextField JTextFieldInitialAmount;
 	private JLabel lblInitial;
 	private JLabel lblRemain;
 	private JFormattedTextField JFormatedTextFieldRemain;
@@ -124,8 +126,8 @@ public class JDialogModifyContract extends JDialog {
 		getContentPane().add(this.contentPanel, BorderLayout.CENTER);
 
 		this.pnlGeneralInfos = new JPanel();
-		this.pnlGeneralInfos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "General Informations",
-				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
+		this.pnlGeneralInfos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
+				"General Informations", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		this.pnlGeneralInfos.setName("pnlGeneralInfos");
 
 		this.lblContracts = new JLabel("CONTRACTS");
@@ -154,7 +156,8 @@ public class JDialogModifyContract extends JDialog {
 		this.pnlDuration.setName("pnlDuration");
 
 		this.panel = new JPanel();
-		this.panel.setBorder(new TitledBorder(null, "Amount", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
+		this.panel
+				.setBorder(new TitledBorder(null, "Amount", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		this.panel.setName("panel");
 
 		this.lblPaidtimes = new JLabel("Paid times");
@@ -167,80 +170,96 @@ public class JDialogModifyContract extends JDialog {
 		this.JFormatedTextFieldPaidTime.setName("txtPaidTimes");
 
 		this.txaNotes = new JTextArea();
+		this.txaNotes.setBorder(new LineBorder(SystemColor.controlShadow));
 		this.txaNotes.setName("txaNotes");
 
 		this.lblNotes = new JLabel("Notes");
 		this.lblNotes.setName("lblNotes");
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(137)
+						.addComponent(this.lblContracts, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE).addGap(126))
+				.addGroup(Alignment.LEADING,
+						gl_contentPanel.createSequentialGroup().addGap(33).addComponent(this.lblNotes).addGap(18)
+								.addComponent(this.txaNotes, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+								.addContainerGap())
+				.addGroup(
+						gl_contentPanel.createSequentialGroup().addGap(113)
+								.addComponent(this.lblPaidtimes, GroupLayout.PREFERRED_SIZE, 70,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(this.JFormatedTextFieldPaidTime, GroupLayout.PREFERRED_SIZE, 55,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(536, Short.MAX_VALUE))
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+						.addComponent(this.pnlDuration, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+						.addContainerGap())
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
+						.addComponent(this.lblRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addGap(19)
+						.addComponent(this.JFormatedTextFieldRate, GroupLayout.PREFERRED_SIZE, 55,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(536, Short.MAX_VALUE))
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+						.addComponent(this.pnlGeneralInfos, GroupLayout.PREFERRED_SIZE, 746, Short.MAX_VALUE)
+						.addContainerGap())
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+						.addComponent(this.panel, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap()));
 		gl_contentPanel
-				.setHorizontalGroup(
-						gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(137)
-										.addComponent(this.lblContracts, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE).addGap(126))
-								.addGroup(Alignment.LEADING,
-										gl_contentPanel.createSequentialGroup().addGap(33).addComponent(this.lblNotes).addGap(18)
-												.addComponent(this.txaNotes, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE).addContainerGap())
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
-										.addComponent(this.lblPaidtimes, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(this.JFormatedTextFieldPaidTime, GroupLayout.PREFERRED_SIZE, 55,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(536, Short.MAX_VALUE))
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
-										.addComponent(this.pnlDuration, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap())
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
-										.addComponent(this.lblRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addGap(19)
-										.addComponent(this.JFormatedTextFieldRate, GroupLayout.PREFERRED_SIZE, 55,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(536, Short.MAX_VALUE))
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
-										.addComponent(this.pnlGeneralInfos, GroupLayout.PREFERRED_SIZE, 746, Short.MAX_VALUE)
-										.addContainerGap())
-								.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
-										.addComponent(this.panel, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap()));
-		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPanel
-				.createSequentialGroup().addContainerGap()
-				.addComponent(this.lblContracts, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addComponent(this.pnlGeneralInfos, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE).addGap(18)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblRate).addComponent(
-						this.JFormatedTextFieldRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-						GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addComponent(this.pnlDuration, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE).addGap(18)
-				.addComponent(this.panel, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_contentPanel.createSequentialGroup().addGap(14)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(this.JFormatedTextFieldPaidTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(this.lblPaidtimes))
-								.addGap(18).addComponent(this.txaNotes, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-								.addGap(21))
-						.addGroup(Alignment.TRAILING,
-								gl_contentPanel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(this.lblNotes).addGap(55)))));
+				.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap()
+								.addComponent(this.lblContracts, GroupLayout.PREFERRED_SIZE, 29,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(this.pnlGeneralInfos, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+								.addGap(18).addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.lblRate)
+										.addComponent(this.JFormatedTextFieldRate, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(
+										ComponentPlacement.UNRELATED)
+								.addComponent(this.pnlDuration, GroupLayout.PREFERRED_SIZE, 73,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(this.panel, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPanel.createSequentialGroup().addGap(14)
+												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+														.addComponent(this.JFormatedTextFieldPaidTime,
+																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(this.lblPaidtimes))
+												.addGap(18)
+												.addComponent(this.txaNotes, GroupLayout.PREFERRED_SIZE, 81,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(21))
+										.addGroup(Alignment.TRAILING,
+												gl_contentPanel.createSequentialGroup()
+														.addPreferredGap(ComponentPlacement.RELATED,
+																GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(this.lblNotes).addGap(55)))));
 		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] { this.pnlDuration, this.panel });
 		gl_contentPanel.linkSize(SwingConstants.VERTICAL,
 				new Component[] { this.JFormatedTextFieldRate, this.JFormatedTextFieldPaidTime });
 		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL,
 				new Component[] { this.JFormatedTextFieldRate, this.JFormatedTextFieldPaidTime });
 
-		this.JFormatedTextFieldInitialAmount = new JFormattedTextField(
-				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
-		this.JFormatedTextFieldInitialAmount.setColumns(10);
-		this.JFormatedTextFieldInitialAmount.setName("txtInitialAmount");
+		this.JTextFieldInitialAmount = new JTextField();
+		this.JTextFieldInitialAmount.setColumns(10);
+		this.JTextFieldInitialAmount.setName("JTextFieldInitialAmount");
 
 		this.lblInitial = new JLabel("Initial");
 		this.lblInitial.setName("lblInitial");
 
 		this.lblRemain = new JLabel("Remain");
 		this.lblRemain.setName("lblRemain");
+		
+		NumberFormat numberFormat = NumberFormat.getIntegerInstance();
+		numberFormat.setMaximumFractionDigits(999999999);
 
 		this.JFormatedTextFieldRemain = new JFormattedTextField(
-				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+				new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
 		this.JFormatedTextFieldRemain.setColumns(10);
 		this.JFormatedTextFieldRemain.setName("txtRemainAmount");
 
@@ -252,34 +271,44 @@ public class JDialogModifyContract extends JDialog {
 		this.lblMax = new JLabel("Max");
 		this.lblMax.setName("lblMax");
 		GroupLayout gl_panel = new GroupLayout(this.panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
-				.createSequentialGroup().addContainerGap()
-				.addComponent(this.lblInitial, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(this.JFormatedTextFieldInitialAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-				.addGap(69).addComponent(this.lblRemain, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE).addGap(4)
-				.addComponent(this.JFormatedTextFieldRemain, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-				.addComponent(this.lblMax, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(this.JFormatedTextFieldMax, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-				.addGap(16)));
+		gl_panel.setHorizontalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_panel.createSequentialGroup().addContainerGap()
+										.addComponent(this.lblInitial, GroupLayout.PREFERRED_SIZE, 48,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(this.JTextFieldInitialAmount, GroupLayout.PREFERRED_SIZE,
+												138, GroupLayout.PREFERRED_SIZE)
+										.addGap(69)
+										.addComponent(this.lblRemain, GroupLayout.PREFERRED_SIZE, 48,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(4)
+										.addComponent(this.JFormatedTextFieldRemain, GroupLayout.PREFERRED_SIZE, 138,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+										.addComponent(this.lblMax, GroupLayout.PREFERRED_SIZE, 48,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(this.JFormatedTextFieldMax, GroupLayout.PREFERRED_SIZE, 138,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(16)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblMax).addComponent(
-										this.JFormatedTextFieldMax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblMax)
+										.addComponent(this.JFormatedTextFieldMax, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(this.lblRemain))
-								.addComponent(this.JFormatedTextFieldRemain, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblInitial).addComponent(
-										this.JFormatedTextFieldInitialAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)))
+								.addComponent(this.JFormatedTextFieldRemain, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblInitial)
+										.addComponent(this.JTextFieldInitialAmount, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addContainerGap(19, Short.MAX_VALUE)));
-		gl_panel.linkSize(SwingConstants.VERTICAL, new Component[] { this.JFormatedTextFieldInitialAmount,
+		gl_panel.linkSize(SwingConstants.VERTICAL, new Component[] { this.JTextFieldInitialAmount,
 				this.JFormatedTextFieldRemain, this.JFormatedTextFieldMax });
-		gl_panel.linkSize(SwingConstants.HORIZONTAL, new Component[] { this.JFormatedTextFieldInitialAmount,
+		gl_panel.linkSize(SwingConstants.HORIZONTAL, new Component[] { this.JTextFieldInitialAmount,
 				this.JFormatedTextFieldRemain, this.JFormatedTextFieldMax });
 		this.panel.setLayout(gl_panel);
 
@@ -314,42 +343,56 @@ public class JDialogModifyContract extends JDialog {
 		this.lblLoanTerm.setName("lblLoanTerm");
 
 		GroupLayout gl_pnlDuration = new GroupLayout(this.pnlDuration);
-		gl_pnlDuration.setHorizontalGroup(gl_pnlDuration.createParallelGroup(Alignment.TRAILING).addGroup(gl_pnlDuration
-				.createSequentialGroup().addContainerGap().addComponent(this.lblStart).addGap(18)
-				.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(44)
-				.addComponent(this.lblMaturityPeriod).addGap(10)
-				.addComponent(this.JFormatedTextFieldMaturityPeriod, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-				.addGap(33).addComponent(this.lblLoanTerm, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(this.JFormattedTextFieldLoanTerm, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-				.addComponent(this.lblEnd, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(33)));
+		gl_pnlDuration
+				.setHorizontalGroup(
+						gl_pnlDuration.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_pnlDuration.createSequentialGroup().addContainerGap()
+										.addComponent(this.lblStart).addGap(18)
+										.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, 123,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(44).addComponent(this.lblMaturityPeriod).addGap(10)
+										.addComponent(this.JFormatedTextFieldMaturityPeriod, GroupLayout.PREFERRED_SIZE,
+												55, GroupLayout.PREFERRED_SIZE)
+										.addGap(33)
+										.addComponent(this.lblLoanTerm, GroupLayout.PREFERRED_SIZE, 65,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(this.JFormattedTextFieldLoanTerm, GroupLayout.PREFERRED_SIZE, 55,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+										.addComponent(this.lblEnd, GroupLayout.PREFERRED_SIZE, 24,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(this.dpkDueDate,
+												GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+										.addGap(33)));
 		gl_pnlDuration.setVerticalGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlDuration.createSequentialGroup().addGap(14).addComponent(this.lblStart).addContainerGap(13,
-						Short.MAX_VALUE))
+				.addGroup(gl_pnlDuration.createSequentialGroup().addGap(14).addComponent(this.lblStart)
+						.addContainerGap(13, Short.MAX_VALUE))
 				.addGroup(gl_pnlDuration.createSequentialGroup().addGap(14)
 						.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(13, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING,
-						gl_pnlDuration.createSequentialGroup().addContainerGap(14, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_pnlDuration.createSequentialGroup()
+						.addContainerGap(14, Short.MAX_VALUE)
+						.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
+								.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
-										.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING).addComponent(this.lblMaturityPeriod)
-												.addComponent(this.JFormatedTextFieldMaturityPeriod, Alignment.TRAILING,
-														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addComponent(this.lblLoanTerm)
-										.addGroup(gl_pnlDuration.createParallelGroup(Alignment.BASELINE)
-												.addComponent(this.JFormattedTextFieldLoanTerm, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(this.lblEnd)))
-								.addGap(13)));
-		gl_pnlDuration.linkSize(SwingConstants.VERTICAL,
-				new Component[] { this.lblStart, this.dpkDueDate, this.lblEnd, this.lblMaturityPeriod,
-						this.JFormatedTextFieldMaturityPeriod, this.JFormattedTextFieldLoanTerm, this.lblLoanTerm });
+										.addComponent(this.lblMaturityPeriod)
+										.addComponent(this.JFormatedTextFieldMaturityPeriod, Alignment.TRAILING,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addComponent(this.lblLoanTerm)
+								.addGroup(gl_pnlDuration.createParallelGroup(Alignment.BASELINE)
+										.addComponent(this.JFormattedTextFieldLoanTerm, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(this.lblEnd)))
+						.addGap(13)));
+		gl_pnlDuration
+				.linkSize(SwingConstants.VERTICAL,
+						new Component[] { this.lblStart, this.dpkDueDate, this.lblEnd, this.lblMaturityPeriod,
+								this.JFormatedTextFieldMaturityPeriod, this.JFormattedTextFieldLoanTerm,
+								this.lblLoanTerm });
 		this.pnlDuration.setLayout(gl_pnlDuration);
 
 		this.lblId = new JLabel("Id");
@@ -400,107 +443,119 @@ public class JDialogModifyContract extends JDialog {
 		this.lblLoanType.setForeground(Color.BLUE);
 		this.lblLoanType.setName("lblLoanType");
 		GroupLayout gl_pnlGeneralInfos = new GroupLayout(this.pnlGeneralInfos);
+		gl_pnlGeneralInfos.setHorizontalGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addContainerGap()
+						.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGroup(gl_pnlGeneralInfos
+										.createParallelGroup(Alignment.LEADING).addComponent(this.lblId)
+										.addComponent(this.lblCustomerId, GroupLayout.PREFERRED_SIZE, 67,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(this.lblStaffId))
+										.addGap(37)
+										.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+																.addComponent(this.txtContractId,
+																		GroupLayout.PREFERRED_SIZE, 138,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGap(27)
+																.addGroup(gl_pnlGeneralInfos
+																		.createParallelGroup(Alignment.TRAILING)
+																		.addGroup(gl_pnlGeneralInfos
+																				.createSequentialGroup().addGap(153)
+																				.addComponent(this.lblDate).addGap(18)
+																				.addComponent(this.dpkContract,
+																						GroupLayout.PREFERRED_SIZE, 171,
+																						GroupLayout.PREFERRED_SIZE)
+																				.addGap(117))
+																		.addGroup(Alignment.LEADING, gl_pnlGeneralInfos
+																				.createSequentialGroup().addGap(18)
+																				.addGroup(gl_pnlGeneralInfos
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								this.lblCustomerName,
+																								GroupLayout.PREFERRED_SIZE,
+																								138,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(this.lblStaffName,
+																								GroupLayout.PREFERRED_SIZE,
+																								76,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(this.lblLoanType,
+																								GroupLayout.PREFERRED_SIZE,
+																								76,
+																								GroupLayout.PREFERRED_SIZE))
+																				.addContainerGap(326,
+																						Short.MAX_VALUE))))
+														.addGroup(gl_pnlGeneralInfos
+																.createParallelGroup(Alignment.TRAILING)
+																.addComponent(this.txtCustomerId,
+																		GroupLayout.PREFERRED_SIZE, 138,
+																		GroupLayout.PREFERRED_SIZE)
+																.addComponent(this.txtStaffId,
+																		GroupLayout.PREFERRED_SIZE, 138,
+																		GroupLayout.PREFERRED_SIZE)))
+												.addComponent(this.txtTypeId, GroupLayout.PREFERRED_SIZE, 138,
+														GroupLayout.PREFERRED_SIZE)))
+								.addComponent(this.lblTypeId, GroupLayout.PREFERRED_SIZE, 67,
+										GroupLayout.PREFERRED_SIZE))));
 		gl_pnlGeneralInfos
-				.setHorizontalGroup(
-						gl_pnlGeneralInfos
-								.createParallelGroup(
-										Alignment.LEADING)
-								.addGroup(
-										gl_pnlGeneralInfos.createSequentialGroup().addContainerGap()
-												.addGroup(
-														gl_pnlGeneralInfos
-																.createParallelGroup(
-																		Alignment.LEADING)
-																.addGroup(
-																		gl_pnlGeneralInfos.createSequentialGroup()
-																				.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-																						.addComponent(this.lblId).addComponent(this.lblCustomerId,
-																								GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-																						.addComponent(this.lblStaffId))
-																				.addGap(37).addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-																						.addGroup(gl_pnlGeneralInfos
-																								.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
-																										.createSequentialGroup()
-																										.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE, 138,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addGap(27)
-																										.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-																												.addGroup(Alignment.TRAILING, gl_pnlGeneralInfos
-																														.createSequentialGroup().addGap(153)
-																														.addComponent(this.lblDate)
-																														.addGap(18)
-																														.addComponent(this.dpkContract, GroupLayout.PREFERRED_SIZE,
-																																171, GroupLayout.PREFERRED_SIZE)
-																														.addGap(117))
-																												.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(18)
-																														.addGroup(gl_pnlGeneralInfos
-																																.createParallelGroup(Alignment.LEADING)
-																																.addComponent(this.lblStaffName,
-																																		GroupLayout.PREFERRED_SIZE, 76,
-																																		GroupLayout.PREFERRED_SIZE)
-																																.addComponent(this.lblLoanType,
-																																		GroupLayout.PREFERRED_SIZE, 76,
-																																		GroupLayout.PREFERRED_SIZE)
-																																.addComponent(this.lblCustomerName,
-																																		GroupLayout.PREFERRED_SIZE, 138,
-																																		GroupLayout.PREFERRED_SIZE))
-																														.addContainerGap(326, Short.MAX_VALUE))))
-																								.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.TRAILING)
-																										.addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE, 138,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addComponent(this.txtStaffId, GroupLayout.PREFERRED_SIZE, 138,
-																												GroupLayout.PREFERRED_SIZE)))
-																						.addComponent(this.txtTypeId, GroupLayout.PREFERRED_SIZE, 138,
-																								GroupLayout.PREFERRED_SIZE)))
-																.addComponent(this.lblTypeId, GroupLayout.PREFERRED_SIZE, 67,
-																		GroupLayout.PREFERRED_SIZE))));
-		gl_pnlGeneralInfos
-				.setVerticalGroup(
-						gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
-								.createSequentialGroup().addGroup(gl_pnlGeneralInfos
-										.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
-												.createSequentialGroup().addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(15).addComponent(this.lblDate))
-														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(
-																42).addComponent(this.lblCustomerName, GroupLayout.PREFERRED_SIZE, 0,
-																		GroupLayout.PREFERRED_SIZE))
-														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGroup(gl_pnlGeneralInfos
+				.setVerticalGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
+						.createSequentialGroup().addGroup(gl_pnlGeneralInfos
+								.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
+										.createSequentialGroup().addGroup(gl_pnlGeneralInfos
+												.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
+														.createSequentialGroup().addGap(15).addComponent(this.lblDate))
+												.addGroup(gl_pnlGeneralInfos
+														.createSequentialGroup()
+														.addGroup(gl_pnlGeneralInfos
 																.createParallelGroup(Alignment.LEADING)
-																.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addContainerGap().addComponent(
-																		this.dpkContract, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																		GroupLayout.PREFERRED_SIZE))
-																.addGroup(
-																		gl_pnlGeneralInfos.createSequentialGroup().addGap(15).addComponent(this.lblId)))
-																.addGap(11).addComponent(this.lblCustomerId)))
-												.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+																		.addContainerGap().addComponent(
+																				this.dpkContract,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+																		.addGap(15).addComponent(this.lblId)))
+														.addGap(11).addComponent(this.lblCustomerId))
+												.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(42)
+														.addComponent(this.lblCustomerName)))
+										.addGroup(
+												gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
 														.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-																.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.lblStaffName))
-														.addGroup(
-																gl_pnlGeneralInfos.createSequentialGroup().addGap(14).addComponent(this.lblStaffId)))
-												.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addComponent(this.lblStaffName))
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(14)
+																.addComponent(this.lblStaffId)))
+										.addGroup(
+												gl_pnlGeneralInfos
+														.createParallelGroup(Alignment.LEADING)
 														.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-																.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.lblLoanType))
-														.addGroup(
-																gl_pnlGeneralInfos.createSequentialGroup().addGap(14).addComponent(this.lblTypeId))))
-										.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addContainerGap()
-												.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-														.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)
-														.addGap(10).addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.txtStaffId,
-																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.txtTypeId,
-																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-								.addContainerGap(27, Short.MAX_VALUE)));
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addComponent(this.lblLoanType))
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(14)
+																.addComponent(this.lblTypeId))))
+								.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addContainerGap()
+										.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(10)
+										.addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(this.txtStaffId, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.txtTypeId,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(54, Short.MAX_VALUE)));
 		gl_pnlGeneralInfos.linkSize(SwingConstants.VERTICAL,
 				new Component[] { this.txtContractId, this.txtStaffId, this.txtCustomerId, this.txtTypeId });
 		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL,
-				new Component[] { this.lblId, this.lblStaffId, this.lblCustomerId, this.lblTypeId });
-		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL,
 				new Component[] { this.lblCustomerName, this.lblStaffName, this.lblLoanType });
+		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { this.lblId, this.lblStaffId, this.lblCustomerId, this.lblTypeId });
 		this.pnlGeneralInfos.setLayout(gl_pnlGeneralInfos);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -562,7 +617,7 @@ public class JDialogModifyContract extends JDialog {
 		dpkDueDate.getModel().setDate(cldDueDate.get(Calendar.YEAR), cldDueDate.get(Calendar.MONTH),
 				cldDueDate.get(Calendar.DAY_OF_MONTH));
 		dpkDueDate.getModel().setSelected(true);
-		JFormatedTextFieldInitialAmount.setText(String.valueOf(contracts.getInitialAmount()));
+		JTextFieldInitialAmount.setText(String.valueOf(contracts.getInitialAmount()));
 		JFormatedTextFieldRemain.setText(String.valueOf(contracts.getRemainAmount()));
 		JFormatedTextFieldMax.setText(String.valueOf(contracts.getLoanMax()));
 		JFormatedTextFieldPaidTime.setText(Integer.toString(contracts.getPaidTimes()));
@@ -603,7 +658,6 @@ public class JDialogModifyContract extends JDialog {
 		if (contracts == null) {
 			contracts = new Contracts();
 		}
-
 		try {
 			contracts.setContractDate((Date) dpkContract.getModel().getValue());
 			contracts.setCustomers(new CustomersDAO().find(Integer.parseInt(txtCustomerId.getText())));
@@ -613,9 +667,11 @@ public class JDialogModifyContract extends JDialog {
 			contracts.setMaturityPeriod(Integer.parseInt(JFormatedTextFieldMaturityPeriod.getText()));
 			contracts.setLoanTerm(Integer.parseInt(JFormattedTextFieldLoanTerm.getText()));
 			contracts.setDueDate((Date) dpkDueDate.getModel().getValue());
-			contracts.setInitialAmount(new BigDecimal(JFormatedTextFieldInitialAmount.getText()));
-			contracts.setRemainAmount(new BigDecimal(JFormatedTextFieldRemain.getText()));
-			contracts.setLoanMax(new BigDecimal(JFormatedTextFieldMax.getText()));
+			contracts.setInitialAmount(
+					BigDecimal.valueOf(Double.parseDouble(JTextFieldInitialAmount.getText())));
+			System.out.println(JTextFieldInitialAmount.getText());
+			contracts.setRemainAmount(BigDecimal.valueOf(Double.parseDouble(JFormatedTextFieldRemain.getText())));
+			contracts.setLoanMax(BigDecimal.valueOf(Double.parseDouble(JFormatedTextFieldMax.getText())));
 			contracts.setCreateLog(System.currentTimeMillis() + JFrameLogin.username);
 			contracts.setNotes(txaNotes.getText());
 			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -633,14 +689,15 @@ public class JDialogModifyContract extends JDialog {
 				} else {
 					new ContractsDAO().create(contracts);
 				}
-				JOptionPane.showMessageDialog(null, (isUpdate ? "Update this" : "Add new") + " contract success!", "Success",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, (isUpdate ? "Update this" : "Add new") + " contract success!",
+						"Success", JOptionPane.INFORMATION_MESSAGE);
 				this.dispose();
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null,
 					"Can't " + (isUpdate ? "Update this" : "Add new") + " contract!" + ex.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
 		}
 	}
 }

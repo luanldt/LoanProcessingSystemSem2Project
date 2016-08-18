@@ -45,9 +45,11 @@ import dao.LoanTypesDAO;
 import dao.PaymentDAO;
 import dao.StaffsDAO;
 import entities.Staffs;
+import model.CustomTableModel;
 import model.JTabbedPaneCloseButton;
 import model.MakeIcon;
 import model.MenuTreeCellRenderer;
+import moderator.ArchiveData;
 import moderator.JPanelApproveDeleting;
 
 import javax.swing.event.ChangeListener;
@@ -111,6 +113,7 @@ public class JFrameMain extends JFrame {
 	private JButton btnApprove;
 	private JButton btnCancel;
 	public static String mntmAprrove;
+	private JButton btnRestore;
 
 	/**
 	 * Launch the application.
@@ -157,7 +160,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(arg0);
 			}
 		});
-		this.mntmLoanTypes.setName("mntmLoanTypes");
+		this.mntmLoanTypes.setName("mntmLoan Types");
 		this.mnApproveDeleting.add(this.mntmLoanTypes);
 
 		this.mntmCustomers = new JMenuItem("Customers");
@@ -386,7 +389,7 @@ public class JFrameMain extends JFrame {
 		JButtonDelete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				processDelete();
+				processArchive();
 			}
 		});
 		JButtonDelete.setEnabled(false);
@@ -400,47 +403,70 @@ public class JFrameMain extends JFrame {
 			}
 		});
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop
-				.setHorizontalGroup(
-						gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(177)
-										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 432,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(2).addComponent(JButtonSearch).addGap(105)
-										.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 110,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(JButtonLogout,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addGap(60)));
-		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(
-				Alignment.TRAILING)
-				.addGroup(gl_JPanelTop.createSequentialGroup().addGroup(gl_JPanelTop
-						.createParallelGroup(Alignment.TRAILING).addGroup(gl_JPanelTop
-								.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_JPanelTop.createParallelGroup(Alignment.BASELINE)
-										.addComponent(JLabelHello, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(JButtonLogout, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_JPanelTop.createSequentialGroup().addContainerGap()
-										.addComponent(JButtonSearch)))
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-						.addContainerGap())
-				.addGroup(gl_JPanelTop.createSequentialGroup().addComponent(JTextFieldSearch,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addGap(20)));
+		gl_JPanelTop.setHorizontalGroup(
+			gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelTop.createSequentialGroup()
+					.addGap(25)
+					.addComponent(this.panel_3, GroupLayout.PREFERRED_SIZE, 584, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
+					.addGap(2)
+					.addComponent(this.JButtonSearch)
+					.addGap(105)
+					.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(this.JButtonLogout, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(60))
+		);
+		gl_JPanelTop.setVerticalGroup(
+			gl_JPanelTop.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_JPanelTop.createSequentialGroup()
+					.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelTop.createSequentialGroup()
+							.addGap(18)
+							.addComponent(this.JButtonSearch))
+						.addGroup(gl_JPanelTop.createSequentialGroup()
+							.addGap(9)
+							.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_JPanelTop.createSequentialGroup()
+							.addGap(9)
+							.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_JPanelTop.createSequentialGroup()
+							.addGap(13)
+							.addComponent(this.panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_JPanelTop.createSequentialGroup()
+							.addGap(19)
+							.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(17, Short.MAX_VALUE))
+		);
 		this.btnAssign = new JButton("Assign");
 		this.btnAssign.setName("btnAssign");
 		this.panel_3.add(this.btnAssign);
 
 		this.btnApprove = new JButton("Approve");
+		this.btnApprove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				do_btnApprove_actionPerformed(arg0);
+			}
+		});
 		this.btnApprove.setName("btnApprove");
 		this.panel_3.add(this.btnApprove);
+		
+		this.btnRestore = new JButton("Restore");
+		this.btnRestore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_btnRestore_actionPerformed(e);
+			}
+		});
+		this.btnRestore.setName("btnRestore");
+		this.panel_3.add(this.btnRestore);
 
 		this.btnCancel = new JButton("Cancel");
+		this.btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				do_btnCancel_actionPerformed(arg0);
+			}
+		});
 		this.btnCancel.setName("btnCancel");
 		this.panel_3.add(this.btnCancel);
 
@@ -647,71 +673,71 @@ public class JFrameMain extends JFrame {
 	/* END CODE ADD UPDATE */
 
 	/* START CODE DELETE */
-	private void processDelete() {
-		if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm", JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-			switch (name) {
-			case "Loan Types":
-				try {
-					new LoanTypesDAO().delete(new LoanTypesDAO().find(currentId));
-					JOptionPane.showMessageDialog(null, "Delete loan types success!", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Delete loan types error!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-			case "Staffs":
-				try {
-					new StaffsDAO().delete(new StaffsDAO().find(currentId));
-					JOptionPane.showMessageDialog(null, "Delete staff success!", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Delete staff error!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-			case "Departments":
-				try {
-					new DepartmentDAO().delete(new DepartmentDAO().find(currentId));
-					JOptionPane.showMessageDialog(null, "Delete departments success!", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Delete departments error!", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-			case "Customers":
-				try {
-					new CustomersDAO().delete(new CustomersDAO().find(currentId));
-					JOptionPane.showMessageDialog(null, "Delete customer success!", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Delete customer error!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-
-			case "Contracts":
-				try {
-					new ContractsDAO().delete(new ContractsDAO().find(currentId));
-					JOptionPane.showMessageDialog(null, "Delete contract success!", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Delete contract error!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-			case "Payments":
-				try {
-					new PaymentDAO().delete(new PaymentDAO().find(currentId));
-					JOptionPane.showMessageDialog(null, "Delete customer success!", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Delete customer error!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-			}
-			processRefresh();
-		}
-
-	}
+//	private void processDelete() {
+//		if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm", JOptionPane.YES_NO_OPTION,
+//				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+//			switch (name) {
+//			case "Loan Types":
+//				try {
+//					new LoanTypesDAO().delete(new LoanTypesDAO().find(currentId));
+//					JOptionPane.showMessageDialog(null, "Delete loan types success!", "Success",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, "Delete loan types error!", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+//				break;
+//			case "Staffs":
+//				try {
+//					new StaffsDAO().delete(new StaffsDAO().find(currentId));
+//					JOptionPane.showMessageDialog(null, "Delete staff success!", "Success",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, "Delete staff error!", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+//				break;
+//			case "Departments":
+//				try {
+//					new DepartmentDAO().delete(new DepartmentDAO().find(currentId));
+//					JOptionPane.showMessageDialog(null, "Delete departments success!", "Success",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, "Delete departments error!", "Error",
+//							JOptionPane.ERROR_MESSAGE);
+//				}
+//				break;
+//			case "Customers":
+//				try {
+//					new CustomersDAO().delete(new CustomersDAO().find(currentId));
+//					JOptionPane.showMessageDialog(null, "Delete customer success!", "Success",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, "Delete customer error!", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+//				break;
+//
+//			case "Contracts":
+//				try {
+//					new ContractsDAO().delete(new ContractsDAO().find(currentId));
+//					JOptionPane.showMessageDialog(null, "Delete contract success!", "Success",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, "Delete contract error!", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+//				break;
+//			case "Payments":
+//				try {
+//					new PaymentDAO().delete(new PaymentDAO().find(currentId));
+//					JOptionPane.showMessageDialog(null, "Delete customer success!", "Success",
+//							JOptionPane.INFORMATION_MESSAGE);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, "Delete customer error!", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+//				break;
+//			}
+//			processRefresh();
+//		}
+//
+//	}
 	/* END CODE DELETE */
 
 	/* START CODE SET ENABLE BUTTON ACTION WITH DATA */
@@ -784,6 +810,13 @@ public class JFrameMain extends JFrame {
 			jPanelPayment.loadTable();
 			break;
 		}
+
+//		String[] cases = {"Loan Types", "Customers", "Departments", "Staffs", "Contracts", "Payments"};
+//		int i;
+//		for(i = 0; i < cases.length; i++){
+//			if(name.contains(cases[i]) && name.contains("Mod")) 
+//		    	jPanelApproveDeleting.loadTable();
+//		}
 	}
 	/* END CODE REFRESH */
 
@@ -808,13 +841,28 @@ public class JFrameMain extends JFrame {
 		}
 		JFrameMain.currentId = -1;
 		checkEnableButton();
+		if(name.contains("Mod")){
+			ButtonOnModeratorMode(true);	
+		}else{
+			ButtonOnModeratorMode(false);
+		}
 	}
 
 	protected void do_mntmApproveDeleting_actionPerformed(ActionEvent e) {
-		String tabName = ((JMenuItem) e.getSource()).getName();
+		ButtonOnModeratorMode(true);
+		String tabName = ((JMenuItem) e.getSource()).getName().replace("mntm", "(Mod) ");
 		jPanelApproveDeleting = new JPanelApproveDeleting(tabName);
 		JTabbedPaneMain.addTab(tabName, jPanelApproveDeleting);
 		JTabbedPaneMain.setSelectedComponent(jPanelApproveDeleting);
+	}
+	
+	private void ButtonOnModeratorMode(Boolean modeState){
+		JButtonAdd.setVisible(!modeState);
+		JButtonUpdate.setVisible(!modeState);
+		JButtonDelete.setVisible(!modeState);
+		JButtonRefresh.setVisible(true);
+		btnApprove.setVisible(modeState);
+		btnAssign.setVisible(false);
 	}
 
 	// Search at runtime
@@ -823,5 +871,30 @@ public class JFrameMain extends JFrame {
 		public void keyReleased(KeyEvent arg0) {
 			searchData(JTextFieldSearch.getText());
 		}
+	}
+	private void processArchive() {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+			ArchiveData.processArchive("Archive", name, currentId);	
+		}
+		processRefresh();
+	}
+	
+	protected void do_btnApprove_actionPerformed(ActionEvent arg0) {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+			ArchiveData.processArchive("Delete", name, currentId);	
+		}
+		processRefresh();
+	}
+	protected void do_btnCancel_actionPerformed(ActionEvent arg0) {
+		//remove selected items
+	}
+	protected void do_btnRestore_actionPerformed(ActionEvent e) {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+			ArchiveData.processArchive("Restore", name, currentId);	
+		}
+		processRefresh();
 	}
 }

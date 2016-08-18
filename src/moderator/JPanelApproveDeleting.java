@@ -27,33 +27,33 @@ public class JPanelApproveDeleting extends AbstractJPanel{
 	
 	@Override
 	public void loadTable() {
-		String[] cases = {"mntmLoanTypes", "mntmCustomers", "mntmDepartments", "mntmStaffs", "mntmContracts", "mntmPayments"};
+		String[] cases = {"Loan Types", "Customers", "Departments", "Staffs", "Contracts", "Payments"};
 		CustomTableModel customTableModel = new CustomTableModel();
 		customTableModel.getColumnClass(0);
 		int i;
 		for(i = 0; i < cases.length; i++)
-		    if(tableName.contains(cases[i])) break;
+		    if(tableName.contains(cases[i]) && tableName.contains("Mod")) break;
 
 		switch(i) {
 		    case 0: //mntmLoanTypes
-		    	String []typeColumns = { "Selected", "ID", "Name", "InterestRate", "LoanBase", "LoanRate"};
+		    	String []typeColumns = { "ID", "Name", "InterestRate", "LoanBase", "LoanRate", "Selected" };
 				customTableModel.addColumn(typeColumns);
 				
 				for(LoanTypes loanTypes : new LoanTypesDAO().findPending()) {
 					customTableModel.addRow(new Object[] {
-							Boolean.FALSE, loanTypes.getLoanTypeId(), loanTypes.getLoanTypeName(), loanTypes.getInterestRate(), loanTypes.getLoanBase(), loanTypes.getLoanRate()
+						loanTypes.getLoanTypeId(), loanTypes.getLoanTypeName(), loanTypes.getInterestRate(), loanTypes.getLoanBase(), loanTypes.getLoanRate(), Boolean.FALSE
 					});
 				}
 		    break;
 		    case 1: //mntmCustomers
-		    	String[] customerColumns = { "Selected", "customerId", "customerName", "address", "phoneNumber", "email", "accountNumber",
-						"identityCardNo", "notes", "salary" };
+		    	String[] customerColumns = { "customerId", "customerName", "address", "phoneNumber", "email", "accountNumber",
+						"identityCardNo", "notes", "salary", "Selected" };
 				customTableModel.addColumn(customerColumns);
 
 				for (Customers customers : new CustomersDAO().findPending()) {
-					customTableModel.addRow(new Object[] {Boolean.FALSE, customers.getCustomerId(), customers.getCustomerName(),
+					customTableModel.addRow(new Object[] { customers.getCustomerId(), customers.getCustomerName(),
 							customers.getAddress(), customers.getPhoneNumber(), customers.getEmail(), customers.getAccountNumber(),
-							customers.getIdentityCardNo(), customers.getNotes(), customers.getSalary() });
+							customers.getIdentityCardNo(), customers.getNotes(), customers.getSalary(), Boolean.FALSE });
 				}
 		    break;
 		    case 2: //mntmDepartments
@@ -61,46 +61,45 @@ public class JPanelApproveDeleting extends AbstractJPanel{
 				customTableModel.addColumn(departmentColumns);
 
 				for (Department department : new DepartmentDAO().findPending()) {
-					customTableModel.addRow(new Object[] {Boolean.FALSE, department.getDepartmentId(), department.getDepartmentName(),
-							department.getLoanTypes().getLoanTypeName() });
+					customTableModel.addRow(new Object[] { department.getDepartmentId(), department.getDepartmentName(),
+							department.getLoanTypes().getLoanTypeName(), Boolean.FALSE });
 				}
 		    break;
 		    case 3: //mntmStaffs
-		    	String[] staffColumns = { "Selected", "StaffID", "StaffName", "Username", "DepartmentName", "IsAdmin" };
+		    	String[] staffColumns = { "StaffID", "StaffName", "Username", "DepartmentName", "Role", "Selected" };
 				customTableModel.addColumn(staffColumns);
 
 				for (Staffs staffs : new StaffsDAO().findPending()) {
-					customTableModel.addRow(new Object[] {Boolean.FALSE, staffs.getStaffId(), staffs.getStaffName(), staffs.getUsername(),
-							staffs.getDepartment().getDepartmentName() });
+					customTableModel.addRow(new Object[] { staffs.getStaffId(), staffs.getStaffName(), staffs.getUsername(),
+							staffs.getDepartment().getDepartmentName(), staffs.getRole(), Boolean.FALSE });
 				}
 		    break;
 		    case 4: //mntmContracts
-		    	String [] contractColumns = { "Selected" , "ID", "Contract Date", "Customer Name", "Staff Name", "Loan Type", "Maturity Period", "Paid Times", 
-						"Loan Term", "Initial Amount", "Remain Amount", "Due Date", "Initiate Date", "Loan Max"
+		    	String [] contractColumns = { "ID", "Contract Date", "Customer Name", "Staff Name", "Loan Type", "Maturity Period", "Paid Times", 
+						"Loan Term", "Initial Amount", "Remain Amount", "Due Date", "Initiate Date", "Loan Max", "Selected"
 				};
 					customTableModel.addColumn(contractColumns);
 				
 				for(Contracts contracts: new ContractsDAO().findPending()) {
 					customTableModel.addRow(new Object[] {
-							false, contracts.getContractId(), contracts.getContractDate().toString(), contracts.getCustomers().getCustomerName(),
+							contracts.getContractId(), contracts.getContractDate().toString(), contracts.getCustomers().getCustomerName(),
 							contracts.getStaffs().getStaffName(), contracts.getLoanTypes().getLoanTypeName(), contracts.getMaturityPeriod(),
 							contracts.getPaidTimes(), contracts.getLoanTerm(), contracts.getInitialAmount(), contracts.getRemainAmount(),
-							contracts.getDueDate().toString(), contracts.getInitiateDate().toString(), contracts.getLoanMax()
+							contracts.getDueDate().toString(), contracts.getInitiateDate().toString(), contracts.getLoanMax(), Boolean.FALSE
 					});
 				}
 				break;
 		    case 5: //mntmPayments
-				String[] paymentColumns = { "Selected", "PaymentID", "contractID", "PaymentType", "PaymentDate", "duePeriod", "PaymentAmount",
-						"FineRate", "FineAmount", "staffID", "paid" };
+				String[] paymentColumns = { "PaymentID", "contractID", "PaymentType", "PaymentDate", "duePeriod", "PaymentAmount",
+						"FineRate", "FineAmount", "staffID", "paid", "Selected" };
 				customTableModel.addColumn(paymentColumns);
 
 				for (Payment payment : new PaymentDAO().findPending()) {
-					customTableModel.addRow(new Object[] {Boolean.FALSE, payment.getPaymentId(), payment.getContracts().getContractId(),
+					customTableModel.addRow(new Object[] { payment.getPaymentId(), payment.getContracts().getContractId(),
 							payment.getPaymentType(), payment.getPaymentDate(), payment.getDuePeriod(),
 							payment.getPaymentAmount(), payment.getFineRate(), payment.getFineAmount(),
-							payment.getStaffs().getStaffId(), payment.isPaid() });
+							payment.getStaffs().getStaffId(), payment.isPaid(), Boolean.FALSE });
 				}
-
 		    default:
 		        System.out.println("do nothing");
 		}

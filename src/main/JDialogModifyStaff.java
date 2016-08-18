@@ -47,8 +47,8 @@ public class JDialogModifyStaff extends JDialog {
 	private JTextField JTextFieldUsername;
 	private JLabel lblDepartmentname;
 	private JComboBox<String> JComboboxDepartmentName;
-	private JLabel lblIsadmin;
-	private JCheckBox JCheckboxIsAdmin;
+	private JLabel lblRole;
+	private JTextField JTextFieldRole;
 	private boolean isUpdate;
 	private Staffs staffs;
 	private JPasswordField JPasswordFieldRepassword;
@@ -114,17 +114,18 @@ public class JDialogModifyStaff extends JDialog {
 		JComboboxDepartmentName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JComboboxDepartmentName.setName("JComboboxDepartmentName");
 
-		lblIsadmin = new JLabel("IsAdmin :");
-		lblIsadmin.setForeground(new Color(0, 100, 0));
-		lblIsadmin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblIsadmin.setHorizontalAlignment(SwingConstants.LEFT);
-		lblIsadmin.setName("lblIsadmin");
+		lblRole = new JLabel("Role :");
+		lblRole.setForeground(new Color(0, 100, 0));
+		lblRole.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRole.setHorizontalAlignment(SwingConstants.LEFT);
+		lblRole.setName("lblRole");
 
-		JCheckboxIsAdmin = new JCheckBox();
-		this.JCheckboxIsAdmin.setEnabled(false);
-		JCheckboxIsAdmin.setForeground(new Color(139, 0, 0));
-		JCheckboxIsAdmin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		JCheckboxIsAdmin.setName("JCheckboxIsAdmin");
+		JTextFieldRole = new JTextField();
+		this.JTextFieldRole.setEnabled(false);
+		JTextFieldRole.setForeground(new Color(139, 0, 0));
+		JTextFieldRole.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JTextFieldRole.setName("JTextFieldRole");
+		JTextFieldRole.setText("0");
 
 		JPasswordFieldRepassword = new JPasswordField();
 		JPasswordFieldRepassword.setForeground(new Color(139, 0, 0));
@@ -160,12 +161,12 @@ public class JDialogModifyStaff extends JDialog {
 								.addComponent(lblRepassword, GroupLayout.PREFERRED_SIZE,
 										123, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblDepartmentname)
-								.addComponent(lblIsadmin, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
 						.addGap(5)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(JComboboxDepartmentName, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
 										219, GroupLayout.PREFERRED_SIZE)
-								.addComponent(JCheckboxIsAdmin, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
+								.addComponent(JTextFieldRole, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 219,
 										GroupLayout.PREFERRED_SIZE)
 								.addComponent(JPasswordFieldRepassword, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
 										219, GroupLayout.PREFERRED_SIZE)
@@ -218,9 +219,9 @@ public class JDialogModifyStaff extends JDialog {
 												GroupLayout.PREFERRED_SIZE))
 								.addGap(18)
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblIsadmin, GroupLayout.PREFERRED_SIZE, 35,
+										.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 35,
 												GroupLayout.PREFERRED_SIZE)
-										.addComponent(JCheckboxIsAdmin, GroupLayout.PREFERRED_SIZE, 35,
+										.addComponent(JTextFieldRole, GroupLayout.PREFERRED_SIZE, 35,
 												GroupLayout.PREFERRED_SIZE))
 								.addGap(10)));
 		contentPanel.setLayout(gl_contentPanel);
@@ -270,6 +271,7 @@ public class JDialogModifyStaff extends JDialog {
 			}
 			staffs.setStaffName(JTextFieldStaffName.getText());
 			staffs.setDepartment(new DepartmentDAO().findByName(JComboboxDepartmentName.getSelectedItem().toString()));
+			staffs.setRole(Integer.parseInt(JTextFieldRole.getText()));
 			staffs.setUsername(JTextFieldUsername.getText());
 			// Kiem tra mat khau va mat khau nhap lai
 			if (String.valueOf(JPasswordFieldRepassword.getPassword())
@@ -330,6 +332,7 @@ public class JDialogModifyStaff extends JDialog {
 		this.JTextFieldStaffName.setText(staffs.getStaffName());
 		this.JTextFieldUsername.setText(staffs.getUsername());
 		this.JComboboxDepartmentName.setSelectedItem(staffs.getDepartment().getDepartmentName());
+		this.JTextFieldRole.setText(String.valueOf(staffs.getRole()));
 		this.JTextFieldUsername.setEnabled(false);
 		return this;
 	}
