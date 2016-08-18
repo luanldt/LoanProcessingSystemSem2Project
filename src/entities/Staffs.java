@@ -29,7 +29,6 @@ public class Staffs implements java.io.Serializable {
 	private Department department;
 	private String staffName;
 	private String username;
-	private boolean isAdmin;
 	private int role;
 	private String createLog;
 	private boolean isArchive;
@@ -40,24 +39,22 @@ public class Staffs implements java.io.Serializable {
 	public Staffs() {
 	}
 
-	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role, String createLog,
+	public Staffs(int staffId, Department department, String staffName, int role, String createLog,
 			boolean isArchive, String password) {
 		this.staffId = staffId;
 		this.department = department;
 		this.staffName = staffName;
-		this.isAdmin = isAdmin;
 		this.role = role;
 		this.createLog = createLog;
 		this.isArchive = isArchive;
 		this.password = password;
 	}
 
-	public Staffs(int staffId, Department department, String staffName, boolean isAdmin, int role, String createLog,
+	public Staffs(int staffId, Department department, String staffName, int role, String createLog,
 			boolean isArchive, String password, Set<Payment> payments, Set<Contracts> contractses) {
 		this.staffId = staffId;
 		this.department = department;
 		this.staffName = staffName;
-		this.isAdmin = isAdmin;
 		this.role = role;
 		this.createLog = createLog;
 		this.isArchive = isArchive;
@@ -106,15 +103,6 @@ public class Staffs implements java.io.Serializable {
 
 	public void setStaffName(String staffName) {
 		this.staffName = staffName;
-	}
-
-	@Column(name = "isAdmin", nullable = false)
-	public boolean isIsAdmin() {
-		return this.isAdmin;
-	}
-
-	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
 	}
 
 	@Column(name = "role", nullable = false)
