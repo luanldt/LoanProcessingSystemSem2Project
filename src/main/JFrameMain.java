@@ -629,9 +629,9 @@ public class JFrameMain extends JFrame {
 			break;
 		case "Customers":
 			if (order == JFrameMain.ADD) {
-				new JDialogCustomer().setVisible(true);
+				new JDialogModifyCustomer().setVisible(true);
 			} else {
-				new JDialogCustomer().isUpdate(new CustomersDAO().find(currentId)).setVisible(true);
+				new JDialogModifyCustomer().isUpdate(new CustomersDAO().find(currentId)).setVisible(true);
 			}
 			break;
 		case "Payments":

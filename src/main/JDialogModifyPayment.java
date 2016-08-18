@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -27,6 +28,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -36,6 +41,7 @@ import controlExtension.JTextFieldList;
 import dao.ContractsDAO;
 import dao.PaymentDAO;
 import dao.StaffsDAO;
+import entities.Department;
 import entities.Payment;
 import entities.Staffs;
 
@@ -291,7 +297,7 @@ public class JDialogModifyPayment extends JDialog {
 	}
 
 	public void addPayment() {
-		if(payment == null) {
+		if (payment == null) {
 			payment = new Payment();
 		}
 		payment.setPaymentType(Integer.parseInt(JTextFieldPaymentType.getText()));
@@ -305,14 +311,25 @@ public class JDialogModifyPayment extends JDialog {
 		payment.setPaymentAmount(BigDecimal.valueOf(Double.parseDouble(JTextFieldPaymentAmount.getText())));
 		payment.setCreateLog("");
 		try {
-			if (isUpdate) {
-				new PaymentDAO().update(payment);
+			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+			Validator validator = validatorFactory.getValidator();
+			Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(payment);
+			if (!constraintViolations.isEmpty()) {
+				String error = "";
+				for (ConstraintViolation<Payment> violation : constraintViolations) {
+					error += violation.getMessage() + "\n";
+				}
+				JOptionPane.showMessageDialog(null, error);
 			} else {
-				new PaymentDAO().create(payment);
+				if (isUpdate) {
+					new PaymentDAO().update(payment);
+				} else {
+					new PaymentDAO().create(payment);
+				}
+				JOptionPane.showMessageDialog(null, (isUpdate ? "Update this" : "Add new") + " payment success!", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 			}
-			JOptionPane.showMessageDialog(null, (isUpdate ? "Update this" : "Add new") + " payment success!", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-			dispose();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null,
 					"Can't " + (isUpdate ? "Update this" : "Add new") + " payment!" + ex.getMessage(), "Error",

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -26,6 +27,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Pattern;
 
 import dao.DepartmentDAO;
 import dao.StaffsDAO;
@@ -53,6 +55,7 @@ public class JDialogModifyStaff extends JDialog {
 	private JLabel lblRepassword;
 	private JPasswordField JPasswordFieldPassword;
 	private JLabel lblPassword;
+	private final String PATTERN_PASSWORD = "[a-zA-Z0-9\\W+]{16,}";
 
 	public JDialogModifyStaff() {
 		setTitle("ModifyStaff");
@@ -267,7 +270,6 @@ public class JDialogModifyStaff extends JDialog {
 			}
 			staffs.setStaffName(JTextFieldStaffName.getText());
 			staffs.setDepartment(new DepartmentDAO().findByName(JComboboxDepartmentName.getSelectedItem().toString()));
-			staffs.setIsAdmin(JCheckboxIsAdmin.isSelected());
 			staffs.setUsername(JTextFieldUsername.getText());
 			// Kiem tra mat khau va mat khau nhap lai
 			if (String.valueOf(JPasswordFieldRepassword.getPassword())
@@ -275,6 +277,10 @@ public class JDialogModifyStaff extends JDialog {
 				if (JPasswordFieldPassword.getPassword().length > 0) {
 					staffs.setPassword(EncryptPasswordWithPBKDF2WithHmacSHA1
 							.generateStorngPasswordHash(String.valueOf(JPasswordFieldPassword.getPassword())));
+				}
+				if(!java.util.regex.Pattern.compile(PATTERN_PASSWORD).matcher(String.valueOf(JPasswordFieldPassword.getPassword())).matches()){
+					JOptionPane.showMessageDialog(null, "Password not enought strong!");
+					return;
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Password do not analogous!");
@@ -324,7 +330,6 @@ public class JDialogModifyStaff extends JDialog {
 		this.JTextFieldStaffName.setText(staffs.getStaffName());
 		this.JTextFieldUsername.setText(staffs.getUsername());
 		this.JComboboxDepartmentName.setSelectedItem(staffs.getDepartment().getDepartmentName());
-		this.JCheckboxIsAdmin.setSelected(staffs.isIsAdmin());
 		this.JTextFieldUsername.setEnabled(false);
 		return this;
 	}

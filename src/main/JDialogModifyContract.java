@@ -20,8 +20,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
+import java.util.Set;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -29,6 +34,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import entities.Contracts;
+import entities.LoanTypes;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -93,11 +99,13 @@ public class JDialogModifyContract extends JDialog {
 	private boolean isUpdate = false;
 	private Contracts contracts;
 	private JLabel lblLoginfo;
+
 	/**
 	 * Launch the application.
 	 */
 
 	public JDialogModifyContract() {
+		setTitle("Add Contract");
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -110,395 +118,367 @@ public class JDialogModifyContract extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		this.contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(this.contentPanel, BorderLayout.CENTER);
-		
+
 		this.pnlGeneralInfos = new JPanel();
-		this.pnlGeneralInfos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "General Informations", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
+		this.pnlGeneralInfos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "General Informations",
+				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		this.pnlGeneralInfos.setName("pnlGeneralInfos");
-		
+
 		this.lblContracts = new JLabel("CONTRACTS");
 		this.lblContracts.setForeground(Color.BLUE);
 		this.lblContracts.setFont(new Font("Tahoma", Font.BOLD, 16));
 		this.lblContracts.setHorizontalAlignment(SwingConstants.CENTER);
 		this.lblContracts.setName("lblContracts");
-		
+
 		p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
-		
+
 		this.lblRate = new JLabel("Rate");
 		this.lblRate.setForeground(Color.RED);
 		this.lblRate.setName("lblRate");
-		
+
 		this.txtRate = new JTextField();
 		this.txtRate.setColumns(10);
 		this.txtRate.setName("txtRate");
-		
+
 		this.pnlDuration = new JPanel();
-		this.pnlDuration.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Duration", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
+		this.pnlDuration.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Duration",
+				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		this.pnlDuration.setName("pnlDuration");
-		
+
 		this.panel = new JPanel();
 		this.panel.setBorder(new TitledBorder(null, "Amount", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		this.panel.setName("panel");
-		
+
 		this.lblPaidtimes = new JLabel("Paid times");
 		this.lblPaidtimes.setForeground(Color.RED);
 		this.lblPaidtimes.setName("lblPaidtimes");
-		
+
 		this.txtPaidTimes = new JTextField();
 		this.txtPaidTimes.setColumns(10);
 		this.txtPaidTimes.setName("txtPaidTimes");
-		
+
 		this.txaNotes = new JTextArea();
 		this.txaNotes.setName("txaNotes");
-		
+
 		this.lblNotes = new JLabel("Notes");
 		this.lblNotes.setName("lblNotes");
-		
+
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(137)
-					.addComponent(this.lblContracts, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
-					.addGap(126))
-				.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-					.addGap(33)
-					.addComponent(this.lblNotes)
-					.addGap(18)
-					.addComponent(this.txaNotes, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(113)
-					.addComponent(this.lblPaidtimes, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.txtPaidTimes, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(536, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(22)
-					.addComponent(this.pnlDuration, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(113)
-					.addComponent(this.lblRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addGap(19)
-					.addComponent(this.txtRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(536, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(22)
-					.addComponent(this.pnlGeneralInfos, GroupLayout.PREFERRED_SIZE, 746, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(22)
-					.addComponent(this.panel, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(this.lblContracts, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(this.pnlGeneralInfos, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(this.lblRate)
-						.addComponent(this.txtRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(this.pnlDuration, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(this.panel, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(14)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(this.txtPaidTimes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(this.lblPaidtimes))
-							.addGap(18)
-							.addComponent(this.txaNotes, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-							.addGap(21))
-						.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(this.lblNotes)
-							.addGap(55))))
-		);
-		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] {this.pnlDuration, this.panel});
-		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] {this.txtRate, this.txtPaidTimes});
-		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] {this.txtRate, this.txtPaidTimes});
-		
+		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(137)
+						.addComponent(this.lblContracts, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE).addGap(126))
+				.addGroup(Alignment.LEADING,
+						gl_contentPanel.createSequentialGroup().addGap(33).addComponent(this.lblNotes).addGap(18)
+								.addComponent(this.txaNotes, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE).addContainerGap())
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
+						.addComponent(this.lblPaidtimes, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.txtPaidTimes, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(536, Short.MAX_VALUE))
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+						.addComponent(this.pnlDuration, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap())
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(113)
+						.addComponent(this.lblRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addGap(19)
+						.addComponent(this.txtRate, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(536, Short.MAX_VALUE))
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+						.addComponent(this.pnlGeneralInfos, GroupLayout.PREFERRED_SIZE, 746, Short.MAX_VALUE).addContainerGap())
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(22)
+						.addComponent(this.panel, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addContainerGap()));
+		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap()
+						.addComponent(this.lblContracts, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(this.pnlGeneralInfos, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE).addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblRate).addComponent(
+								this.txtRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(this.pnlDuration, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE).addGap(18)
+						.addComponent(this.panel, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_contentPanel.createSequentialGroup().addGap(14)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+												.addComponent(this.txtPaidTimes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(this.lblPaidtimes))
+										.addGap(18).addComponent(this.txaNotes, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+										.addGap(21))
+								.addGroup(Alignment.TRAILING,
+										gl_contentPanel.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(this.lblNotes).addGap(55)))));
+		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] { this.pnlDuration, this.panel });
+		gl_contentPanel.linkSize(SwingConstants.VERTICAL, new Component[] { this.txtRate, this.txtPaidTimes });
+		gl_contentPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] { this.txtRate, this.txtPaidTimes });
+
 		this.txtInitialAmount = new JTextField();
 		this.txtInitialAmount.setColumns(10);
 		this.txtInitialAmount.setName("txtInitialAmount");
-		
+
 		this.lblInitial = new JLabel("Initial");
 		this.lblInitial.setName("lblInitial");
-		
+
 		this.lblRemain = new JLabel("Remain");
 		this.lblRemain.setName("lblRemain");
-		
+
 		this.txtRemainAmount = new JTextField();
 		this.txtRemainAmount.setColumns(10);
 		this.txtRemainAmount.setName("txtRemainAmount");
-		
+
 		this.txtLoanMax = new JTextField();
 		this.txtLoanMax.setColumns(10);
 		this.txtLoanMax.setName("txtLoanMax");
-		
+
 		this.lblMax = new JLabel("Max");
 		this.lblMax.setName("lblMax");
 		GroupLayout gl_panel = new GroupLayout(this.panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(this.lblInitial, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.txtInitialAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(69)
-					.addComponent(this.lblRemain, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(this.txtRemainAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-					.addComponent(this.lblMax, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.txtLoanMax, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(16))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(this.lblMax)
-							.addComponent(this.txtLoanMax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(3)
-							.addComponent(this.lblRemain))
-						.addComponent(this.txtRemainAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(this.lblInitial)
-							.addComponent(this.txtInitialAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(19, Short.MAX_VALUE))
-		);
-		gl_panel.linkSize(SwingConstants.VERTICAL, new Component[] {this.txtInitialAmount, this.txtRemainAmount, this.txtLoanMax});
-		gl_panel.linkSize(SwingConstants.HORIZONTAL, new Component[] {this.txtInitialAmount, this.txtRemainAmount, this.txtLoanMax});
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
+						.addComponent(this.lblInitial, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.txtInitialAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE).addGap(69)
+						.addComponent(this.lblRemain, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE).addGap(4)
+						.addComponent(this.txtRemainAmount, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+						.addComponent(this.lblMax, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.txtLoanMax, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE).addGap(16)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblMax).addComponent(
+										this.txtLoanMax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(this.lblRemain))
+								.addComponent(this.txtRemainAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(this.lblInitial).addComponent(
+										this.txtInitialAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(19, Short.MAX_VALUE)));
+		gl_panel.linkSize(SwingConstants.VERTICAL,
+				new Component[] { this.txtInitialAmount, this.txtRemainAmount, this.txtLoanMax });
+		gl_panel.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { this.txtInitialAmount, this.txtRemainAmount, this.txtLoanMax });
 		this.panel.setLayout(gl_panel);
-		
+
 		this.dpnlInitiate = new JDatePanelImpl(new UtilDateModel(), p);
 		this.dpkInitiate = new JDatePickerImpl(dpnlInitiate, new DateLabelFormatter());
 		this.dpkInitiate.setName("datePickerInitiate");
-		
+
 		this.lblStart = new JLabel("Start");
 		this.lblStart.setName("lblStart");
 
 		this.dpnlDueDate = new JDatePanelImpl(new UtilDateModel(), p);
 		this.dpkDueDate = new JDatePickerImpl(dpnlDueDate, new DateLabelFormatter());
 		this.dpkDueDate.setName("datePickerDueDate");
-		
+
 		this.lblEnd = new JLabel("End");
 		this.lblEnd.setName("lblEnd");
-		
+
 		this.lblMaturityPeriod = new JLabel("Maturity Period");
 		this.lblMaturityPeriod.setName("lblMaturityPeriod");
-		
+
 		this.txtMaturityPeriod = new JTextField();
 		this.txtMaturityPeriod.setColumns(10);
 		this.txtMaturityPeriod.setName("txtMaturityPeriod");
-		
+
 		this.txtLoanTerm = new JTextField();
 		this.txtLoanTerm.setColumns(10);
 		this.txtLoanTerm.setName("txtLoanTerm");
-		
+
 		this.lblLoanTerm = new JLabel("Loan Term");
 		this.lblLoanTerm.setName("lblLoanTerm");
-		
+
 		GroupLayout gl_pnlDuration = new GroupLayout(this.pnlDuration);
-		gl_pnlDuration.setHorizontalGroup(
-			gl_pnlDuration.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_pnlDuration.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(this.lblStart)
-					.addGap(18)
-					.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-					.addGap(44)
-					.addComponent(this.lblMaturityPeriod)
-					.addGap(10)
-					.addComponent(this.txtMaturityPeriod, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addGap(33)
-					.addComponent(this.lblLoanTerm, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.txtLoanTerm, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-					.addComponent(this.lblEnd, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-					.addGap(33))
-		);
-		gl_pnlDuration.setVerticalGroup(
-			gl_pnlDuration.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlDuration.createSequentialGroup()
-					.addGap(14)
-					.addComponent(this.lblStart)
-					.addContainerGap(13, Short.MAX_VALUE))
-				.addGroup(gl_pnlDuration.createSequentialGroup()
-					.addGap(14)
-					.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(13, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_pnlDuration.createSequentialGroup()
-					.addContainerGap(14, Short.MAX_VALUE)
-					.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
-						.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
-							.addComponent(this.lblMaturityPeriod)
-							.addComponent(this.txtMaturityPeriod, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(this.lblLoanTerm)
-						.addGroup(gl_pnlDuration.createParallelGroup(Alignment.BASELINE)
-							.addComponent(this.txtLoanTerm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(this.lblEnd)))
-					.addGap(13))
-		);
-		gl_pnlDuration.linkSize(SwingConstants.VERTICAL, new Component[] {this.lblStart, this.dpkDueDate, this.lblEnd, this.lblMaturityPeriod, this.txtMaturityPeriod, this.txtLoanTerm, this.lblLoanTerm});
+		gl_pnlDuration.setHorizontalGroup(gl_pnlDuration.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlDuration.createSequentialGroup().addContainerGap().addComponent(this.lblStart).addGap(18)
+						.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(44)
+						.addComponent(this.lblMaturityPeriod).addGap(10)
+						.addComponent(this.txtMaturityPeriod, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE).addGap(33)
+						.addComponent(this.lblLoanTerm, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.txtLoanTerm, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+						.addComponent(this.lblEnd, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE).addGap(33)));
+		gl_pnlDuration.setVerticalGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlDuration.createSequentialGroup().addGap(14).addComponent(this.lblStart).addContainerGap(13,
+						Short.MAX_VALUE))
+				.addGroup(gl_pnlDuration.createSequentialGroup().addGap(14)
+						.addComponent(this.dpkInitiate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(13, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING,
+						gl_pnlDuration.createSequentialGroup().addContainerGap(14, Short.MAX_VALUE)
+								.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING)
+										.addComponent(this.dpkDueDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_pnlDuration.createParallelGroup(Alignment.LEADING).addComponent(this.lblMaturityPeriod)
+												.addComponent(this.txtMaturityPeriod, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(this.lblLoanTerm)
+										.addGroup(gl_pnlDuration
+												.createParallelGroup(Alignment.BASELINE).addComponent(this.txtLoanTerm,
+														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(this.lblEnd)))
+								.addGap(13)));
+		gl_pnlDuration.linkSize(SwingConstants.VERTICAL, new Component[] { this.lblStart, this.dpkDueDate, this.lblEnd,
+				this.lblMaturityPeriod, this.txtMaturityPeriod, this.txtLoanTerm, this.lblLoanTerm });
 		this.pnlDuration.setLayout(gl_pnlDuration);
-		
+
 		this.lblId = new JLabel("Id");
 		this.lblId.setName("lblId");
-		
+
 		this.txtContractId = new JTextField();
 		txtContractId.setEnabled(false);
 		this.txtContractId.setName("txtContractId");
 		this.txtContractId.setColumns(10);
-		
+
 		this.lblDate = new JLabel("Date");
 		this.lblDate.setName("lblDate");
-		
+
 		this.dpnlContract = new JDatePanelImpl(new UtilDateModel(), p);
 		this.dpkContract = new JDatePickerImpl(dpnlContract, new DateLabelFormatter());
 		this.dpkContract.setName("datePickerContract");
-		
+
 		this.lblStaffId = new JLabel("Staff Id");
 		this.lblStaffId.setName("lblStaffId");
-		
+
 		this.txtStaffId = new JTextFieldList();
 		this.txtStaffId.setColumns(10);
 		this.txtStaffId.setName("txtStaffId");
-		
+
 		this.lblCustomerId = new JLabel("Customer Id");
 		this.lblCustomerId.setName("lblCustomerId");
-		
+
 		this.txtCustomerId = new JTextFieldList();
 		this.txtCustomerId.setColumns(10);
 		this.txtCustomerId.setName("txtCustomerId");
-		
+
 		this.lblTypeId = new JLabel("Type Id");
 		this.lblTypeId.setName("lblTypeId");
-		
+
 		this.txtTypeId = new JTextFieldList();
 		this.txtTypeId.setColumns(10);
 		this.txtTypeId.setName("txtTypeId");
-		
+
 		this.lblCustomerName = new JLabel("");
 		this.lblCustomerName.setForeground(Color.BLUE);
 		this.lblCustomerName.setName("lblCustomerName");
-		
+
 		this.lblStaffName = new JLabel("");
 		this.lblStaffName.setForeground(Color.BLUE);
 		this.lblStaffName.setName("lblStaffName");
-		
+
 		this.lblLoanType = new JLabel("");
 		this.lblLoanType.setForeground(Color.BLUE);
 		this.lblLoanType.setName("lblLoanType");
 		GroupLayout gl_pnlGeneralInfos = new GroupLayout(this.pnlGeneralInfos);
-		gl_pnlGeneralInfos.setHorizontalGroup(
-			gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-							.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-								.addComponent(this.lblId)
-								.addComponent(this.lblCustomerId, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-								.addComponent(this.lblStaffId))
-							.addGap(37)
-							.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-										.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-										.addGap(27)
-										.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-											.addGroup(Alignment.TRAILING, gl_pnlGeneralInfos.createSequentialGroup()
-												.addGap(153)
-												.addComponent(this.lblDate)
-												.addGap(18)
-												.addComponent(this.dpkContract, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-												.addGap(117))
-											.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-												.addGap(18)
+		gl_pnlGeneralInfos
+				.setHorizontalGroup(
+						gl_pnlGeneralInfos
+								.createParallelGroup(
+										Alignment.LEADING)
+								.addGroup(
+										gl_pnlGeneralInfos.createSequentialGroup().addContainerGap()
+												.addGroup(
+														gl_pnlGeneralInfos
+																.createParallelGroup(
+																		Alignment.LEADING)
+																.addGroup(
+																		gl_pnlGeneralInfos.createSequentialGroup()
+																				.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+																						.addComponent(this.lblId).addComponent(this.lblCustomerId,
+																								GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+																						.addComponent(this.lblStaffId))
+																				.addGap(37).addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+																						.addGroup(gl_pnlGeneralInfos
+																								.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
+																										.createSequentialGroup()
+																										.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE, 138,
+																												GroupLayout.PREFERRED_SIZE)
+																										.addGap(27)
+																										.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+																												.addGroup(Alignment.TRAILING, gl_pnlGeneralInfos
+																														.createSequentialGroup().addGap(153)
+																														.addComponent(this.lblDate)
+																														.addGap(18)
+																														.addComponent(this.dpkContract, GroupLayout.PREFERRED_SIZE,
+																																171, GroupLayout.PREFERRED_SIZE)
+																														.addGap(117))
+																												.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(18)
+																														.addGroup(gl_pnlGeneralInfos
+																																.createParallelGroup(Alignment.LEADING)
+																																.addComponent(this.lblStaffName,
+																																		GroupLayout.PREFERRED_SIZE, 76,
+																																		GroupLayout.PREFERRED_SIZE)
+																																.addComponent(this.lblLoanType,
+																																		GroupLayout.PREFERRED_SIZE, 76,
+																																		GroupLayout.PREFERRED_SIZE)
+																																.addComponent(this.lblCustomerName,
+																																		GroupLayout.PREFERRED_SIZE, 138,
+																																		GroupLayout.PREFERRED_SIZE))
+																														.addContainerGap(326, Short.MAX_VALUE))))
+																								.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.TRAILING)
+																										.addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE, 138,
+																												GroupLayout.PREFERRED_SIZE)
+																										.addComponent(this.txtStaffId, GroupLayout.PREFERRED_SIZE, 138,
+																												GroupLayout.PREFERRED_SIZE)))
+																						.addComponent(this.txtTypeId, GroupLayout.PREFERRED_SIZE, 138,
+																								GroupLayout.PREFERRED_SIZE)))
+																.addComponent(this.lblTypeId, GroupLayout.PREFERRED_SIZE, 67,
+																		GroupLayout.PREFERRED_SIZE))));
+		gl_pnlGeneralInfos
+				.setVerticalGroup(
+						gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
+								.createSequentialGroup().addGroup(gl_pnlGeneralInfos
+										.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlGeneralInfos
+												.createSequentialGroup().addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(15).addComponent(this.lblDate))
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGap(
+																42).addComponent(this.lblCustomerName, GroupLayout.PREFERRED_SIZE, 0,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addGroup(gl_pnlGeneralInfos
+																.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addContainerGap().addComponent(
+																		this.dpkContract, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+																		GroupLayout.PREFERRED_SIZE))
+																.addGroup(
+																		gl_pnlGeneralInfos.createSequentialGroup().addGap(15).addComponent(this.lblId)))
+																.addGap(11).addComponent(this.lblCustomerId)))
 												.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-													.addComponent(this.lblStaffName, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-													.addComponent(this.lblLoanType, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-													.addComponent(this.lblCustomerName, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-												.addContainerGap(326, Short.MAX_VALUE))))
-									.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.TRAILING)
-										.addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-										.addComponent(this.txtStaffId, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
-								.addComponent(this.txtTypeId, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(this.lblTypeId, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)))
-		);
-		gl_pnlGeneralInfos.setVerticalGroup(
-			gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-					.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-							.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addGap(15)
-									.addComponent(this.lblDate))
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addGap(42)
-									.addComponent(this.lblCustomerName, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-											.addContainerGap()
-											.addComponent(this.dpkContract, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-											.addGap(15)
-											.addComponent(this.lblId)))
-									.addGap(11)
-									.addComponent(this.lblCustomerId)))
-							.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(this.lblStaffName))
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addGap(14)
-									.addComponent(this.lblStaffId)))
-							.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(this.lblLoanType))
-								.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-									.addGap(14)
-									.addComponent(this.lblTypeId))))
-						.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-								.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGap(10)
-								.addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(this.txtStaffId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(this.txtTypeId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(27, Short.MAX_VALUE))
-		);
-		gl_pnlGeneralInfos.linkSize(SwingConstants.VERTICAL, new Component[] {this.txtContractId, this.txtStaffId, this.txtCustomerId, this.txtTypeId});
-		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL, new Component[] {this.lblId, this.lblStaffId, this.lblCustomerId, this.lblTypeId});
-		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL, new Component[] {this.lblCustomerName, this.lblStaffName, this.lblLoanType});
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+																.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.lblStaffName))
+														.addGroup(
+																gl_pnlGeneralInfos.createSequentialGroup().addGap(14).addComponent(this.lblStaffId)))
+												.addGroup(gl_pnlGeneralInfos.createParallelGroup(Alignment.LEADING)
+														.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+																.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.lblLoanType))
+														.addGroup(
+																gl_pnlGeneralInfos.createSequentialGroup().addGap(14).addComponent(this.lblTypeId))))
+										.addGroup(gl_pnlGeneralInfos.createSequentialGroup().addContainerGap()
+												.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+														.addComponent(this.txtContractId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE)
+														.addGap(10).addComponent(this.txtCustomerId, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+														.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.txtStaffId,
+																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_pnlGeneralInfos.createSequentialGroup()
+														.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(this.txtTypeId,
+																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addContainerGap(27, Short.MAX_VALUE)));
+		gl_pnlGeneralInfos.linkSize(SwingConstants.VERTICAL,
+				new Component[] { this.txtContractId, this.txtStaffId, this.txtCustomerId, this.txtTypeId });
+		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { this.lblId, this.lblStaffId, this.lblCustomerId, this.lblTypeId });
+		gl_pnlGeneralInfos.linkSize(SwingConstants.HORIZONTAL,
+				new Component[] { this.lblCustomerName, this.lblStaffName, this.lblLoanType });
 		this.pnlGeneralInfos.setLayout(gl_pnlGeneralInfos);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -514,7 +494,7 @@ public class JDialogModifyContract extends JDialog {
 						do_okButton_actionPerformed(e);
 					}
 				});
-				
+
 				this.lblLoginfo = new JLabel("");
 				this.lblLoginfo.setForeground(Color.BLUE);
 				this.lblLoginfo.setName("lblLoginfo");
@@ -531,14 +511,14 @@ public class JDialogModifyContract extends JDialog {
 			}
 		}
 	}
+
 	public JDialog isUpdate(Contracts contracts) {
 		isUpdate = true;
+		this.setTitle("Add Contract");
 		txtContractId.setText(Integer.toString(contracts.getContractId()));
 		Calendar cldContractDate = new GregorianCalendar();
 		cldContractDate.setTime(contracts.getContractDate());
-		dpkContract.getModel().setDate(
-				cldContractDate.get(Calendar.YEAR), 
-				cldContractDate.get(Calendar.MONTH), 
+		dpkContract.getModel().setDate(cldContractDate.get(Calendar.YEAR), cldContractDate.get(Calendar.MONTH),
 				cldContractDate.get(Calendar.DAY_OF_MONTH));
 		dpkContract.getModel().setSelected(true);
 		txtCustomerId.setText(Integer.toString(contracts.getCustomers().getCustomerId()));
@@ -550,18 +530,14 @@ public class JDialogModifyContract extends JDialog {
 		txtRate.setText(String.valueOf(contracts.getLoanTypes().getLoanRate()));
 		Calendar cldInitiateDate = new GregorianCalendar();
 		cldInitiateDate.setTime(contracts.getInitiateDate());
-		dpkInitiate.getModel().setDate(
-				cldInitiateDate.get(Calendar.YEAR), 
-				cldInitiateDate.get(Calendar.MONTH), 
+		dpkInitiate.getModel().setDate(cldInitiateDate.get(Calendar.YEAR), cldInitiateDate.get(Calendar.MONTH),
 				cldInitiateDate.get(Calendar.DAY_OF_MONTH));
 		dpkInitiate.getModel().setSelected(true);
 		txtMaturityPeriod.setText(Integer.toString(contracts.getMaturityPeriod()));
 		txtLoanTerm.setText(Integer.toString(contracts.getLoanTerm()));
 		Calendar cldDueDate = new GregorianCalendar();
 		cldDueDate.setTime(contracts.getDueDate());
-		dpkDueDate.getModel().setDate(
-				cldDueDate.get(Calendar.YEAR), 
-				cldDueDate.get(Calendar.MONTH), 
+		dpkDueDate.getModel().setDate(cldDueDate.get(Calendar.YEAR), cldDueDate.get(Calendar.MONTH),
 				cldDueDate.get(Calendar.DAY_OF_MONTH));
 		dpkDueDate.getModel().setSelected(true);
 		txtInitialAmount.setText(String.valueOf(contracts.getInitialAmount()));
@@ -575,56 +551,70 @@ public class JDialogModifyContract extends JDialog {
 		lblLoginfo.setText("Create by: " + user + " Date: " + sdf.format(resultdate));
 		return this;
 	}
+
 	public class DateLabelFormatter extends AbstractFormatter {
 
-	    private String datePattern = "dd/MM/yyyy";
-	    private DateFormat dateFormatter = new SimpleDateFormat(datePattern);
+		private String datePattern = "dd/MM/yyyy";
+		private DateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
-	    @Override
-	    public Object stringToValue(String text) throws ParseException {
-	        return dateFormatter.parseObject(text);
-	    }
+		@Override
+		public Object stringToValue(String text) throws ParseException {
+			return dateFormatter.parseObject(text);
+		}
 
-	    @Override
-	    public String valueToString(Object value) throws ParseException {
-	        if (value != null) {
-	            Calendar cal = (Calendar) value;
-	            return dateFormatter.format(cal.getTime());
-	        }
+		@Override
+		public String valueToString(Object value) throws ParseException {
+			if (value != null) {
+				Calendar cal = (Calendar) value;
+				return dateFormatter.format(cal.getTime());
+			}
 
-	        return "";
-	    }
+			return "";
+		}
 	}
+
 	protected void do_this_windowClosing(WindowEvent arg0) {
-		
+
 	}
+
 	protected void do_okButton_actionPerformed(ActionEvent e) {
-		if(contracts == null) {
+		if (contracts == null) {
 			contracts = new Contracts();
 		}
-		contracts.setContractDate((Date)dpkContract.getModel().getValue());
-		contracts.setCustomers(new CustomersDAO().find(Integer.parseInt(txtCustomerId.getText())));
-		contracts.setStaffs(new StaffsDAO().find(Integer.parseInt(txtStaffId.getText())));
-		contracts.setLoanTypes(new LoanTypesDAO().find(Integer.parseInt(txtTypeId.getText())));
-		contracts.setInitiateDate((Date)dpkInitiate.getModel().getValue());
-		contracts.setMaturityPeriod(Integer.parseInt(txtMaturityPeriod.getText()));
-		contracts.setLoanTerm(Integer.parseInt(txtLoanTerm.getText()));
-		contracts.setDueDate((Date)dpkDueDate.getModel().getValue());
-		contracts.setInitialAmount(new BigDecimal(txtInitialAmount.getText()));
-		contracts.setRemainAmount(new BigDecimal(txtRemainAmount.getText()));
-		contracts.setLoanMax(new BigDecimal(txtLoanMax.getText()));
-		contracts.setCreateLog(System.currentTimeMillis() + JFrameLogin.username);
-		contracts.setNotes(txaNotes.getText());
-		
+
 		try {
-			if (isUpdate) {
-				new ContractsDAO().update(contracts);
+			contracts.setContractDate((Date) dpkContract.getModel().getValue());
+			contracts.setCustomers(new CustomersDAO().find(Integer.parseInt(txtCustomerId.getText())));
+			contracts.setStaffs(new StaffsDAO().find(Integer.parseInt(txtStaffId.getText())));
+			contracts.setLoanTypes(new LoanTypesDAO().find(Integer.parseInt(txtTypeId.getText())));
+			contracts.setInitiateDate((Date) dpkInitiate.getModel().getValue());
+			contracts.setMaturityPeriod(Integer.parseInt(txtMaturityPeriod.getText()));
+			contracts.setLoanTerm(Integer.parseInt(txtLoanTerm.getText()));
+			contracts.setDueDate((Date) dpkDueDate.getModel().getValue());
+			contracts.setInitialAmount(new BigDecimal(txtInitialAmount.getText()));
+			contracts.setRemainAmount(new BigDecimal(txtRemainAmount.getText()));
+			contracts.setLoanMax(new BigDecimal(txtLoanMax.getText()));
+			contracts.setCreateLog(System.currentTimeMillis() + JFrameLogin.username);
+			contracts.setNotes(txaNotes.getText());
+			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+			Validator validator = validatorFactory.getValidator();
+			Set<ConstraintViolation<Contracts>> constraintViolations = validator.validate(contracts);
+			if (!constraintViolations.isEmpty()) {
+				String error = "";
+				for (ConstraintViolation<Contracts> violation : constraintViolations) {
+					error += violation.getMessage() + "\n";
+				}
+				JOptionPane.showMessageDialog(null, error);
 			} else {
-				new ContractsDAO().create(contracts);
+				if (isUpdate) {
+					new ContractsDAO().update(contracts);
+				} else {
+					new ContractsDAO().create(contracts);
+				}
+				JOptionPane.showMessageDialog(null, (isUpdate ? "Update this" : "Add new") + " contract success!", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
+				this.dispose();
 			}
-			JOptionPane.showMessageDialog(null, (isUpdate ? "Update this" : "Add new") + " contract success!", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-			this.dispose();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null,
 					"Can't " + (isUpdate ? "Update this" : "Add new") + " contract!" + ex.getMessage(), "Error",

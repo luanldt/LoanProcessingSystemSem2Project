@@ -3,13 +3,23 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.math.BigDecimal;
+import java.text.Format;
+import java.text.NumberFormat;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import entities.LoanTypes;
+import entities.Staffs;
 //import model.ProcessAction;
 import dao.LoanTypesDAO;
 
@@ -23,6 +33,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JFormattedTextField;
 
 /**
  * 
@@ -41,16 +52,16 @@ public class JDialogAddLoanTypes extends JDialog {
 	private JLabel lblLoanBase;
 	private JLabel lblLoanRate;
 	private JTextField JTextFieldLoanTypeName;
-	private JTextField JTextFieldLoanTypeInterestRate;
-	private JTextField JTextFieldLoanBase;
-	private JTextField JTextFieldLoanRate;
+	private JFormattedTextField JFormatedTextFieldLoanTypeInterestRate;
+	private JFormattedTextField JFormatedTextFieldLoanBase;
+	private JFormattedTextField JTextFormatedTextFieldLoanRate;
 	private JTextField JTextFieldLoanTypeID;
 	private JLabel lblId;
 	private boolean isUpdate = false;
 	private LoanTypes loanTypes;
 
 	public JDialogAddLoanTypes() {
-		setTitle("ModifyLoanTypes");
+		setTitle("Add Loan Types");
 		setBounds(100, 100, 436, 369);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,20 +92,26 @@ public class JDialogAddLoanTypes extends JDialog {
 		JTextFieldLoanTypeName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JTextFieldLoanTypeName.setColumns(10);
 
-		JTextFieldLoanTypeInterestRate = new JTextField();
-		JTextFieldLoanTypeInterestRate.setForeground(new Color(139, 0, 0));
-		JTextFieldLoanTypeInterestRate.setFont(new Font("Tahoma", Font.BOLD, 14));
-		JTextFieldLoanTypeInterestRate.setColumns(10);
+		JFormatedTextFieldLoanTypeInterestRate = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JFormatedTextFieldLoanTypeInterestRate.setText("0");
+		JFormatedTextFieldLoanTypeInterestRate.setForeground(new Color(139, 0, 0));
+		JFormatedTextFieldLoanTypeInterestRate.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JFormatedTextFieldLoanTypeInterestRate.setColumns(10);
 
-		JTextFieldLoanBase = new JTextField();
-		JTextFieldLoanBase.setForeground(new Color(139, 0, 0));
-		JTextFieldLoanBase.setFont(new Font("Tahoma", Font.BOLD, 14));
-		JTextFieldLoanBase.setColumns(10);
+		JFormatedTextFieldLoanBase = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JFormatedTextFieldLoanBase.setText("0");
+		JFormatedTextFieldLoanBase.setForeground(new Color(139, 0, 0));
+		JFormatedTextFieldLoanBase.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JFormatedTextFieldLoanBase.setColumns(10);
 
-		JTextFieldLoanRate = new JTextField();
-		JTextFieldLoanRate.setForeground(new Color(139, 0, 0));
-		JTextFieldLoanRate.setFont(new Font("Tahoma", Font.BOLD, 14));
-		JTextFieldLoanRate.setColumns(10);
+		JTextFormatedTextFieldLoanRate = new JFormattedTextField(
+				new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getNumberInstance())));
+		JTextFormatedTextFieldLoanRate.setText("0");
+		JTextFormatedTextFieldLoanRate.setForeground(new Color(139, 0, 0));
+		JTextFormatedTextFieldLoanRate.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JTextFormatedTextFieldLoanRate.setColumns(10);
 
 		JTextFieldLoanTypeID = new JTextField();
 		JTextFieldLoanTypeID.setText("Automatically . . .");
@@ -120,14 +137,15 @@ public class JDialogAddLoanTypes extends JDialog {
 								.addComponent(JTextFieldLoanTypeName, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 								.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
-								.addComponent(JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 219,
+								.addComponent(JFormatedTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 219,
 										GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 								.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
-								.addComponent(JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+								.addComponent(JFormatedTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 								.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE).addGap(15)
-								.addComponent(JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(JTextFormatedTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 219,
+										GroupLayout.PREFERRED_SIZE)))
 				.addGap(17)));
 		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup().addContainerGap(21, Short.MAX_VALUE)
@@ -141,15 +159,15 @@ public class JDialogAddLoanTypes extends JDialog {
 						.addGap(18)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblLoanType, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+										JFormatedTextFieldLoanTypeInterestRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 						.addGap(18)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+										JFormatedTextFieldLoanBase, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 						.addGap(18)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addComponent(
-										JTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+										JTextFormatedTextFieldLoanRate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 						.addGap(14)));
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -188,7 +206,9 @@ public class JDialogAddLoanTypes extends JDialog {
 	}
 
 	/**
-	 * METHOD THAO TÁC THÊM VÀ SỬA VỚI DATABASE TRUYỀN VÀO JPANEL TỨC LÀ TRUYỀN NÀO JPANEL CHỨA JTABLE
+	 * METHOD THAO TÁC THÊM VÀ SỬA VỚI DATABASE TRUYỀN VÀO JPANEL TỨC LÀ TRUYỀN
+	 * NÀO JPANEL CHỨA JTABLE
+	 * 
 	 * @param jPanel
 	 */
 	private void addUpdateLoanType() {
@@ -198,20 +218,33 @@ public class JDialogAddLoanTypes extends JDialog {
 				loanTypes = new LoanTypes();
 			}
 			loanTypes.setLoanTypeName(JTextFieldLoanTypeName.getText());
-			loanTypes.setLoanBase(BigDecimal.valueOf(Double.parseDouble(JTextFieldLoanBase.getText())));
-			loanTypes.setInterestRate(BigDecimal.valueOf(Double.parseDouble(JTextFieldLoanTypeInterestRate.getText())));
-			loanTypes.setLoanRate(Long.parseLong(JTextFieldLoanRate.getText()));
-			if (isUpdate) {
-				new LoanTypesDAO().update(loanTypes);
+			loanTypes.setLoanBase(BigDecimal.valueOf(Double.parseDouble(JFormatedTextFieldLoanBase.getText())));
+			loanTypes
+					.setInterestRate(BigDecimal.valueOf(Double.parseDouble(JFormatedTextFieldLoanTypeInterestRate.getText())));
+			loanTypes.setLoanRate(Long.parseLong(JTextFormatedTextFieldLoanRate.getText()));
+			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+			Validator validator = validatorFactory.getValidator();
+			Set<ConstraintViolation<LoanTypes>> constraintViolations = validator.validate(loanTypes);
+			if (!constraintViolations.isEmpty()) {
+				String error = "";
+				for (ConstraintViolation<LoanTypes> violation : constraintViolations) {
+					error += violation.getMessage() + "\n";
+				}
+				JOptionPane.showMessageDialog(null, error);
 			} else {
-				new LoanTypesDAO().create(loanTypes);
+				if (isUpdate) {
+					new LoanTypesDAO().update(loanTypes);
+				} else {
+					new LoanTypesDAO().create(loanTypes);
+				}
+
+				JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " loan type success!", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
+				this.dispose();
 			}
-			
-			JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " loan type success!", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-			this.dispose();
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Can't " + (isUpdate ? "Update" : "Add") + " new loan type!", "Error",
+			JOptionPane.showMessageDialog(null,
+					"Can't " + (isUpdate ? "Update" : "Add") + " new loan type!" + ex.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -224,12 +257,13 @@ public class JDialogAddLoanTypes extends JDialog {
 	 */
 	public JDialog isUpdate(LoanTypes loanTypes) {
 		isUpdate = true;
+		this.setTitle("Update Loan Types");
 		this.loanTypes = loanTypes;
 		this.JTextFieldLoanTypeID.setText(Integer.toString(loanTypes.getLoanTypeId()));
 		this.JTextFieldLoanTypeName.setText(loanTypes.getLoanTypeName());
-		this.JTextFieldLoanTypeInterestRate.setText(loanTypes.getInterestRate().toString());
-		this.JTextFieldLoanBase.setText(loanTypes.getLoanBase().toString());
-		this.JTextFieldLoanRate.setText(Long.toString(loanTypes.getLoanRate()));
+		this.JFormatedTextFieldLoanTypeInterestRate.setText(loanTypes.getInterestRate().toString());
+		this.JFormatedTextFieldLoanBase.setText(loanTypes.getLoanBase().toString());
+		this.JTextFormatedTextFieldLoanRate.setText(Long.toString(loanTypes.getLoanRate()));
 		return this;
 	}
 }

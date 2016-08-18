@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -17,16 +18,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import dao.DepartmentDAO;
 import dao.LoanTypesDAO;
+import entities.Contracts;
 import entities.Department;
 import entities.LoanTypes;
 
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
-
 
 public class JDialogModifyDepartments extends JDialog {
 
@@ -170,14 +175,25 @@ public class JDialogModifyDepartments extends JDialog {
 			departments.setDepartmentName(JTextFieldDepartmentName.getText());
 			departments.setLoanTypes(new LoanTypesDAO().findByName(JComboBoxLoanTypeName.getSelectedItem().toString()));
 
-			if (isUpdate) {
-				new DepartmentDAO().update(departments);
+			ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+			Validator validator = validatorFactory.getValidator();
+			Set<ConstraintViolation<Department>> constraintViolations = validator.validate(departments);
+			if (!constraintViolations.isEmpty()) {
+				String error = "";
+				for (ConstraintViolation<Department> violation : constraintViolations) {
+					error += violation.getMessage() + "\n";
+				}
+				JOptionPane.showMessageDialog(null, error);
 			} else {
-				new DepartmentDAO().create(departments);
+				if (isUpdate) {
+					new DepartmentDAO().update(departments);
+				} else {
+					new DepartmentDAO().create(departments);
+				}
+				JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " department success!", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
+				this.dispose();
 			}
-			JOptionPane.showMessageDialog(null, (isUpdate ? "Update" : "Add") + " department success!", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-			this.dispose();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null,
 					"Can't " + (isUpdate ? "Update" : "Add") + " new department!" + ex.getMessage(), "Error",
