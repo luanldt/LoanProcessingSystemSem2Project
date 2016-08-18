@@ -106,7 +106,6 @@ public class Contracts implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerId", nullable = false)
-	@NotEmpty(message = "Customer id can not be empty!")
 	public Customers getCustomers() {
 		return this.customers;
 	}
@@ -116,7 +115,6 @@ public class Contracts implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotEmpty(message = "Loan type id can not be empty!")
 	@JoinColumn(name = "loanTypeId", nullable = false)
 	public LoanTypes getLoanTypes() {
 		return this.loanTypes;
@@ -127,7 +125,6 @@ public class Contracts implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotEmpty(message = "Staff id can not be empty!")
 	@JoinColumn(name = "staffId", nullable = false)
 	public Staffs getStaffs() {
 		return this.staffs;
@@ -167,7 +164,7 @@ public class Contracts implements java.io.Serializable {
 	public void setPaidTimes(int paidTimes) {
 		this.paidTimes = paidTimes;
 	}
-	
+
 	@Range(min = 0, message = "Loan Term can't smaller than 0")
 	@Column(name = "loanTerm", nullable = false)
 	public int getLoanTerm() {
@@ -177,6 +174,7 @@ public class Contracts implements java.io.Serializable {
 	public void setLoanTerm(int loanTerm) {
 		this.loanTerm = loanTerm;
 	}
+
 	@Range(min = 0, message = "Initial amount can't smaller than 0")
 	@Column(name = "InitialAmount", nullable = false, scale = 4)
 	public BigDecimal getInitialAmount() {
@@ -239,7 +237,7 @@ public class Contracts implements java.io.Serializable {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	
+
 	@Column(name = "isArchive", nullable = false)
 	public boolean isIsArchive() {
 		return this.isArchive;
