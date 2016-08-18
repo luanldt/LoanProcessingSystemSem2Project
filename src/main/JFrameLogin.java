@@ -46,7 +46,7 @@ public class JFrameLogin extends JFrame {
 	private JButton JButtonLogin;
 	private JButton JButtonCancel;
 	private JCheckBox JCheckboxRemeber;
-	private String username;
+	public static String username;
 
 	/**
 	 * Launch the application.
