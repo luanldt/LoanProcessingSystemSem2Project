@@ -107,15 +107,4 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 		}
 		setModel(customTableModel);
 	}
-
-	public Class<?> getColumnClass(int columnIndex) {
-		@SuppressWarnings("rawtypes")
-		Class classType = String.class;
-		switch (columnIndex) {
-		case 0:
-			classType = Boolean.class;
-			break;
-		}
-		return classType;
-	}
 }
