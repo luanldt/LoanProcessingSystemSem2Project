@@ -163,7 +163,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(arg0);
 			}
 		});
-		this.mntmLoanTypes.setName("mntmLoan Types");
+		this.mntmLoanTypes.setName("(Mod) Loan Types");
 		this.mnApproveDeleting.add(this.mntmLoanTypes);
 
 		this.mntmCustomers = new JMenuItem("Customers");
@@ -172,7 +172,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(e);
 			}
 		});
-		this.mntmCustomers.setName("mntmCustomers");
+		this.mntmCustomers.setName("(Mod) Customers");
 		this.mnApproveDeleting.add(this.mntmCustomers);
 
 		this.mntmDepartments = new JMenuItem("Departments");
@@ -181,7 +181,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(e);
 			}
 		});
-		this.mntmDepartments.setName("mntmDepartments");
+		this.mntmDepartments.setName("(Mod) Departments");
 		this.mnApproveDeleting.add(this.mntmDepartments);
 
 		this.mntmStaffs = new JMenuItem("Staffs");
@@ -190,7 +190,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(e);
 			}
 		});
-		this.mntmStaffs.setName("mntmStaffs");
+		this.mntmStaffs.setName("(Mod) Staffs");
 		this.mnApproveDeleting.add(this.mntmStaffs);
 
 		this.separator = new JSeparator();
@@ -203,7 +203,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(e);
 			}
 		});
-		this.mntmContracts.setName("mntmContracts");
+		this.mntmContracts.setName("(Mod) Contracts");
 		this.mnApproveDeleting.add(this.mntmContracts);
 
 		this.mntmPayments = new JMenuItem("Payments");
@@ -212,7 +212,7 @@ public class JFrameMain extends JFrame {
 				do_mntmApproveDeleting_actionPerformed(e);
 			}
 		});
-		this.mntmPayments.setName("mntmPayments");
+		this.mntmPayments.setName("(Mod) Payments");
 		this.mnApproveDeleting.add(this.mntmPayments);
 
 		this.mntmUserPermission = new JMenuItem("User Permission");
@@ -285,8 +285,8 @@ public class JFrameMain extends JFrame {
 					jPanelLoanType = null;
 				}
 				/*
-				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve
-				 * null tuc la nhu chua tung load gia tri len
+				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve null
+				 * tuc la nhu chua tung load gia tri len
 				 * 
 				 */
 				if (e.getChild() instanceof JPanelStaff) {
@@ -344,8 +344,7 @@ public class JFrameMain extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (JTreeMenu.getPathForLocation(e.getX(), e.getY()) != null) {
-					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY())
-							.getLastPathComponent());
+					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY()).getLastPathComponent());
 				}
 			}
 		});
@@ -358,22 +357,17 @@ public class JFrameMain extends JFrame {
 		}));
 		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
 		GroupLayout gl_JPanelMain = new GroupLayout(this.JPanelMain);
-		gl_JPanelMain
-				.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-						gl_JPanelMain.createSequentialGroup()
-								.addGroup(gl_JPanelMain.createParallelGroup(Alignment.TRAILING)
-										.addComponent(this.JPanelTop, Alignment.LEADING, GroupLayout.PREFERRED_SIZE,
-												1354, Short.MAX_VALUE)
-										.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE))
-								.addContainerGap()));
-		gl_JPanelMain
-				.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_JPanelMain.createSequentialGroup()
-								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 53,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-								.addGap(19)));
+		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+				gl_JPanelMain.createSequentialGroup()
+						.addGroup(gl_JPanelMain.createParallelGroup(Alignment.TRAILING)
+								.addComponent(this.JPanelTop, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 1354, Short.MAX_VALUE)
+								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE))
+						.addContainerGap()));
+		gl_JPanelMain.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelMain.createSequentialGroup()
+						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE).addGap(19)));
 
 		pnlFunctionKeys = new JPanel();
 		this.pnlFunctionKeys.setName("pnlFunctionKeys");
@@ -417,42 +411,28 @@ public class JFrameMain extends JFrame {
 			}
 		});
 		GroupLayout gl_JPanelTop = new GroupLayout(JPanelTop);
-		gl_JPanelTop.setHorizontalGroup(
-			gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+		gl_JPanelTop.setHorizontalGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_JPanelTop.createSequentialGroup().addGap(25)
+						.addComponent(this.pnlFunctionKeys, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE).addGap(2)
+						.addComponent(this.JButtonSearch).addGap(105)
+						.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(this.JButtonLogout).addGap(60)));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_JPanelTop.createSequentialGroup()
-					.addGap(25)
-					.addComponent(this.pnlFunctionKeys, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
-					.addGap(2)
-					.addComponent(this.JButtonSearch)
-					.addGap(105)
-					.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(this.JButtonLogout)
-					.addGap(60))
-		);
-		gl_JPanelTop.setVerticalGroup(
-			gl_JPanelTop.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_JPanelTop.createSequentialGroup()
-					.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(18)
-							.addComponent(this.JButtonSearch))
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(9)
-							.addComponent(this.JLabelHello, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(9)
-							.addComponent(this.JButtonLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(19)
-							.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_JPanelTop.createSequentialGroup()
-							.addGap(13)
-							.addComponent(this.pnlFunctionKeys, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+						.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(18).addComponent(this.JButtonSearch))
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(9).addComponent(this.JLabelHello,
+										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(9).addComponent(this.JButtonLogout,
+										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(19).addComponent(this.JTextFieldSearch,
+										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(13).addComponent(this.pnlFunctionKeys,
+										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		this.btnAssign = new JButton("Assign");
 		this.btnAssign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -560,8 +540,8 @@ public class JFrameMain extends JFrame {
 
 	/*
 	 * /////////////////////////////////////////////////////////////////////////
-	 * // / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI
-	 * THÊM / MỚI VÀO
+	 * // / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI THÊM
+	 * / MỚI VÀO
 	 * /////////////////////////////////////////////////////////////////////////
 	 * // /
 	 */
@@ -878,9 +858,9 @@ public class JFrameMain extends JFrame {
 		checkEnableButton();
 		if (name.contains("Mod")) {
 			ButtonOnModeratorMode(true);
-		} else if(name.contains("Permission")){
+		} else if (name.contains("Permission")) {
 			ButtonOnPermissionMode(true);
-		} else{
+		} else {
 			ButtonOnModeratorMode(false);
 		}
 	}
@@ -894,16 +874,16 @@ public class JFrameMain extends JFrame {
 	}
 
 	protected void do_mntmUserPermission_actionPerformed(ActionEvent arg0) {
-		for(Component component: pnlFunctionKeys.getComponents()){
-			if(((JButton)component).getText()!="Refresh"&&((JButton)component).getText()!="Assign")
+		for (Component component : pnlFunctionKeys.getComponents()) {
+			if (((JButton) component).getText() != "Refresh" && ((JButton) component).getText() != "Assign")
 				component.setVisible(false);
 		}
-		
+
 		jPanelPermission = new JPanelPermission();
 		JTabbedPaneMain.addTab(((JMenuItem) arg0.getSource()).getText(), jPanelPermission);
 		JTabbedPaneMain.setSelectedComponent(jPanelPermission);
 	}
-	
+
 	private void ButtonOnPermissionMode(Boolean modeState) {
 		JButtonAdd.setVisible(!modeState);
 		JButtonUpdate.setVisible(!modeState);
@@ -961,6 +941,7 @@ public class JFrameMain extends JFrame {
 		}
 		processRefresh();
 	}
+
 	protected void do_btnAssign_actionPerformed(ActionEvent arg0) {
 		new JDialogAssignPermission(new StaffsDAO().find(currentId)).setVisible(true);
 		jPanelPermission.loadTable();
