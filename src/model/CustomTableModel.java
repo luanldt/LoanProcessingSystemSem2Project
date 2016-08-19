@@ -57,9 +57,14 @@ public class CustomTableModel extends AbstractTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return false;
 	}
-	
+
 	public Class<?> getColumnClass(int column) {
-		return getValueAt(0, column).getClass();
+		if (this.getRowCount() > 0) {
+			return getValueAt(0, column).getClass();
+		} else {
+			return null;
+		}
+
 	}
 
 }
