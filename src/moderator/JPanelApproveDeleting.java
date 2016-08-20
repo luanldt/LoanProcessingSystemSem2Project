@@ -16,6 +16,12 @@ import factory.AbstractJPanel;
 import model.CustomTableModel;
 
 public class JPanelApproveDeleting extends AbstractJPanel {
+	private static final int LOANTYPE = 0;
+	private static final int CUSTOMER = 1;
+	private static final int DEPARTMENT = 2;
+	private static final int STAFF = 3;
+	private static final int CONTRACT = 4;
+	private static final int PAYMENT = 5;
 
 	private static final long serialVersionUID = 1L;
 	private String tableName;
@@ -37,7 +43,7 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 				break;
 
 		switch (i) {
-		case 0: // mntmLoanTypes
+		case LOANTYPE: // mntmLoanTypes
 			String[] typeColumns = { "ID", "Name", "InterestRate", "LoanBase", "LoanRate", "Selected" };
 			customTableModel.addColumn(typeColumns);
 
@@ -46,7 +52,7 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 						loanTypes.getInterestRate(), loanTypes.getLoanBase(), loanTypes.getLoanRate(), Boolean.FALSE });
 			}
 			break;
-		case 1: // mntmCustomers
+		case CUSTOMER: // mntmCustomers
 			String[] customerColumns = { "customerId", "customerName", "address", "phoneNumber", "email",
 					"accountNumber", "identityCardNo", "notes", "salary", "Selected" };
 			customTableModel.addColumn(customerColumns);
@@ -58,8 +64,8 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 						customers.getSalary(), Boolean.FALSE });
 			}
 			break;
-		case 2: // mntmDepartments
-			String[] departmentColumns = { "Selected", "Department Id", "Department Name", "Loan Type Name" };
+		case DEPARTMENT: // mntmDepartments
+			String[] departmentColumns = { "Department Id", "Department Name", "Loan Type Name", "Selected" };
 			customTableModel.addColumn(departmentColumns);
 
 			for (Department department : new DepartmentDAO().findPending()) {
@@ -67,7 +73,7 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 						department.getLoanTypes().getLoanTypeName(), Boolean.FALSE });
 			}
 			break;
-		case 3: // mntmStaffs
+		case STAFF: // mntmStaffs
 			String[] staffColumns = { "StaffID", "StaffName", "Username", "DepartmentName", "Role", "Selected" };
 			customTableModel.addColumn(staffColumns);
 
@@ -76,7 +82,7 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 						staffs.getDepartment().getDepartmentName(), staffs.getRole(), Boolean.FALSE });
 			}
 			break;
-		case 4: // mntmContracts
+		case CONTRACT: // mntmContracts
 			String[] contractColumns = { "ID", "Contract Date", "Customer Name", "Staff Name", "Loan Type",
 					"Maturity Period", "Paid Times", "Loan Term", "Initial Amount", "Remain Amount", "Due Date",
 					"Initiate Date", "Loan Max", "Selected" };
@@ -91,7 +97,7 @@ public class JPanelApproveDeleting extends AbstractJPanel {
 						contracts.getInitiateDate().toString(), contracts.getLoanMax(), Boolean.FALSE });
 			}
 			break;
-		case 5: // mntmPayments
+		case PAYMENT: // mntmPayments
 			String[] paymentColumns = { "PaymentID", "contractID", "PaymentType", "PaymentDate", "duePeriod",
 					"PaymentAmount", "FineRate", "FineAmount", "staffID", "paid", "Selected" };
 			customTableModel.addColumn(paymentColumns);

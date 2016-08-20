@@ -14,15 +14,24 @@ import entities.Payment;
 import entities.Staffs;
 
 public class ArchiveData {
+	private static final int LOANTYPE = 0;
+	private static final int CUSTOMER = 1;
+	private static final int DEPARTMENT = 2;
+	private static final int STAFF = 3;
+	private static final int CONTRACT = 4;
+	private static final int PAYMENT = 5;
+
 	public static void processArchive(String state, String name, int id) {
 		String[] cases = { "Loan Types", "Customers", "Departments", "Staffs", "Contracts", "Payments" };
 		int i;
 		for (i = 0; i < cases.length; i++)
-			if (name.contains(cases[i]) && name.contains("Mod"))
+			if (name.contains(cases[i]) && state == "Archive")
+				break;
+			else if (name.contains(cases[i]) && name.contains("Mod") && state != "Archive")
 				break;
 
 		switch (i) {
-		case 0:
+		case LOANTYPE:
 			LoanTypesDAO loanTypesDAO = new LoanTypesDAO();
 			LoanTypes loanType = loanTypesDAO.find(id);
 			if (state == "Archive") {
@@ -35,7 +44,7 @@ public class ArchiveData {
 				loanTypesDAO.delete(loanType);
 			}
 			break;
-		case 1:
+		case CUSTOMER:
 			CustomersDAO customersDAO = new CustomersDAO();
 			Customers customer = customersDAO.find(id);
 			if (state == "Archive") {
@@ -48,7 +57,7 @@ public class ArchiveData {
 				customersDAO.delete(customer);
 			}
 			break;
-		case 2:
+		case DEPARTMENT:
 			DepartmentDAO departmentDAO = new DepartmentDAO();
 			Department department = departmentDAO.find(id);
 			if (state == "Archive") {
@@ -61,7 +70,7 @@ public class ArchiveData {
 				departmentDAO.delete(department);
 			}
 			break;
-		case 3:
+		case STAFF:
 			StaffsDAO staffsDAO = new StaffsDAO();
 			Staffs staff = staffsDAO.find(id);
 			if (state == "Archive") {
@@ -74,7 +83,7 @@ public class ArchiveData {
 				staffsDAO.delete(staff);
 			}
 			break;
-		case 4:
+		case CONTRACT:
 			ContractsDAO contractsDAO = new ContractsDAO();
 			Contracts contract = contractsDAO.find(id);
 			if (state == "Archive") {
@@ -87,7 +96,7 @@ public class ArchiveData {
 				contractsDAO.delete(contract);
 			}
 			break;
-		case 5:
+		case PAYMENT:
 			PaymentDAO paymentDAO = new PaymentDAO();
 			Payment payment = paymentDAO.find(id);
 			if (state == "Archive") {
