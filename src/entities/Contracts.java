@@ -135,7 +135,6 @@ public class Contracts implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotEmpty(message = "Contract date can not be empty!")
 	@Column(name = "contractDate", nullable = false, length = 23)
 	public Date getContractDate() {
 		return this.contractDate;
