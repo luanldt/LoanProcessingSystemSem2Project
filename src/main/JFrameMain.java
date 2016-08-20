@@ -45,6 +45,7 @@ import dao.DepartmentDAO;
 import dao.LoanTypesDAO;
 import dao.PaymentDAO;
 import dao.StaffsDAO;
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import entities.Staffs;
 import model.CustomTableModel;
 import model.JTabbedPaneCloseButton;
@@ -119,28 +120,10 @@ public class JFrameMain extends JFrame {
 	private JButton btnRestore;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-					JFrameMain frame = new JFrameMain();
-					frame.setExtendedState(MAXIMIZED_BOTH);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public JFrameMain() {
+		((de.javasoft.plaf.synthetica.SyntheticaRootPaneUI) this.getRootPane().getUI()).setMaximizedBounds(this);
 		setName("LoanProcessingSystem");
 		setIconImage(MakeIcon.getImage("tittleMain", 64, 64));
 		setTitle("Loan Processing System");
@@ -285,8 +268,8 @@ public class JFrameMain extends JFrame {
 					jPanelLoanType = null;
 				}
 				/*
-				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve null
-				 * tuc la nhu chua tung load gia tri len
+				 * Neu nhu da nhan vao roi ma tat thi thi set set cho gia tri ve
+				 * null tuc la nhu chua tung load gia tri len
 				 * 
 				 */
 				if (e.getChild() instanceof JPanelStaff) {
@@ -309,13 +292,6 @@ public class JFrameMain extends JFrame {
 					jPanelPayment = null;
 				}
 
-				if (e.getChild() instanceof JPanelApproveDeleting) {
-					jPanelApproveDeleting = null;
-				}
-
-				if (e.getChild() instanceof JPanelPermission) {
-					jPanelPermission = null;
-				}
 				JFrameMain.currentId = -1;
 
 				name = "";
@@ -344,7 +320,8 @@ public class JFrameMain extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (JTreeMenu.getPathForLocation(e.getX(), e.getY()) != null) {
-					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY()).getLastPathComponent());
+					callTable((DefaultMutableTreeNode) JTreeMenu.getPathForLocation(e.getX(), e.getY())
+							.getLastPathComponent());
 				}
 			}
 		});
@@ -357,17 +334,22 @@ public class JFrameMain extends JFrame {
 		}));
 		JTreeMenu.setFont(new Font("Dialog", Font.PLAIN, 19));
 		GroupLayout gl_JPanelMain = new GroupLayout(this.JPanelMain);
-		gl_JPanelMain.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-				gl_JPanelMain.createSequentialGroup()
-						.addGroup(gl_JPanelMain.createParallelGroup(Alignment.TRAILING)
-								.addComponent(this.JPanelTop, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 1354, Short.MAX_VALUE)
-								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE))
-						.addContainerGap()));
-		gl_JPanelMain.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_JPanelMain.createSequentialGroup()
-						.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE).addGap(19)));
+		gl_JPanelMain
+				.setHorizontalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+						gl_JPanelMain.createSequentialGroup()
+								.addGroup(gl_JPanelMain.createParallelGroup(Alignment.TRAILING)
+										.addComponent(this.JPanelTop, Alignment.LEADING, GroupLayout.PREFERRED_SIZE,
+												1354, Short.MAX_VALUE)
+										.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE))
+								.addContainerGap()));
+		gl_JPanelMain
+				.setVerticalGroup(gl_JPanelMain.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelMain.createSequentialGroup()
+								.addComponent(this.JPanelTop, GroupLayout.PREFERRED_SIZE, 53,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(this.JSplitPane, GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+								.addGap(19)));
 
 		pnlFunctionKeys = new JPanel();
 		this.pnlFunctionKeys.setName("pnlFunctionKeys");
@@ -416,23 +398,24 @@ public class JFrameMain extends JFrame {
 						.addComponent(this.pnlFunctionKeys, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE).addGap(2)
-						.addComponent(this.JButtonSearch).addGap(105)
+						.addComponent(this.JTextFieldSearch, GroupLayout.PREFERRED_SIZE, 320,
+								GroupLayout.PREFERRED_SIZE)
+						.addGap(2).addComponent(this.JButtonSearch).addGap(105)
 						.addComponent(this.JLabelHello, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(this.JButtonLogout).addGap(60)));
-		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_JPanelTop.createSequentialGroup()
-						.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(18).addComponent(this.JButtonSearch))
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(9).addComponent(this.JLabelHello,
-										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(9).addComponent(this.JButtonLogout,
-										GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(19).addComponent(this.JTextFieldSearch,
-										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_JPanelTop.createSequentialGroup().addGap(13).addComponent(this.pnlFunctionKeys,
-										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_JPanelTop.setVerticalGroup(gl_JPanelTop.createParallelGroup(Alignment.TRAILING).addGroup(gl_JPanelTop
+				.createSequentialGroup()
+				.addGroup(gl_JPanelTop.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(18).addComponent(this.JButtonSearch))
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(9).addComponent(this.JLabelHello,
+								GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(9).addComponent(this.JButtonLogout,
+								GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(19).addComponent(this.JTextFieldSearch,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_JPanelTop.createSequentialGroup().addGap(13).addComponent(this.pnlFunctionKeys,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		this.btnAssign = new JButton("Assign");
 		this.btnAssign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -540,8 +523,8 @@ public class JFrameMain extends JFrame {
 
 	/*
 	 * /////////////////////////////////////////////////////////////////////////
-	 * // / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI THÊM
-	 * / MỚI VÀO
+	 * // / CODE GỌI CÁC JPANEL VÀ ADD VÀO MAIN RA NÊN KHÔNG CHẠM TỚI TRỪ KHI
+	 * THÊM / MỚI VÀO
 	 * /////////////////////////////////////////////////////////////////////////
 	 * // /
 	 */
@@ -674,85 +657,6 @@ public class JFrameMain extends JFrame {
 	}
 	/* END CODE ADD UPDATE */
 
-	/* START CODE DELETE */
-	// private void processDelete() {
-	// if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Comfirm",
-	// JOptionPane.YES_NO_OPTION,
-	// JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-	// switch (name) {
-	// case "Loan Types":
-	// try {
-	// new LoanTypesDAO().delete(new LoanTypesDAO().find(currentId));
-	// JOptionPane.showMessageDialog(null, "Delete loan types success!",
-	// "Success",
-	// JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(null, "Delete loan types error!", "Error",
-	// JOptionPane.ERROR_MESSAGE);
-	// }
-	// break;
-	// case "Staffs":
-	// try {
-	// new StaffsDAO().delete(new StaffsDAO().find(currentId));
-	// JOptionPane.showMessageDialog(null, "Delete staff success!", "Success",
-	// JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(null, "Delete staff error!", "Error",
-	// JOptionPane.ERROR_MESSAGE);
-	// }
-	// break;
-	// case "Departments":
-	// try {
-	// new DepartmentDAO().delete(new DepartmentDAO().find(currentId));
-	// JOptionPane.showMessageDialog(null, "Delete departments success!",
-	// "Success",
-	// JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(null, "Delete departments error!", "Error",
-	// JOptionPane.ERROR_MESSAGE);
-	// }
-	// break;
-	// case "Customers":
-	// try {
-	// new CustomersDAO().delete(new CustomersDAO().find(currentId));
-	// JOptionPane.showMessageDialog(null, "Delete customer success!",
-	// "Success",
-	// JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(null, "Delete customer error!", "Error",
-	// JOptionPane.ERROR_MESSAGE);
-	// }
-	// break;
-	//
-	// case "Contracts":
-	// try {
-	// new ContractsDAO().delete(new ContractsDAO().find(currentId));
-	// JOptionPane.showMessageDialog(null, "Delete contract success!",
-	// "Success",
-	// JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(null, "Delete contract error!", "Error",
-	// JOptionPane.ERROR_MESSAGE);
-	// }
-	// break;
-	// case "Payments":
-	// try {
-	// new PaymentDAO().delete(new PaymentDAO().find(currentId));
-	// JOptionPane.showMessageDialog(null, "Delete customer success!",
-	// "Success",
-	// JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(null, "Delete customer error!", "Error",
-	// JOptionPane.ERROR_MESSAGE);
-	// }
-	// break;
-	// }
-	// processRefresh();
-	// }
-	//
-	// }
-	/* END CODE DELETE */
-
 	/* START CODE SET ENABLE BUTTON ACTION WITH DATA */
 	private void checkEnableButton() {
 		if (name.isEmpty()) {
@@ -863,27 +767,60 @@ public class JFrameMain extends JFrame {
 		} else {
 			ButtonOnModeratorMode(false);
 		}
+		// cần check lại đoạn này vì nó check khá lâu...
+		// processRefresh();
 	}
 
+	/* BEGIN CODE CHECK PENDING APROVAL */
 	protected void do_mntmApproveDeleting_actionPerformed(ActionEvent e) {
 		ButtonOnModeratorMode(true);
-		String tabName = ((JMenuItem) e.getSource()).getName().replace("mntm", "(Mod) ");
-		jPanelApproveDeleting = new JPanelApproveDeleting(tabName);
-		JTabbedPaneMain.addTab(tabName, jPanelApproveDeleting);
-		JTabbedPaneMain.setSelectedComponent(jPanelApproveDeleting);
-	}
-
-	protected void do_mntmUserPermission_actionPerformed(ActionEvent arg0) {
-		for (Component component : pnlFunctionKeys.getComponents()) {
-			if (((JButton) component).getText() != "Refresh" && ((JButton) component).getText() != "Assign")
-				component.setVisible(false);
+		String tabName = ((JMenuItem) e.getSource()).getName();
+		boolean addNewTabApprove = true;
+		//check tab exist & choose existed tab
+		try {
+			for (int i = 0; i < JTabbedPaneMain.getComponentCount(); i++) {
+				if (((JTabbedPaneCloseButton) jPanelApproveDeleting.getParent()).getTitleAt(i) == tabName) {
+					JTabbedPaneMain.setSelectedIndex(i);
+					addNewTabApprove = false;
+					break;
+				}
+			}	
+		} catch (Exception e2) {
+			e2.printStackTrace();
 		}
-
-		jPanelPermission = new JPanelPermission();
-		JTabbedPaneMain.addTab(((JMenuItem) arg0.getSource()).getText(), jPanelPermission);
-		JTabbedPaneMain.setSelectedComponent(jPanelPermission);
+		if (addNewTabApprove) {
+			jPanelApproveDeleting = new JPanelApproveDeleting(tabName);
+			JTabbedPaneMain.addTab(tabName, jPanelApproveDeleting);
+			JTabbedPaneMain.setSelectedComponent(jPanelApproveDeleting);
+		}
 	}
+	/* END CODE CHECK PENDING APROVAL */
+	
+	/* BEGIN CODE ASSIGN PERMISSION */
+	protected void do_mntmUserPermission_actionPerformed(ActionEvent e) {
+		String tabName = ((JMenuItem) e.getSource()).getText();
+		boolean addNewTabPermission = true;
+		//check tab exist & choose existed tab
+		try {
+			for (int i = 0; i < JTabbedPaneMain.getComponentCount(); i++) {
+				if (((JTabbedPaneCloseButton) jPanelPermission.getParent()).getTitleAt(i) == tabName) {
+					JTabbedPaneMain.setSelectedIndex(i);
+					addNewTabPermission = false;
+					break;
+				}
+			}	
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		if(addNewTabPermission){
+			jPanelPermission = new JPanelPermission();
+			JTabbedPaneMain.addTab(((JMenuItem) e.getSource()).getText(), jPanelPermission);
+			JTabbedPaneMain.setSelectedComponent(jPanelPermission);	
+		}
+	}
+	/* END CODE ASSIGN PERMISSION */
 
+	/* BEGIN CODE VISIBLE BUTTON ON SWITCH MODE */
 	private void ButtonOnPermissionMode(Boolean modeState) {
 		JButtonAdd.setVisible(!modeState);
 		JButtonUpdate.setVisible(!modeState);
@@ -905,6 +842,7 @@ public class JFrameMain extends JFrame {
 		btnAssign.setVisible(false);
 		btnCancel.setVisible(modeState);
 	}
+	/* END CODE VISIBLE BUTTON ON SWITCH MODE */
 
 	// Search at runtime
 	private class JTextFieldSearchKeyListener extends KeyAdapter {

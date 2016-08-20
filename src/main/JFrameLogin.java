@@ -57,7 +57,7 @@ public class JFrameLogin extends JFrame {
 			@Override
 			public void run() {
 				try {
-					 UIManager.setLookAndFeel(new  SyntheticaPlainLookAndFeel());
+					UIManager.setLookAndFeel(new  SyntheticaPlainLookAndFeel());
 					JFrameLogin jFrameLogin = new JFrameLogin();
 					jFrameLogin.setVisible(true);
 				} catch (Exception e) {
@@ -76,6 +76,7 @@ public class JFrameLogin extends JFrame {
 		setTitle("Login System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 387, 250);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
