@@ -20,6 +20,19 @@ public class LoanTypesDAO extends AbstractModel<LoanTypes> {
 		}
 	}
 	
+	public long getLoanRateByID(int loanTypeId){
+		try {
+			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
+				sessionFactory.getCurrentSession().getTransaction().begin();
+			return (long) sessionFactory.getCurrentSession()
+					.createQuery("select l.loanRate from LoanTypes l where l.loanTypeId = :loanTypeId")
+					.setInteger("loanTypeId", loanTypeId)
+					.uniqueResult();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+	
 	public LoanTypes findByName(String name) {
 		try {
 			if (!sessionFactory.getCurrentSession().getTransaction().isActive())
