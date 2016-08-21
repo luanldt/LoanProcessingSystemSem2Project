@@ -19,7 +19,16 @@ public class JTextFieldList extends JTextField {
 		});
 		// Sự kiện để phát hiện ra khi người dùng nhập chữ vào JTextField.
 	}
-
+	
+//	@Override
+//	protected void processKeyEvent(KeyEvent e) {
+//		// TODO Auto-generated method stub
+//		super.processKeyEvent(e);
+//		if(e.getKeyCode()== KeyEvent.VK_DOWN){
+//			return;
+//		}
+//	}
+	
 	@SuppressWarnings("static-access")
 	protected void do_this_keyReleased(KeyEvent arg0) {
 		if (this.getName().toLowerCase().contains("customer")) {
@@ -31,6 +40,7 @@ public class JTextFieldList extends JTextField {
 		} else if (this.getName().toLowerCase().contains("contract")) { // Thêm vào cho contract id ở jdialog modify payment
 			JTextFieldList.key = "contract";
 		}
+
 		if (dialogLookup == null || !dialogLookup.isVisible()) {
 			dialogLookup = new JDialogLookup(key, this);
 			dialogLookup.setLocation(this.getLocationOnScreen().x, this.getLocationOnScreen().y + this.getHeight());
@@ -38,20 +48,21 @@ public class JTextFieldList extends JTextField {
 			this.requestFocus();
 		}
 
-		if (this.getText().length() > 0)
+		if (this.getText().length() > 0){
 			dialogLookup.refreshData(this.getText());
+		}
 		else {
 			dialogLookup.setVisible(false);
 		}
 
 		if (arg0.getKeyCode() == KeyEvent.VK_DOWN || arg0.getKeyCode() == KeyEvent.VK_UP) {
+			if(!dialogLookup.isVisible()){
+				dialogLookup.setVisible(true);
+			}
+
 			this.transferFocus();
 			dialogLookup.requestFocus();
 			dialogLookup.transferFocus();
 		}
-		// else if(arg0.getKeyCode() == KeyEvent.VK_ENTER||arg0.getKeyCode() ==
-		// KeyEvent.VK_TAB){
-		// dialogLookup.setVisible(false);
-		// }
 	}
 }
